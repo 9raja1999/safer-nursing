@@ -1,0 +1,779 @@
+@media (min-width: 1200px) {
+
+    .container {
+        max-width: 1460px;
+    }
+
+}
+
+@media (max-width:1500px) {
+    .bedford-sidebar-top {
+        padding: 20px;
+    }
+
+    .bedford-sidebar-top .text-box h3 {
+        font-size: 18px;
+        margin: 0 0 10px 0;
+    }
+
+    .bedford-sidebar-bottom {
+        height: calc(100% - 222px);
+        padding: 20px;
+    }
+
+    .all-steps {
+        margin-bottom: 25px;
+    }
+
+    .field-wrapper .form-control {
+        height: 50px;
+        border-radius: 7px;
+        font-size: 16px;
+    }
+
+    .field-wrapper label {
+        font-size: 14px;
+        margin: 16px 5px;
+    }
+
+    .field-wrapper {
+        margin: 15px 0px;
+    }
+
+    #nextprevious {
+        padding: 25px 20px;
+    }
+    #nextprevious p{
+        margin: 10px 0 0 0;
+    }
+}
+
+
+@media (max-width:1300px) {
+    .login-sec {
+        padding: 40px 0;
+    }
+
+    .banner-sec {
+        height: 550px;
+    }
+}
+
+@media (max-width:1199px) {
+    .header-right ul {
+        margin: 0 15px 0 15px;
+    }
+
+    .login-btn {
+        width: 125px;
+        font-size: 16px;
+        margin-right: 15px;
+    }
+
+    .header-right form {
+        width: 365px;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+
+    .hospital-detail-sec {
+        padding: 50px 0;
+    }
+
+    .title {
+        margin: 0 0 50px 0;
+    }
+
+    .title .text-box h3 {
+        font-size: 28px;
+        margin: 0 0 10px 0;
+    }
+
+    .filter-detail ul {
+        margin: 0 -10px;
+    }
+
+    .filter-detail ul li {
+        padding: 0 10px;
+    }
+
+    .filter-detail-box {
+        padding: 0 15px;
+        border-radius: 10px;
+    }
+
+    .report-detail-inner {
+        margin: 25px 0 0 0;
+    }
+
+    .report-detail-box {
+        padding: 25px;
+        margin: 15px 0;
+    }
+
+    .report-explanation-left {
+        padding: 35px;
+    }
+
+    .report-explanation-left h3 {
+        font-size: 26px;
+        margin: 0 0 10px 0;
+    }
+
+    .report-explanation-right {
+        padding: 0 0 0 20px;
+    }
+
+    .report-explanation-right .text-box h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .report-explanation-right .text-box p {
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 10px;
+    }
+
+    .about-banner-sec .text-box {
+        padding-left: 0;
+    }
+
+    .about-banner-sec .text-box h2 {
+        font-size: 54px;
+        line-height: 68px;
+        margin: 0 0 10px 0;
+    }
+
+    .about-form .login-form {
+        padding: 20px 20px 20px;
+    }
+
+    .login-form form .form-group p {
+        font-size: 14px;
+    }
+
+    .about-form::after {
+        left: 30px;
+        top: 30px;
+    }
+
+    .label-text {
+        font-size: 12px;
+        margin: 0 0 6px 0;
+    }
+    .hospital-popup { 
+        max-width: 350px; 
+    }
+    .hospital-popup .text-box h3 { 
+        font-size: 18px; 
+        margin: 8px 0;
+    }
+    .hospital-popup .text-box p { 
+        font-size: 14px; 
+    }
+    .hospital-popup .text-box li { 
+        width: 50%; 
+        font-size: 13px;
+        margin: 0 0 7px 0;
+    }
+    .hospital-popup .text-box li span {
+        width: 14px;
+        height: 14px; 
+        border-radius: 2px;
+        margin-right: 5px;
+    }
+    .report-btn {
+        margin: 10px 0 0 0; 
+        height: 46px; 
+        font-size: 14px; 
+    }
+}
+
+@media (max-width:991px) {
+    .login-sec {
+        padding: 30px 0;
+    }
+
+    .login-box {
+        padding: 30px;
+    }
+
+    .menu-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .login-btn {
+        width: 90px;
+        font-size: 14px;
+        margin-right: 10px;
+        height: 45px;
+    }
+
+    .login-btn img {
+        margin-right: 10px;
+    }
+
+    .header-right form .form-control {
+        height: 45px;
+        padding-left: 20px;
+        font-size: 14px;
+    }
+
+    .Search-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .header-right ul {
+        margin: 0 10px;
+    }
+
+    .navigation {
+        padding: 10px 10px;
+    }
+
+    .header-right form {
+        width: 255px;
+    }
+
+    .logo img {
+        height: 25px;
+    }
+
+    .login-btn img {
+        margin-right: 10px;
+        height: 15px;
+    }
+
+    .filter-detail-box {
+        padding: 0 10px;
+        height: 55px;
+    }
+
+    .filter-detail-box p strong {
+        width: 15px;
+        height: 15px;
+        margin-left: 10px;
+    }
+
+    .filter-detail-box p {
+        font-size: 14px;
+    }
+
+    .filter-detail-box span {
+        font-size: 33px;
+    }
+
+    .filter-detail-box span img {
+        height: 45px;
+    }
+
+    .report-detail-box {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .report-detail-box .media .media-left h4 {
+        font-size: 13px;
+        margin: 0 0 5px 0;
+    }
+
+    .report-detail-box .media .media-left p {
+        font-size: 14px;
+    }
+
+    .report-detail-box .text-box p {
+        font-size: 14px;
+        margin: 10px 0;
+        line-height: 22px;
+    }
+
+    .report-detail-box .text-box h3 {
+        font-size: 20px;
+    }
+
+    .report-explanation-right {
+        padding: 0;
+    }
+
+    .generate-insight-box h3 {
+        line-height: 36px;
+        font-size: 26px;
+    }
+
+    .generate-insight-box p {
+        margin: 24px auto;
+    }
+
+    .generate-insight-box {
+        padding: 40px 20px;
+    }
+
+    .about-banner-sec {
+        padding: 100px 0 0 0;
+    }
+
+    .about-banner-right {
+        padding: 30px 0 0 0;
+    }
+
+    .about-safe-sec {
+        padding: 110px 0px 100px;
+    }
+
+    .about-safe-right .text-box h3 {
+        font-size: 28px;
+        margin: 0 0 15px 0;
+    }
+
+    .about-safe-right .text-box p {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 14px;
+        line-height: 22px;
+        margin: 0 0 15px 0;
+    }
+
+    .map-positive {
+        right: auto;
+        bottom: 20px;
+        padding: 15px 15px;
+        left: 20px;
+    }
+    .report-explanation-left{
+        margin: 0 0 30px 0;
+    }
+}
+
+@media (max-width:767px) {
+
+    .container,
+    .container-sm {
+        max-width: 100%;
+    }
+
+    .title span {
+        max-width: 65px;
+    }
+
+    .title .text-box h3 {
+        font-size: 25px;
+    }
+
+    .filter-box form a {
+        height: 45px;
+        font-size: 14px;
+        right: 15px;
+        width: 120px;
+    }
+
+    .filter-box form .form-control {
+        font-size: 14px;
+        height: 75px;
+    }
+
+    .filter-detail {
+        margin: 30px 0 0 0;
+    }
+
+    .filter-detail ul li {
+        width: 50%;
+        margin: 0 0 20px 0;
+    }
+
+    .hospital-detail-sec {
+        padding: 50px 0 30px;
+    }
+
+    .report-detail-title h3 {
+        font-size: 28px;
+        margin: 0 0 10px 0;
+    }
+
+    .report-detail-title p {
+        font-size: 14px;
+    }
+
+    .report-explanation {
+        margin: 30px 0;
+    }
+
+    .report-explanation-right {
+        padding: 30px 0 0 0;
+    }
+
+    .generate-insight-sec {
+        padding: 0 0 50px 0;
+    }
+
+    .about-banner-sec .text-box h2 {
+        font-size: 36px;
+        line-height: 50px;
+    }
+
+    .about-form::after {
+        left: 10px;
+        top: 10px;
+    }
+
+    .about-banner-sec .text-box p {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .about-safe-sec {
+        padding: 60px 0px 50px;
+    }
+
+    .about-safe-right {
+        padding: 0;
+    }
+
+    .mobile-menu-top h3 {
+        font-size: 20px;
+    }
+
+    .navigation-menu ul li a {
+        font-size: 20px;
+    }
+
+    .mobile-menu {
+        padding: 20px;
+        max-width: 320px;
+    }
+
+    .crose-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .crose-btn img {
+        height: 10px;
+    }
+
+    .navigation-menu {
+        height: calc(100% - 130px);
+        padding: 15px 0 0 15px;
+    }
+
+    .menu-footer .text-box p {
+        font-size: 14px;
+    }
+
+    .menu-footer .text-box a {
+        font-size: 16px;
+        margin: 3px 0px 10px 0;
+    }
+    .bedford-sidebar {
+        max-width: 400px; 
+    }
+    .step { 
+        font-size: 12px; 
+        padding: 0 5px;
+    }
+    .all-steps { 
+        margin: 0 -5px;
+    }
+    .hospital-popup {
+        max-width: 300px;
+        right: 50px;
+    }
+    .hospital-popup .text-box li{
+        word-break: break-all;
+        line-height: 14px;
+    }
+}
+
+@media (max-width:575px) {
+    .login-sec {
+        padding: 15px;
+    }
+
+    .login-form form .form-group a.forget {
+        margin: 0 0 30px 0;
+    }
+
+    .login-box {
+        padding: 20px;
+    }
+
+    .login-title h3 {
+        font-size: 20px;
+    }
+
+    .login-form form .form-group p {
+        font-size: 14px;
+    }
+
+    .back-arrowٖ a {
+        width: 30px;
+        height: 30px;
+    }
+
+    .back-arrowٖ a img {
+        height: 10px;
+    }
+
+    .login-title {
+        margin: 0 0 20px 0;
+    }
+
+    .btn-default {
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .form-check {
+        color: #081C15;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .title span {
+        max-width: 55px;
+    }
+
+    .title .text-box h3 {
+        font-size: 18px;
+    }
+
+    .title .text-box p {
+        font-size: 12px;
+    }
+
+    .filter-box form a {
+        height: 45px;
+        font-size: 12px;
+        right: 15px;
+        width: 105px;
+    }
+
+    .report-detail-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .report-detail-title {
+        margin: 0 0 10px 0;
+    }
+
+    .generate-insight-box h3 {
+        line-height: 30px;
+        font-size: 20px;
+    }
+
+    .generate-insight-box p {
+        margin: 15px auto;
+    }
+
+    .generate-insight-box {
+        padding: 20px;
+    }
+
+    footer .text-box p {
+        font-size: 12px;
+    }
+
+    header {
+        top: 15px;
+    }
+
+    .menu-btn {
+        width: 35px;
+        height: 35px;
+        border-radius: 3px;
+    }
+
+    .register-btn {
+        font-size: 13px;
+    }
+
+    .login-btn {
+        width: 35px;
+        font-size: 14px;
+        height: 35px;
+        border-radius: 5px;
+    }
+
+    .header-right ul {
+        margin: 0 12px;
+    }
+
+    .login-btn span {
+        display: none;
+    }
+
+    .login-btn img {
+        margin: 0;
+        height: 12px;
+    }
+
+    .mobile-search {
+        top: 75px;
+        padding: 10px 10px;
+        border-radius: 5px;
+    }
+
+    .Search-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .Search-btn img {
+        height: 17px;
+    }
+
+    .mobile-search form .form-control {
+        height: 35px;
+        padding-left: 15px;
+        font-size: 13px;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+
+    .menu-btn img {
+        height: 18px;
+    }
+
+    .about-banner-sec .text-box {
+        padding: 0;
+    }
+
+    .banner-sec {
+        height: 400px;
+    }
+
+    .map-positive ul li {
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .map-positive {
+        bottom: 10px;
+        padding: 10px;
+        left: 10px;
+    }
+
+    .map-positive ul li span {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+    .bedford-sidebar-bottom { 
+        padding: 15px 10px;
+        height: calc(100% - 166px);
+    }
+    .bedford-sidebar {
+        max-width: 280px;
+    }
+    #nextprevious,
+    .bedford-sidebar-top{
+        padding: 15px 10px;
+    }
+    .bedford-sidebar-top .text-box h3 {
+        font-size: 15px;
+        margin: 0 0 6px 0;
+    }
+    .bedford-sidebar-top .text-box p { 
+        font-size: 12px; 
+    }
+    .dot-list { 
+        right: 15px;
+    }
+    #nextprevious p { 
+        font-size: 12px; 
+    }
+    #nextprevious ul li button { 
+        height: 45px; 
+        font-size: 16px; 
+    }
+ 
+.step strong { 
+    margin: 2px 0 0 0;
+}
+.step{
+    width: 33.3%;
+    padding: 0 5px 10px;
+}
+.field-wrapper label {
+    font-size: 12px; 
+}
+.field-wrapper.focused label { 
+    top: -24px; 
+    font-size: 10px;
+}
+.field-wrapper .form-control { 
+    font-size: 12px;
+}
+.hospital-popup {
+    max-width: 230px;
+    right: 10px;
+    padding: 10px;
+}
+.hospital-popup .text-box h3 {
+    font-size: 15px;
+    margin: 10px 0 2px;
+}
+.hospital-popup .text-box li {
+    align-items: flex-start;
+}
+.hospital-popup .text-box li span {
+    width: 7px;
+    height: 7px; 
+    margin-top: 3px;
+}
+.hospital-popup .text-box li p{
+    flex: 1;
+}
+.hospital-popup .text-box p {
+    font-size: 13px;
+}
+.percent {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+.report-explanation-left .image-holder tspan {
+    font-weight: 700;
+    font-size: 34px;
+}
+.percent-text{
+    display: none;
+}
+}
+
+@media (max-width:374px) {
+    .filter-detail ul {
+        margin: 0;
+    }
+
+    .filter-detail ul li {
+        width: 100%;
+        padding: 0;
+    }
+
+    .mobile-menu {
+        max-width: 290px;
+    }
+
+    .navigation-menu {
+        height: calc(100% - 150px);
+    }
+
+    .map-positive ul li {
+        font-size: 12px;
+        margin-right: 10px;
+    }
+
+    .map-positive ul li span {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        border-radius: 2px;
+    }
+}
