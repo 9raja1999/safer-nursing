@@ -1,39 +1,40 @@
-import React from 'react'
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, {
+    useState,
+    useEffect
+} from 'react'
+import {
+    useHistory
+} from 'react-router-dom'
+import { getAllQuestions, generateReportID, addReport, addAnswersToReport } from '../../store/actions/reportActions';
 import Select from 'react-select';
 import _ from 'lodash'
 import { ToastContainer, toast } from 'react-toastify';
-
-import { getAllQuestions, generateReportID, addReport, addAnswersToReport } from '../../store/actions/reportActions';
-import HospitalImage from '../../assets/images/bedford-img.png';
 import dotsToggleImage from '../../assets/images/dotsToggle.svg';
 
-export default function HospitalModal({ hospitalDatatoSubmit, name, address, reportQuestions, fetchIsScroll }) {
 
-    const history = useHistory()
-    const [openReport, setOpenReport] = useState(false);
+
+
+function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
+    const history = useHistory();
     const [formIndex, setFormIndex] = useState(0);
+    const [reportQuestions, setReportQuestions] = useState([]);
     const [reportAnswers, setReportAnswers] = useState({});
     const [reportError, setReportError] = useState({
         error: false,
         message: ''
     })
-    const onOpenReport = () => {
-        Promise.resolve()
-            .then(() => {
-                setOpenReport(check => !check);
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve(openReport)
-                    }, 1);
-                })
-            })
-            .then(() => {
-                fetchIsScroll(true);
-            })
-    }
 
+    useEffect(() => {
+        getAllQuestions()
+            .then(res => {
+                if (res.success == 1) {
+                    setReportQuestions(res.data)
+                }
+            })
+            .catch(err => {
+                console.log('ERROR !!', err)
+            })
+    }, [])
 
     const handleChange = _.debounce((event, type, isInput) => {
         // Check is event is Multi value
@@ -56,8 +57,6 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
         }
     }, 500)
 
-
-
     const handleInputChange = _.debounce((event, type) => {
         event.preventDefault();
         setReportAnswers({
@@ -66,9 +65,8 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
         })
     }, 500);
 
-
     const goNext = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         let count = formIndex;
         count = count + 1;
         if (count < 5) {
@@ -78,21 +76,12 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
 
     const cancelReport = () => {
         setFormIndex(0);
-        Promise.resolve()
-            .then(() => {
-                setOpenReport(check => !check);
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve(openReport)
-                    }, 1);
-                })
-            })
-            .then(() => {
-                fetchIsScroll(false);
-            })
+        setReportAnswers({});
+        fetchIsCloseReport(false);
     }
 
     const submitReport = () => {
+        console.log('Report Asnswers : ', reportAnswers)
         const uuid = localStorage.getItem("nurseAccess");
         const userID = JSON.parse(uuid);
         const reportId = generateReportID();
@@ -125,6 +114,9 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
 
                                     setReportAnswers({});
                                     setFormIndex(0);
+                                    setTimeout(() => {
+                                        window.location.reload()
+                                    }, 3000);
                                 }
                             })
                             .catch(err => {
@@ -137,8 +129,6 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
                 })
         }
     }
-
-
 
     const getForm = (data, type) => {
         return <form>
@@ -154,7 +144,7 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
                         options.push(op);
                     })
                     if (item.options.length !== 0) {
-                        return <div className="searchformfld" key={idx}>
+                        return <div className="searchformfld" key={item.QuestionID}>
                             <Select
                                 isMulti={false}
                                 name=""
@@ -174,7 +164,6 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
                                     control: (provided, state) => ({
                                         ...provided,
                                         border: 'none',
-                                        color: 'red',
                                         borderRadius: '15px',
                                         ':active': {
                                             border: 'none'
@@ -187,7 +176,7 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
                             <label htmlFor="candidateName">{item.question}</label>
                         </div>
                     }
-                    return <div className="searchformfld" key={idx}>
+                    return <div className="searchformfld" key={item.QuestionID}>
                         <input type="text" className="candidateName" id="candidateName" name={item.QuestionID} placeholder=" " onChange={(event) => handleInputChange(event, type)} />
                         <label htmlFor="candidateName">{item.question}</label>
                     </div>
@@ -217,7 +206,6 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
         </form>
     }
 
-
     const getReport = (idx) => {
         if (idx == 0) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "demographics")
@@ -245,93 +233,67 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
             <div>
                 <ToastContainer />
             </div>
-            <div className="hospital-popup">
-                <div className="image-holder">
-                    <img src={HospitalImage} alt="" className="img-fluid" />
-                </div>
-                <div className="text-box">
-                    <h3>{name}</h3>
-                    <p>{address}</p>
-                    <ul>
-                        <li>
-                            <span className="red-bg" ></span>
-                            <p> STAFFING </p>
-                        </li>
-                        <li>
-                            <span className="yellow-bg"></span> <p> ASSIGNMENT</p>
-                        </li>
-                        <li>
-                            <span></span><p>EXPERIENCEFACILITY</p>
-                        </li>
-                        <li>
-                            <span className="red-bg"></span><p>EXPERIENCE</p>
-                        </li>
-                    </ul>
-                    <span className="report-btn" onClick={() => onOpenReport()} >Submit
-                        Report
-                    </span>
+            <div className='report-drawer-header'>
+                <div className='hospital-title-holder'>
+                    <div className='tileVerticle'>
+
+                    </div>
+                    <div className='hospital-title-name'>
+                        <h3>{hospitalDatatoSubmit !== null ? hospitalDatatoSubmit.address.FacilityName : 'null'}</h3>
+                        <span>{hospitalDatatoSubmit !== null ? hospitalDatatoSubmit.address.Address : 'null'}</span>
+                    </div>
+                    <div className='toggleHolder'>
+                        <img
+                            src={dotsToggleImage}
+                            className='three-dots-toggle'
+                            onClick={() => {
+                                setFormIndex(0);
+                                fetchIsCloseReport(false)
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
-            <div className={`reportsidebar ${openReport == true ? 'active' : ''}`}>
-                <div className='report-drawer-header'>
-                    <div className='hospital-title-holder'>
-                        <div className='tileVerticle'>
-
-                        </div>
-                        <div className='hospital-title-name'>
-                            <h3>{hospitalDatatoSubmit !== null ? hospitalDatatoSubmit.address.FacilityName : 'null'}</h3>
-                            <span>{hospitalDatatoSubmit !== null ? hospitalDatatoSubmit.address.Address : 'null'}</span>
-                        </div>
-                        <div className='toggleHolder'>
-                            <img
-                                src={dotsToggleImage}
-                                className='three-dots-toggle'
-                                onClick={() => cancelReport()}
-                            />
-                        </div>
+            <div className='form-status-bar'>
+                <div className='stage1'>
+                    <div>
+                        <h1>Basic</h1>
+                        <div className='status' style={formIndex == 0 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
-                <div className='form-status-bar'>
-                    <div className='stage1'>
-                        <div>
-                            <h1>Basic</h1>
-                            <div className='status' style={formIndex == 0 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
-                        </div>
-                    </div>
-                    <div className='stage1'>
-                        <div>
-                            <h1>Staffing</h1>
-                            <div className='status' style={formIndex == 1 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
-                        </div>
-                    </div>
-                    <div className='stage1'>
-                        <div>
-                            <h1>Assignment</h1>
-                            <div className='status' style={formIndex == 2 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
-                        </div>
-                    </div>
-                    <div className='stage1'>
-                        <div>
-                            <h1>Facility</h1>
-                            <div className='status' style={formIndex == 3 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
-                        </div>
-                    </div>
-                    <div className='stage1'>
-                        <div>
-                            <h1>Experience</h1>
-                            <div className='status' style={formIndex == 4 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
-                        </div>
+                <div className='stage1'>
+                    <div>
+                        <h1>Staffing</h1>
+                        <div className='status' style={formIndex == 1 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
-                <div className='form-holder'>
-                    {
-                        getReport(formIndex)
-                    }
-                    <div className='searchformfld'>
-
+                <div className='stage1'>
+                    <div>
+                        <h1>Assignment</h1>
+                        <div className='status' style={formIndex == 2 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
+                <div className='stage1'>
+                    <div>
+                        <h1>Facility</h1>
+                        <div className='status' style={formIndex == 3 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
+                    </div>
+                </div>
+                <div className='stage1'>
+                    <div>
+                        <h1>Experience</h1>
+                        <div className='status' style={formIndex == 4 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
+                    </div>
+                </div>
+            </div>
+            <div className='form-holder'>
+                {
+                    getReport(formIndex)
+                }
+                <div className="searchformfld"></div>
             </div>
         </>
     )
 }
+
+export default ReportSubmit

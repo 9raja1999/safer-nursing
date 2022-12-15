@@ -5,6 +5,7 @@ import React, {
 import {
     useHistory
 } from 'react-router-dom'
+import { getAllHospitals } from '../store/actions/hospitalActions';
 import logo from '../assets/images/logo.svg';
 import mobileLogo from '../assets/images/logo-mobile.svg';
 import searchIcon from '../assets/images/search-icon.svg';
@@ -12,23 +13,63 @@ import loginIcon from '../assets/images/login-icon.svg';
 import menuIcon from '../assets/images/menu-icon.svg';
 import crossIcon from '../assets/images/crose-icon.svg';
 import facebookIcon from '../assets/images/facebook-icon.svg'
+import googleIcon from '../assets/images/google-icon.svg'
+import linkedInIcon from '../assets/images/linkdin-icon.svg'
+import twitterIcon from '../assets/images/twitter-icon.svg'
 
 
 
-export default function Header() {
+export default function Header(props) {
     const [isOpenSideBar, setIsOpenSideBar] = useState(false);
+    const [search, setSearch] = useState('');
+    const [data, setData] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
 
     const history = useHistory();
+
+    useEffect(() => {
+        getAllHospitals()
+            .then(res => {
+                setData(res.data);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
 
     const ToggleSidebar = () => {
         isOpenSideBar === true ? setIsOpenSideBar(false) : setIsOpenSideBar(true);
         console.log(isOpenSideBar);
     }
 
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+        const result = data.filter(hospital => {
+            if (event.target.value === "") {
+                return data
+            }
+            return hospital.FacilityName.toLowerCase().includes(event.target.value.toLowerCase());
+        })
+
+
+        setSearchResult(result);
+    }
+
+    const goToHospital = (item) => {
+        localStorage.setItem("facilityId" , JSON.stringify(item.FacilityID));
+        setSearch('')
+        history.push('/Hospital')
+    }
+
     const goToLogin = () => {
         history.push('/Login');
     }
-    
+
+    const goToRegister = () => {
+        history.push('/Registration');
+    }
+
     return (
         <>
             <header>
@@ -37,16 +78,32 @@ export default function Header() {
                         <div className="col-12">
                             <div className="navigation">
                                 <div className="logo">
-                                    <span onClick={()=>history.push('/')} style={{cursor : 'pointer'}}>
+                                    <span onClick={() => history.push('/')} style={{ cursor: 'pointer' }}>
                                         <img src={logo} alt="" className="img-fluid d-none d-sm-block" />
                                     </span>
                                 </div>
                                 <div className="header-right">
                                     <form className="d-none d-md-block">
-                                        <input type="text" className="form-control" placeholder="Search Hospitals" />
+                                        <input type="text" className="form-control" placeholder="Search Hospitals" onChange={handleSearch} />
                                         <span className="Search-btn">
                                             <img src={searchIcon} alt="" />
                                         </span>
+                                        {
+                                            search !== "" ? (
+                                                <ul className='search-list'>
+                                                    {
+                                                        searchResult.filter((item, idx) => idx < 4).map((item, idx) => {
+                                                            return <li key={idx}>
+                                                                <div className='search-name'>{item.FacilityName}</div>
+                                                                <div className='goto-hospital' onClick={() => goToHospital(item)}>
+                                                                    <img src={loginIcon} alt="" />
+                                                                </div>
+                                                            </li>
+                                                        })
+                                                    }
+                                                </ul>
+                                            ) : ""
+                                        }
                                     </form>
                                     <ul>
                                         <li>
@@ -56,7 +113,7 @@ export default function Header() {
                                             </span>
                                         </li>
                                         <li>
-                                            <span className="register-btn">Register</span>
+                                            <span className="register-btn" onClick={()=> goToRegister()}>Register</span>
                                         </li>
                                     </ul>
                                     <span className="menu-btn" onClick={ToggleSidebar}><img src={menuIcon} alt="" /></span>
@@ -66,7 +123,7 @@ export default function Header() {
                     </div>
                 </div>
             </header>
-            
+
             <div className={`sidebar ${isOpenSideBar == true ? 'active' : ''}`}>
                 <div className="sd-header">
                     <h4 className="mb-0">Navigation Menu</h4>
@@ -76,7 +133,7 @@ export default function Header() {
                 </div>
                 <div className="sd-body">
                     <ul>
-                        <li><span className="sd-link" onClick={()=>history.push('/About')}>About</span></li>
+                        <li><span className="sd-link" onClick={() => history.push('/About')}>About</span></li>
                     </ul>
                 </div>
                 <div className='sd-footer'>
@@ -84,14 +141,14 @@ export default function Header() {
                     <p className='sd-footerTagline2'>hello@safernursing.com</p>
                     <div className='footerIconsHolder'>
                         <img className='sd-footersocialicons' src={facebookIcon} alt="" />
-                        <img className='sd-footersocialicons' src={facebookIcon} alt="" />
-                        <img className='sd-footersocialicons' src={facebookIcon} alt="" />
-                        <img className='sd-footersocialicons' src={facebookIcon} alt="" />
+                        <img className='sd-footersocialicons' src={googleIcon} alt="" />
+                        <img className='sd-footersocialicons' src={linkedInIcon} alt="" />
+                        <img className='sd-footersocialicons' src={twitterIcon} alt="" />
                     </div>
                 </div>
             </div>
             <div className={`sidebar-overlay ${isOpenSideBar == true ? 'active' : ''}`} onClick={ToggleSidebar}></div>
-        
+
         </>
     )
 }

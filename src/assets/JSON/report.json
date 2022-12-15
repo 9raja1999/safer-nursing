@@ -1,0 +1,502 @@
+{
+    "data": {
+        "demographics": [
+            {
+                "question": "AGE",
+                "name" : "age",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "GENDER",
+                "name" : "gender",
+                "isMulti": true,
+                "options": [
+                    "Male",
+                    "Female",
+                    "Trans",
+                    "NB"
+                ]
+            },
+            {
+                "question": "EMPLOYMENT TYPE (BI-PART)",
+                "name" : "emp_type",
+                "isMulti": false,
+                "options": [
+                    "Full-time, Part-time",
+                    "Staff, PRN, Traveler"
+                ]
+            },
+            {
+                "question": "SHIFT",
+                "name" : "shift",
+                "isMulti": false,
+                "options": [
+                    "Days",
+                    "Nights",
+                    "Rotating"
+                ]
+            },
+            {
+                "question": "PAY",
+                "name" : "pay",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "SHIFT DIFFERENTIAL",
+                "name" : "shift_differential",
+                "isMulti": true,
+                "options": [
+                    "Weekends",
+                    "Nights",
+                    "None"
+                ]
+            },
+            {
+                "question": "BENEFITS",
+                "name" : "benifits",
+                "isMulti": true,
+                "options": [
+                    "PTO",
+                    "Retirement",
+                    "Insurance",
+                    "Continuing Education",
+                    "Tuition Reimbursement",
+                    "Career",
+                    "Advancement"
+                ]
+            },
+            {
+                "question": "TIME AT HOSPITAL",
+                "name" : "time_at_hospital",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "CURRENT SPECIALTY EXPERIENCE",
+                "name" : "curr_experience",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "TOTAL NURSING EXPERIENCE",
+                "name" : "total_experience",
+                "isMulti": false,
+                "options": []
+            }
+        ],
+        "staffing": [
+            {
+                "question": "WHATS THE IDEAL NURSE:PATIENT RATIO FOR YOUR UNITS ACUITY",
+                "name" : "ideal_np_ratio",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "WHATS THE ACTUAL NURSE:PATIENT RATIO USUALLY ASSIGNED",
+                "name" : "usual_np_ratio",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "ARE THERE SPECIAL RATIOS FOR HIGH ACUITY PATIENTS OR DEVICES",
+                "name" : "special_ratio",
+                "isMulti": false,
+                "options": [
+                    "Always",
+                    "Usually",
+                    "Sometimes",
+                    "Rarely",
+                    "Never"
+                ]
+            },
+            {
+                "question": "ARE RATIOS GENERALLY SAFE AND APPROPRIATE",
+                "name" : "general_ratio",
+                "isMulti": false,
+                "options": [
+                    "Always",
+                    "Usually",
+                    "Sometimes",
+                    "Rarely",
+                    "Never"
+                ]
+            },
+            {
+                "question": "IS ACUITY DISTRIBUTED AMONG THE STAFF FAIRLY",
+                "name" : "acuity_staff",
+                "isMulti": false,
+                "options": [
+                    "Always",
+                    "Usually",
+                    "Sometimes",
+                    "Rarely",
+                    "Never"
+                ]
+            },
+            {
+                "question": "WHATS THE AVERAGE STAFF EXPERIENCE LEVEL",
+                "name" : "staff_exp",
+                "isMulti": false,
+                "options": [
+                    "Very experienced",
+                    "Mostly Experienced",
+                    "Some Experienced",
+                    "   "
+                ]
+            },
+            {
+                "question": "STAFFING FREETEXT SUBJECTIVE",
+                "name" : "free_text",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "STAFFING SUBJECTIVE SCORE",
+                "name" : "staff_score",
+                "isMulti": false,
+                "options": [
+                    "great",
+                    "good",
+                    "ok",
+                    "bad",
+                    "terrible"
+                ]
+            }
+        ],
+        "assignment": [
+            {
+                "question": "WHAT IS YOUR UNIT SPECIALTY",
+                "name" : "unit_speciality",
+                "isMulti": true,
+                "options": [
+                    "Burn",
+                    "Cardiac",
+                    "Cardiothoracic",
+                    "Cardiovascular",
+                    "Education",
+                    "Emergency",
+                    "Dialysis",
+                    "Float Pool",
+                    "IV Team",
+                    "Interventional Radiology",
+                    "L&D",
+                    "Medical",
+                    "Neuro",
+                    "Neurosurgery",
+                    "Observation",
+                    "Operating Room",
+                    "Pediatric",
+                    "Pulmonary",
+                    "Post-Anesthesia",
+                    "Surgical",
+                    "Telemetry",
+                    "Thoracic",
+                    "Transplant",
+                    "Trauma",
+                    "Wound"
+                ]
+            },
+            {
+                "question": "WHAT TYPE OF UNIT IS IT",
+                "name" : "unit_type",
+                "isMulti": true,
+                "options": [
+                    "ICU",
+                    "Intermediate",
+                    "Floor",
+                    "Float",
+                    "ER",
+                    "OR",
+                    "Resource"
+                ]
+            },
+            {
+                "question": "HOW WELL DO YOU WORK WITH PROVIDERS ON YOUR UNIT",
+                "name" : "work_with_providers",
+                "isMulti": false,
+                "options": [
+                    "Great",
+                    "Good",
+                    "OK",
+                    "Bad",
+                    "Terrible"
+                ]
+            },
+            {
+                "question": "WHAT FACTORS INFLUENCE YOUR PROVIDER RATING",
+                "name" : "factors_influence",
+                "isMulti": true,
+                "options": [
+                    "Communication",
+                    "Respect",
+                    "Teamwork",
+                    "Professionalism",
+                    "Competence",
+                    "Compassion"
+                ]
+            },
+            {
+                "question": "HOW WELL DO YOU WORK WITH OTHER NURSES ON YOUR UNIT",
+                "name" : "work_with_nurses",
+                "isMulti": false,
+                "options": [
+                    "Great",
+                    "Good",
+                    "OK",
+                    "Bad",
+                    "Terrible"
+                ]
+            },
+            {
+                "question": "WHAT FACTORS INFLUENCED YOUR NURSE RATING",
+                "name" : "influenced_nurse_rating",
+                "isMulti": true,
+                "options": [
+                    "Communication",
+                    "Respect",
+                    "Teamwork",
+                    "Professionalism",
+                    "Competence",
+                    "Compassion"
+                ]
+            },
+            {
+                "question": "HOW WELL DO YOU WORK WITH THE NURSE AIDES ON YOUR UNIT",
+                "name" : "work_with_nurse",
+                "isMulti": false,
+                "options": [
+                    "Great",
+                    "Good",
+                    "OK",
+                    "Bad",
+                    "Terrible"
+                ]
+            },
+            {
+                "question": "WHAT FACTORS INFLUENCE YOUR AIDE RATING",
+                "name" : "aide_rating",
+                "isMulti": true,
+                "options": [
+                    "Communication",
+                    "Respect",
+                    "Teamwork",
+                    "Professionalism",
+                    "Competence",
+                    "Compassion"
+                ]
+            },
+            {
+                "question": "WHAT RESOURCES ARE AVAILABLE TO YOU",
+                "name" : "resources",
+                "isMulti": true,
+                "options": [
+                    "Behavioral Team",
+                    "Chaplain",
+                    "IV Team",
+                    "Phlebotomy",
+                    "Rapid Response",
+                    "Transport"
+                ]
+            },
+            {
+                "question": "ASSIGNMENT FREETEXT SUBJECTIVE",
+                "name" : "free_text",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "ASSIGNMENT SUBJECTIVE SCORE",
+                "name" : "assignment_score",
+                "isMulti": false,
+                "options": [
+                    "Great",
+                    "Good",
+                    "OK",
+                    "Bad",
+                    "Terrible"
+                ]
+            }
+        ],
+        "facility": [
+            {
+                "question": "How would you rate the managemant in charge",
+                "name" : "rate_management",
+                "isMulti": true,
+                "options": [
+                    "great",
+                    "good",
+                    "ok",
+                    "bad",
+                    "terrible"
+                ]
+            },
+            {
+                "question": "WHAT FACTORS INFLUENCED MANAGEMENT RATING",
+                "name" : "management_rating_factor",
+                "isMulti": true,
+                "options": [
+                    "Communication",
+                    "Respect",
+                    "Teamwork",
+                    "Professionalism",
+                    "Rapport",
+                    "Competence",
+                    "Compassion"
+                ]
+            },
+            {
+                "question": "HOW WOULD YOU RATE YOUR NURSE LEADERSHIP?",
+                "name" : "rate_nurse_leadership",
+                "isMulti": true,
+                "options": [
+                    "great",
+                    "good",
+                    "ok",
+                    "bad",
+                    "terrible"
+                ]
+            },
+            {
+                "question": "WHAT FACTORS INFLUENCED LEADERSHIP RATING?",
+                "name" : "leadership_rating_factor",
+                "isMulti": true,
+                "options": [
+                    "Communication",
+                    "Respect",
+                    "Teamwork",
+                    "Professionalism",
+                    "Rapport",
+                    "Competence",
+                    "Compassion"
+                ]
+            },
+            {
+                "question": "WHAT EHR DO YOU USE AND HOW IS IT TO WORK WITH",
+                "name" : "ehr_used",
+                "isMulti": true,
+                "options": [
+                    "Epic, Cerner, Meditech",
+                    "Easy, Difficult"
+                ]
+            },
+            {
+                "question": "WHAT IS THE CONDITION AND STATE OF MOST EQUIPMENT IN THE HOSPITAL",
+                "name" : "equips_conditions",
+                "isMulti": true,
+                "options": [
+                    "New, Adequate, Old",
+                    "Working, Broken"
+                ]
+            },
+            {
+                "question": "FACILITY FREETEXT SUBJECTIVE",
+                "name" : "free_text",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "FACILITY SUBJECTIVE SCORE ?",
+                "name" : "facility_score",
+                "isMulti": false,
+                "options": [
+                    "great",
+                    "good",
+                    "ok",
+                    "bad",
+                    "terrible"
+                ]
+            }
+        ],
+        "experience": [
+            {
+                "question": "ARE YOU ABLE TO ADJUST YOUR SCHEDULE IF NEEDED",
+                "name" : "adjust_schedule",
+                "isMulti": false,
+                "options": [
+                    "Always",
+                    "Usually",
+                    "Sometimes",
+                    "Rarely",
+                    "Never"
+                ]
+            },
+            {
+                "question": "ARE YOUR TIME OFF REQUESTS HONORED",
+                "name" : "time_honored",
+                "isMulti": false,
+                "options": [
+                    "Always",
+                    "Usually",
+                    "Sometimes",
+                    "Rarely",
+                    "Never"
+                ]
+            },
+            {
+                "question": "DOES YOUR WORKPLACE MAKE YOU FEEL BURNED-OUT",
+                "name" : "workplace_feel",
+                "isMulti": false,
+                "options": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "question": "WOULD YOU RECOMMEND YOUR UNIT/ROLE TO A FRIEND",
+                "name" : "recommend_role",
+                "isMulti": false,
+                "options": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "question": "WOULD YOU RECOMMEND YOUR HOSPITAL TO A FRIEND?",
+                "name" : "recommend_hospital",
+                "isMulti": false,
+                "options": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "question": "ARE YOU ACTIVELY LOOKING FOR A DIFFERENT JOB",
+                "name" : "looking_job",
+                "isMulti": false,
+                "options": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "question": "ARE YOU ACTIVELY LOOKING TO CHANGE CAREERS",
+                "name" : "change_careers",
+                "isMulti": false,
+                "options": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "question": "EXPERIENCE FREETEXT SUBJECTIVE",
+                "name" : "free_text",
+                "isMulti": false,
+                "options": []
+            },
+            {
+                "question": "EXPERIENCE SUBJECTIVE SCORE",
+                "name":"experience_score",
+                "isMulti": false,
+                "options": [
+                    "great",
+                    "good",
+                    "ok",
+                    "bad",
+                    "terrible"
+                ]
+            }
+        ]
+    }
+}

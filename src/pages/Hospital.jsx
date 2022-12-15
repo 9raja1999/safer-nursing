@@ -1,20 +1,168 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import {
+  useHistory
+} from 'react-router-dom'
+import _ from 'lodash'
+import { ToastContainer, toast } from 'react-toastify';
+import { getHospitalByID, getBurnOutIndex } from '../store/actions/hospitalActions'
+import { getAllQuestions, generateReportID, addReport, addAnswersToReport, getReportsByID } from '../store/actions/reportActions';
+import { Circles } from 'react-loader-spinner';
+import HospitalMap from '../components/google_map/HospitalMap'
 import Header from '../components/Header'
 import Map from '../components/google_map/Map'
 import ExploreInsidhts from '../components/ExploreInsidhts'
 import HospitalModal from '../components/Modals/HospitalModal'
+import BurnIndex from '../components/Graphs/BurnIndex';
 
 import HospitalImage from '../assets/images/hospital-img.png'
+import Select from 'react-select';
+import dotsToggleImage from '../assets/images/dotsToggle.svg';
+import tagCross from '../assets/images/tagCross.svg';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function Hospital() {
+  const [preventScroll, setPreventScroll] = useState(false);
+  const [hospitalData, setHospitalData] = useState(null);
+  const [burnIndex, setBurnIndex] = useState('');
+  const [reportQuestions, setReportQuestions] = useState([]);
+  const [reportsPerFacility, setReportsPerFacility] = useState([]);
+  const [unitFilter, setUnitFilter] = useState([
+    { name: 'staffing', id: 17, status: true },
+    { name: 'assignment', id: 28, status: true },
+    { name: 'facility', id: 36, status: true },
+    { name: 'experience', id: 46, status: true },
+  ]);
+  const [filteredReports, setFilteredReports] = useState([]);
+  const [showFilteredReports, setShowFilteredReports] = useState(false);
+
+
+  useEffect(() => {
+    if (preventScroll) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [preventScroll])
+
+
+  const fetchIsScroll = (isOpen) => {
+    console.log(isOpen)
+    setPreventScroll(isOpen);
+  }
+
+  
+
+  useEffect(() => {
+    // Getting Burn Out INdex of Hospital
+    getBurnOutIndex()
+      .then(res => {
+        setBurnIndex(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+
+    getAllQuestions()
+      .then(res => {
+        if (res.success == 1) {
+          setReportQuestions(res.data)
+        }
+      })
+      .catch(err => {
+        console.log('ERROR !!', err)
+      })
+  }, [hospitalData])
+
+  useEffect(() => {
+    let facilityID = JSON.parse(localStorage.getItem('facilityId'));
+    getHospitalByID(facilityID)
+      .then(res => {
+        let response = res.data;
+        if('geolocations' in response){
+          setHospitalData(res.data)
+        }else{
+          setHospitalData(null)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    getReportsByID(facilityID)
+      .then(res => {
+        setReportsPerFacility(res.data)
+      })
+      .catch(err => {
+        console.log("ERROR !", err)
+      })
+
+
+  }, [localStorage.getItem("facilityId")])
+
+  const applyUnitFilters = () => {
+    let facilityID = JSON.parse(localStorage.getItem('facilityId'));
+    let afterFilteration = [];
+    getReportsByID(facilityID)
+      .then(res => {
+        setReportsPerFacility(res.data)
+        for (const element of reportsPerFacility) {
+          for (const status of unitFilter) {
+            if (status.status == true) {
+              if (element.Type === status.id) {
+                console.log(element)
+                afterFilteration.push(element)
+              }
+            }
+          }
+        }
+        console.log('FILTERED REPORTS : ', afterFilteration)
+        setFilteredReports(afterFilteration)
+        setShowFilteredReports(true);
+      })
+      .catch(err => {
+        console.log("ERROR !", err)
+      })
+
+  }
+
+  const filtered = ({ Type }) => Type == 45 || Type == 28 || Type == 17 || Type == 36
+
+
+  if (hospitalData == null) {
+    return <Circles
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="circles-loading"
+        wrapperStyle={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}
+        wrapperClass=""
+        visible={true}
+      />
+  }
+
+
   return (
     <div>
       <Header />
       <section className="banner-sec-2">
         <div className='map-holderHospital'>
-          <Map />
+          {/* <Map /> */}
+          <HospitalMap
+            positions={{ lat: hospitalData.geolocations.Latitude, lng: hospitalData.geolocations.Longitude }}
+            reportCount={hospitalData.geolocations.reportCount}
+            status={hospitalData.status}
+          />
         </div>
-        <HospitalModal />
+        <HospitalModal
+          name={hospitalData.address.FacilityName}
+          address={hospitalData.address.Address}
+          hospitalDatatoSubmit={hospitalData}
+          reportQuestions={reportQuestions}
+          fetchIsScroll={fetchIsScroll}
+        />
       </section>
       <section className="hospital-detail-sec">
         <div className="container">
@@ -32,8 +180,43 @@ export default function Hospital() {
                   <form>
                     <label>UNIT TYPE</label>
                     <div className="relative">
-                      <input type="text" className="form-control" placeholder="Enter Unit Type" />
-                      <a className="green-bg" href="#">Apply Filters</a>
+                      <div className="form-control filterInput" >
+                        {
+                          unitFilter.map((item, idx) => {
+                            return <div
+                              className='Tags'
+                              style={{ opacity: item.status == true ? 1 : 0.2 }}
+                            >
+                              <span>
+                                <p style={{
+                                  position: 'absolute',
+                                  top: '50%',
+                                  left: '5%',
+                                  transform: 'translate(-5%,-50%)',
+                                }}>{item.name}</p>
+                                <img src={tagCross} style={{ position: 'absolute', top: '50%', right: '5%', transform: 'translate(-5%,-50%)', cursor: 'pointer' }}
+                                  onClick={() => {
+                                    console.log('wow')
+                                    setUnitFilter([...unitFilter].map((obj, i) => {
+                                      if (idx == i) {
+
+                                        return {
+                                          ...obj,
+                                          status: !obj.status
+                                        }
+
+                                      } else {
+                                        return obj
+                                      }
+                                    }))
+                                  }}
+                                />
+                              </span>
+                            </div>
+                          })
+                        }
+                      </div>
+                      <a className="green-bg" onClick={() => applyUnitFilters()}>Apply Filters</a>
                     </div>
                   </form>
                 </div>
@@ -41,7 +224,7 @@ export default function Hospital() {
                   <form>
                     <label>ACUITY</label>
                     <div className="relative">
-                      <input type="text" className="form-control" placeholder="Enter Acuity" />
+                      <input type="text" className="form-control filterInput" placeholder="Enter Acuity" />
                       <a className="" href="#">Apply Filters</a>
                     </div>
                   </form>
@@ -91,115 +274,109 @@ export default function Hospital() {
               </div>
             </div>
             <div className="report-detail-inner">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="report-detail-box">
-                    <div className="media">
-                      <div className="media-left">
-                        <h4>Report ID</h4>
-                        <p>#01231231241444</p>
+              {
+                showFilteredReports == true ? (
+                  <div className="row">
+                    {filteredReports.map((obj, idx) => {
+                      let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                      var today = new Date(obj.date);
+                      var time = new Date(obj.time)
+                      return <div className="col-md-6">
+                        <div className="report-detail-box">
+                          <div className="media">
+                            <div className="media-left">
+
+                              <h4>{obj.report_id}</h4>
+                              <p>#{obj.user.slice(0, 12) + ' . . .'}</p>
+                            </div>
+                            <div className="media-left text-end">
+                              <h4>{today.toLocaleDateString("en-US", dateOptions)}</h4>
+                              <p>{obj.time}</p>
+                            </div>
+                          </div>
+                          <div className="text-box">
+                            <h3>
+                              {
+                                obj.Type == 17 ? (
+                                  "Staffing"
+                                ) : (
+                                  obj.Type == 28 ? (
+                                    "Assignment"
+                                  ) : (
+                                    obj.Type == 36 ? (
+                                      "Facility"
+                                    ) : "Experience"
+                                  )
+                                )
+                              }
+                            </h3>
+                            <p>{
+                              obj.Summary
+                            }</p>
+                            <a onClick={() => { console.log('clicked') }} style={{ color: '#52B788', textDecoration: 'underline', cursor: 'pointer' }}>Read More</a>
+                          </div>
+                        </div>
                       </div>
-                      <div className="media-left text-end">
-                        <h4>Monday, 27 August 2023</h4>
-                        <p>11:00 AM</p>
-                      </div>
-                    </div>
-                    <div className="text-box">
-                      <h3>Lorem Ipsum</h3>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the
-                        1500s, when an unknown printer took a galley of type and scrambled it to
-                        make a type......</p>
-                      <a href="#">Read More</a>
-                    </div>
+
+                    })
+                    }
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="report-detail-box">
-                    <div className="media">
-                      <div className="media-left">
-                        <h4>Report ID</h4>
-                        <p>#01231231241444</p>
+                ) : (
+                  <div className="row">
+                    {reportsPerFacility.filter(filtered).map((obj, idx) => {
+                      let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                      var today = new Date(obj.date);
+                      var time = new Date(obj.time)
+                      return <div className="col-md-6">
+                        <div className="report-detail-box">
+                          <div className="media">
+                            <div className="media-left">
+
+                              <h4>{obj.report_id}</h4>
+                              <p>#{obj.user.slice(0, 12) + ' . . .'}</p>
+                            </div>
+                            <div className="media-left text-end">
+                              <h4>{today.toLocaleDateString("en-US", dateOptions)}</h4>
+                              <p>{obj.time}</p>
+                            </div>
+                          </div>
+                          <div className="text-box">
+                            <h3>
+                              {
+                                obj.Type == 17 ? (
+                                  "Staffing"
+                                ) : (
+                                  obj.Type == 28 ? (
+                                    "Assignment"
+                                  ) : (
+                                    obj.Type == 36 ? (
+                                      "Facility"
+                                    ) : "Experience"
+                                  )
+                                )
+                              }
+                            </h3>
+                            <p>{
+                              obj.Summary
+                            }</p>
+                            <a onClick={() => { console.log('clicked') }} style={{ color: '#52B788', textDecoration: 'underline', cursor: 'pointer' }}>Read More</a>
+                          </div>
+                        </div>
                       </div>
-                      <div className="media-left text-end">
-                        <h4>Monday, 27 August 2023</h4>
-                        <p>11:00 AM</p>
-                      </div>
-                    </div>
-                    <div className="text-box">
-                      <h3>Lorem Ipsum</h3>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the
-                        1500s, when an unknown printer took a galley of type and scrambled it to
-                        make a type......</p>
-                      <a href="#">Read More</a>
-                    </div>
+
+                    })
+                    }
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="report-detail-box">
-                    <div className="media">
-                      <div className="media-left">
-                        <h4>Report ID</h4>
-                        <p>#01231231241444</p>
-                      </div>
-                      <div className="media-left text-end">
-                        <h4>Monday, 27 August 2023</h4>
-                        <p>11:00 AM</p>
-                      </div>
-                    </div>
-                    <div className="text-box">
-                      <h3>Lorem Ipsum</h3>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the
-                        1500s, when an unknown printer took a galley of type and scrambled it to
-                        make a type......</p>
-                      <a href="#">Read More</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="report-detail-box">
-                    <div className="media">
-                      <div className="media-left">
-                        <h4>Report ID</h4>
-                        <p>#01231231241444</p>
-                      </div>
-                      <div className="media-left text-end">
-                        <h4>Monday, 27 August 2023</h4>
-                        <p>11:00 AM</p>
-                      </div>
-                    </div>
-                    <div className="text-box">
-                      <h3>Lorem Ipsum</h3>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the
-                        1500s, when an unknown printer took a galley of type and scrambled it to
-                        make a type......</p>
-                      <a href="#">Read More</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                )
+              }
+
             </div>
             <div className="report-explanation">
               <div className="row">
                 <div className="col-lg-5">
-                  <div className="report-explanation-left">
-                    <h3>Nurse <span>Burnout</span> Index</h3>
-                    <p>Index based on the survey assesments.</p>
-
-                    <div className="image-holder">
-                      <div className="percent">
-                        <p style={{ display: 'none' }}>67%</p>
-                      </div>
-                      <p className="percent-text"> Burnout Index out of 100%</p>
-                    </div>
-                  </div>
+                  <BurnIndex
+                    burnOutIndex={burnIndex}
+                  />
                 </div>
                 <div className="col-lg-7">
                   <div className="report-explanation-right">

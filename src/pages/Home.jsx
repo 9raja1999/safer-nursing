@@ -1,28 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useHistory
 } from 'react-router-dom'
 import Header from '../components/Header';
 import Map from '../components/google_map/Map';
+import ReportSubmit from '../components/Forms/ReportSubmit';
+import { getAllGeoLocations } from '../store/actions/hospitalActions';
+import { getAllQuestions, generateReportID, addReport, addAnswersToReport } from '../store/actions/reportActions';
+import { Circles } from 'react-loader-spinner';
+import report from '../assets/JSON/report.json';
 
-import dotsToggleImage from '../assets/images/dotsToggle.svg';
+
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function Home() {
   const history = useHistory();
   const [openReport, setOpenReport] = useState(false);
+  const [allGeoLocations, setAllGeolocations] = useState([]);
+  const [hospitalDatatoSubmit, setHospitalDataToSubmit] = useState(null);
+ 
 
-  const fetchIsReport = (isOpen) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getAllGeoLocations()
+      .then(res => {
+        console.log(res);
+        setAllGeolocations(res.data);
+        setIsLoading(false)
+      })
+      .catch(err => {
+        console.log('ERROR !!', err)
+      })
+  }, [])
+
+  const fetchIsReport = (isOpen, hospitalData) => {
     // If isOpen is true open report submit left Drawer
-    console.log('Report Open Drawer : ', isOpen);
     setOpenReport(isOpen);
+    setHospitalDataToSubmit(hospitalData)
+  }
+
+  const fetchIsCloseReport = (isClose) => {
+    setOpenReport(isClose)
+  }
+
+
+  if (isLoading) {
+    return <Circles
+      height="80"
+      width="80"
+      color="#4fa94d"
+      ariaLabel="circles-loading"
+      wrapperStyle={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}
+      wrapperClass=""
+      visible={true}
+    />
   }
 
   return (
     <div className='wrapper'>
-      <Header />
+      <Header
+        hospitalsData={allGeoLocations}
+      />
       <div className='map-holder'>
         <Map
           fetchIsReport={fetchIsReport}
+          geoLocations={allGeoLocations}
         />
       </div>
       <div className='status-bar'>
@@ -41,73 +86,14 @@ export default function Home() {
           })
         }
       </div>
+
       {/* Report Submit Drawer */}
       <div className={`reportsidebar ${openReport == true ? 'active' : ''}`}>
-        <div className='report-drawer-header'>
-          <div className='hospital-title-holder'>
-            <div className='tileVerticle'>
-
-            </div>
-            <div className='hospital-title-name'>
-              <h3>BedFord Trust Hospital</h3>
-              <span>NM 1334300</span>
-            </div>
-            <div>
-              <img
-                src={dotsToggleImage}
-                className='three-dots-toggle'
-                onClick={()=>setOpenReport(false)}
-              />
-            </div>
-          </div>
-        </div>
-        <div className='form-status-bar'>
-          <div className='stage1'>
-            <div>
-              <h1>Basic</h1>
-              <div className='status' style={{ background: '#52B788' }}></div>
-            </div>
-          </div>
-          <div className='stage1'>
-            <div>
-              <h1>Staffing</h1>
-              <div className='status' style={{ background: '#081C15', opacity: '0.2' }}></div>
-            </div>
-          </div>
-          <div className='stage1'>
-            <div>
-              <h1>Assignment</h1>
-              <div className='status' style={{ background: '#081C15', opacity: '0.2' }}></div>
-            </div>
-          </div>
-          <div className='stage1'>
-            <div>
-              <h1>Facility</h1>
-              <div className='status' style={{ background: '#081C15', opacity: '0.2' }}></div>
-            </div>
-          </div>
-          <div className='stage1'>
-            <div>
-              <h1>Experience</h1>
-              <div className='status' style={{ background: '#081C15', opacity: '0.2' }}></div>
-            </div>
-          </div>
-
-        </div>
-        <div className='report-drawer-footer'>
-          <div className='report-submit-buttons-holder'>
-            <div className='cancel-button'>
-              <p>Cancel</p>
-            </div>
-            <div className='next-button'>
-              <p>Next Step</p>
-            </div>
-          </div>
-          <p className='report-footer-tagline'>
-            Submit Report as a user,
-            <span onClick={()=>history.push('/Login')}> Login</span> or <span onClick={()=>history.push('/Registration')}>Register</span></p>
-        </div>
-      </div>
-    </div>
+        <ReportSubmit
+          hospitalDatatoSubmit={hospitalDatatoSubmit}
+          fetchIsCloseReport={fetchIsCloseReport}
+        />
+      </div >
+    </div >
   )
 }

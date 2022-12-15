@@ -2,30 +2,58 @@ import React, { useEffect, useState } from 'react'
 import {
   useHistory
 } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { login } from '../store/actions/userActions';
 import leftArrow from '../assets/images/left-arrow.svg';
 import eyeIcon from '../assets/images/eyes-icon.svg';
+import eyeSlash from '../assets/images/eye-slash.png';
 
 export default function Login() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [showPass, setShowPass] = useState(false);
 
   const history = useHistory();
 
   const goToRegistration = () => {
     history.push('/Registration');
   }
-  
+
   const goBack = () => {
     history.goBack();
   }
 
-  const handleLogin = () => {
-    alert('Login')
+  const handleLogin = (e) => {
+    console.log(email, password)
+    e.preventDefault()
+    login(email, password)
+      .then(res => {
+        if (res.success == 1 && res.message == "Login successful") {
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+          localStorage.setItem("nurseAccess", JSON.stringify({ token: res.token, id: res.userID }));
+          setTimeout(() => {
+            history.push('/')
+          }, 3000);
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
 
   return (
     <div className="login-sec">
+      <div>
+        <ToastContainer />
+      </div>
       <div className="login-box">
         <div className="back-arrowٖ">
           <a onClick={() => goBack()}><img src={leftArrow} alt="" /></a>
@@ -48,12 +76,14 @@ export default function Login() {
             </div>
             <div className="form-group">
               <input
-                type="text"
+                type={showPass == true ? "text" : "password"}
                 className="form-control"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <span className="eye-icon"><img src={eyeIcon} alt="" /></span>
+              <span className="eye-icon" onClick={() => setShowPass(!showPass)}>
+                <img src={showPass == true ? eyeSlash : eyeIcon} alt="" width='24px' />
+              </span>
             </div>
             <div className="form-group">
               <a className="forget" href="#">Forget your Password?</a>
