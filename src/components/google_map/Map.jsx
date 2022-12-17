@@ -31,13 +31,13 @@ function Map(props) {
     const [showIndexOf, setShowIndexOf] = useState(0);
     const [hospitalData, setHospitalData] = useState({});
     const [submitReport, setSubmitReport] = useState(false);
-    const [zoom, setZoom] = useState(4);
+    const [zoom, setZoom] = useState(1);
     const [restriction, setRestriction] = useState({
         latLngBounds: {
-            north: 71,
-            east: -66,
-            south: 18,
-            west: 170
+            north: 49.38,
+            east: -66.94,
+            south: 25.82,
+            west: -124.39
         },
         strictBounds: false,
 
@@ -72,10 +72,10 @@ function Map(props) {
         setShowIndexOf(idx);
         setRestriction({
             latLngBounds: {
-                north: 71,
-                east: -66,
-                south: 18,
-                west: 170
+                north: 49.38,
+                east: -66.94,
+                south: 25.82,
+                west: -124.39
             },
             strictBounds: false,
         })
@@ -110,7 +110,7 @@ function Map(props) {
                 mapContainerStyle={containerStyle}
                 center={center}
                 zoom={zoom}
-
+                
                 options={{
                     mapId: 'myUniqueID',
                     styles: DefaultTheme,
@@ -128,7 +128,7 @@ function Map(props) {
                 <div className='google-map-zoom'>
                     <img src={zoomInIcon} onClick={() => setZoom(zoom + 2)} />
                     <img src={searchIcon} />
-                    <img src={zoomOutIcon} onClick={() => zoom == 3 ? setZoom(3) : setZoom(zoom - 2)} />
+                    <img src={zoomOutIcon} onClick={() => zoom == 1 ? setZoom(1) : setZoom(zoom - 2)} />
                 </div>
                 <div className='status-representation-cluster'>
                     <div className='status-representation-color' style={{ background: 'black' }}></div>
