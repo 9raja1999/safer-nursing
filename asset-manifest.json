@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/safer-nursing/static/css/main.f52e3b47.css",
-    "main.js": "/safer-nursing/static/js/main.3d2b7f2c.js",
+    "main.js": "/safer-nursing/static/js/main.2509cbcd.js",
     "static/js/787.a1140536.chunk.js": "/safer-nursing/static/js/787.a1140536.chunk.js",
     "static/media/nurse.png": "/safer-nursing/static/media/nurse.3ab304fccbf2b9d80e93.png",
     "static/media/bedford-img.png": "/safer-nursing/static/media/bedford-img.0efd0f7aae36baef41cb.png",
@@ -32,11 +32,11 @@
     "static/media/left-arrow.svg": "/safer-nursing/static/media/left-arrow.2399c07454baca7dbc888a5aa0728858.svg",
     "static/media/mapZoomOut.svg": "/safer-nursing/static/media/mapZoomOut.c3d95fbd743a15f7bddd4cef150f12fc.svg",
     "main.f52e3b47.css.map": "/safer-nursing/static/css/main.f52e3b47.css.map",
-    "main.3d2b7f2c.js.map": "/safer-nursing/static/js/main.3d2b7f2c.js.map",
+    "main.2509cbcd.js.map": "/safer-nursing/static/js/main.2509cbcd.js.map",
     "787.a1140536.chunk.js.map": "/safer-nursing/static/js/787.a1140536.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f52e3b47.css",
-    "static/js/main.3d2b7f2c.js"
+    "static/js/main.2509cbcd.js"
   ]
 }
