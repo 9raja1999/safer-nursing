@@ -26,7 +26,7 @@ const containerStyle = { width: '100%', height: '100%' };
 function HospitalMap(props) {
     const [hospitalData, setHospitalData] = useState({});
     const [submitReport, setSubmitReport] = useState(false);
-    const [zoom, setZoom] = useState(3);
+    const [zoom, setZoom] = useState(7);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -52,7 +52,7 @@ function HospitalMap(props) {
                 <div className='google-map-zoom'>
                     <img src={zoomInIcon} onClick={() => setZoom(zoom + 2)} />
                     <img src={searchIcon} />
-                    <img src={zoomOutIcon} onClick={() => zoom == 3 ? setZoom(3) : setZoom(zoom - 2)} />
+                    <img src={zoomOutIcon} onClick={() => zoom == 7 ? setZoom(7) : setZoom(zoom - 2)} />
                 </div>
                 <Marker
                     position={props.positions}
