@@ -210,7 +210,7 @@ function Map(props) {
                                                         <span className="yellow-bg"></span> <p> ASSIGNMENT</p>
                                                     </li>
                                                     <li>
-                                                        <span></span><p>EXPERIENCEFACILITY</p>
+                                                        <span></span><p>FACILITY</p>
                                                     </li>
                                                     <li>
                                                         <span className="red-bg"></span><p>EXPERIENCE</p>
