@@ -14,12 +14,15 @@ import neutralMarker from '../../assets/images/neutral.svg';
 import negativeMarker from '../../assets/images/negative.svg';
 import ulternateMarker from '../../assets/images/noulternate.svg';
 import HospitalImage from '../../assets/images/bedford-img.png';
+import searchIcon from '../../assets/images/mapSearch.svg';
+import zoomInIcon from '../../assets/images/mapZoomIn.svg';
+import zoomOutIcon from '../../assets/images/mapZoomOut.svg';
 
 
 
 const containerStyle = { width: '100%', height: '100%' };
 
-const center = { lat: 47.116386, lng: -101.299591 }
+const center = { lat: 39, lng: -95 }
 
 
 function Map(props) {
@@ -28,7 +31,17 @@ function Map(props) {
     const [showIndexOf, setShowIndexOf] = useState(0);
     const [hospitalData, setHospitalData] = useState({});
     const [submitReport, setSubmitReport] = useState(false);
+    const [zoom, setZoom] = useState(4);
+    const [restriction, setRestriction] = useState({
+        latLngBounds: {
+            north: 71,
+            east: -66,
+            south: 18,
+            west: 170
+        },
+        strictBounds: true,
 
+    })
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -39,12 +52,11 @@ function Map(props) {
 
     const [map, setMap] = useState(null);
 
-
     const openGeoModal = (location, idx) => {
         isOpen == true ? setIsOpen(false) : setIsOpen(true);
         // setIsOpen(true);
         setShowIndexOf(idx);
-        console.log('hovered')
+        setRestriction(null);
         getHospitalByID(location.facilityID)
             .then(res => {
                 setHospitalData({ ...hospitalData, data: res.data })
@@ -54,6 +66,27 @@ function Map(props) {
             })
     }
 
+    const closeInfoModal = (location, idx) => {
+        isOpen == true ? setIsOpen(false) : setIsOpen(true);
+        // setIsOpen(true);
+        setShowIndexOf(idx);
+        setRestriction({
+            latLngBounds: {
+                north: 71,
+                east: -66,
+                south: 18,
+                west: 170
+            },
+            strictBounds: true,
+        })
+        getHospitalByID(location.facilityID)
+            .then(res => {
+                setHospitalData({ ...hospitalData, data: res.data })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
     const onSubmitReport = () => {
         Promise.resolve()
             .then(() => {
@@ -76,42 +109,57 @@ function Map(props) {
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
-                zoom={3}
+                zoom={zoom}
 
                 options={{
                     mapId: 'myUniqueID',
                     styles: DefaultTheme,
                     fullscreenControl: false,
                     zoomControl: false,
-                    streetView : false
+                    streetView: false,
+                    restriction: restriction,
                 }}
+
                 streetView={{
-                    controls : false
+                    controls: false
                 }}
-            >
+            >   
+                
+                <div className='google-map-zoom'>
+                    <img src={zoomInIcon} onClick={() => setZoom(zoom + 2)} />
+                    <img src={searchIcon} />
+                    <img src={zoomOutIcon} onClick={() => zoom == 3 ? setZoom(3) : setZoom(zoom - 2)} />
+                </div>
+                <div className='status-representation-cluster'>
+                    <div className='status-representation-color' style={{ background: 'black' }}></div>
+                    <div className='status-representation-text'>
+                        cluster
+                    </div>
+                </div>
                 <MarkerClusterer
-                    imagePath='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmVxXtfD0Onmcjeuoj7fHL0kIX6xwsmAHM0w&usqp=CAU'
+                    // imagePath='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmVxXtfD0Onmcjeuoj7fHL0kIX6xwsmAHM0w&usqp=CAU'
+                    // imagePath='https://i.ibb.co/VjDs3yB/Group-12610-1.png'
                     maxZoom={3}
-                    title='Click to view'
+                    title='Click to View'
                     styles={[
                         {
                             textColor: 'black',
-                            url: markerImage,
+                            url: ulternateMarker,
                             height: 35,
                             width: 35
                         },
                         {
                             textColor: 'black',
                             url: markerImage,
-                            height: 45,
-                            width: 45
+                            height: 35,
+                            width: 35
                         },
                     ]}
 
                 >
                     {(clusterer) =>
                         filteredData.map((location, index) => (
-                            
+
                             <Marker
                                 key={index}
                                 position={location.positions}
@@ -120,27 +168,31 @@ function Map(props) {
                                     url: location.status == "Great" ? (
                                         markerImage
                                     ) : (
-                                        location.status == 'Bad' ? (
-                                            negativeMarker
+                                        location.status == 'OK' ? (
+                                            markerImage
                                         ) : (
-                                            location.status == 'Ok' ? (
+                                            location.status == 'Bad' ? (
                                                 neutralMarker
                                             ) : (
-                                                ulternateMarker
+                                                location.status == "Good" ? (
+                                                    markerImage
+                                                ): (
+                                                    negativeMarker
+                                                )
                                             )
                                         )
                                     )
                                 }}
-
                                 label={{ text: `${location.reportCount}`, color: 'black', fontSize: '13px', fontWeight: 'bold' }}
-
                                 cursor='pointer'
                                 draggable={false}
-                                onClick={() => openGeoModal(location, index)}
+                                // onClick={() => openGeoModal(location, index)}
                                 onMouseOver={() => openGeoModal(location, index)}
+
                             >
                                 {
                                     ((isOpen == true) && (showIndexOf == index) && (Object.keys(hospitalData).length !== 0)) ? <InfoWindow
+                                        onCloseClick={() => closeInfoModal(location, index)}
                                     >
                                         <div className="marker-infomodal">
                                             <div className="image-holder">

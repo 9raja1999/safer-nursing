@@ -270,7 +270,7 @@ header {
     position: absolute;
     bottom: 50px;
     right: 60px;
-    width: 440px;
+    width: 480px;
     height: 64px;
     background: #FFFFFF;
     box-shadow: 0px 4px 40px rgba(8, 28, 21, 0.05);
@@ -516,6 +516,10 @@ header {
     border: 1px solid red;
     background: red;
 }
+.apply-filters{
+    cursor: pointer;
+    text-decoration: none;
+}
 
 .filter-box form label {
     color: rgba(8, 28, 21, 0.4);
@@ -572,9 +576,9 @@ header {
     justify-content: space-around;
     color: #52B788;
     position: absolute;
-    top : 50%;
-    left : 50%;
-    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .filter-box form a {
@@ -616,6 +620,7 @@ header {
     height: 80px;
     display: flex;
     align-items: center;
+    align-content: center;
     border: 2px solid transparent;
     justify-content: space-between;
     padding: 0 25px;
@@ -626,6 +631,13 @@ header {
     color: #52B788;
     font-size: 48px;
     font-weight: 500;
+    /* border : 1px solid red; */
+    /* height: 15px; */
+}
+
+.filter-detail-box span img {
+    /* border : 1px solid red; */
+
 }
 
 .filter-detail-box p {
@@ -633,7 +645,8 @@ header {
     font-size: 16px;
     font-weight: 400;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
+    /* border: 1px solid red; */
 }
 
 .filter-detail-box p strong {
@@ -1498,6 +1511,10 @@ footer.green-bg {
     right: 74px;
 }
 
+.gotoHospital img {
+    cursor: pointer;
+}
+
 .hospital-popup .text-box h3 {
     color: #000000;
     font-size: 24px;
@@ -1725,12 +1742,12 @@ footer.green-bg {
     background-color: #fff;
     border-radius: 16px;
     box-shadow: 0px 4px 21px 0px rgba(8, 28, 21, 0.06);
-    padding: 5px;
+    padding: 10px;
     max-width: 440px;
     width: 100%;
-    /* position: absolute;
-    bottom: 30px;
-    right: 74px; */
+}
+.marker-infomodal .image-holder img{
+    width: 100%;
 }
 
 .marker-infomodal .text-box h3 {
@@ -1949,6 +1966,7 @@ footer.green-bg {
     border-radius: 8px;
     position: relative;
     cursor: pointer;
+    border: none;
 }
 
 .report-drawer-footer .next-button p {
@@ -2053,4 +2071,64 @@ select {
 
 .form-holder::-webkit-scrollbar-thumb {
     background-color: #52B788;
+}
+
+
+/* Info Window Google Map Style */
+.gm-style-iw button.gm-ui-hover-effect span {
+    display: none !important;
+    border: 1px solid red;
+}
+.gm-style-iw button.gm-ui-hover-effect {
+    opacity: 1 !important;
+  }
+  .gm-style-iw button.gm-ui-hover-effect:before {
+    display: block;
+    content: "";
+    background: url('../images/crose-icon.svg') center center no-repeat;
+    background-size: 50% 50%;
+    width: 24px;
+    height: 24px;
+    top: 10px;
+    right: 8px;
+    
+    position: relative;
+    background-color: #52B788;
+    border-radius: 100%;
+  } 
+
+/* Google map Zoom In Out Button */
+.google-map-zoom{
+    z-index: 1;
+    position: absolute;
+    bottom: 50px;
+    left: 60px;
+    width: 166px;
+    height: 64px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 40px rgba(8, 28, 21, 0.05);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.status-representation-cluster{
+    z-index: 1;
+    position: absolute;
+    bottom: 50px;
+    left: 240px;
+    width: 166px;
+    height: 64px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 40px rgba(8, 28, 21, 0.05);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+}
+.google-map-zoom img{
+    cursor: pointer
 }

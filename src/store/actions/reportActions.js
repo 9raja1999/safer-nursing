@@ -30,7 +30,7 @@ export const addReport = (reportId, facilityId, user) => {
         "facilityId": facilityId,
         "user": user
     })
-
+    console.log("MyFac",data)
     return axios
         .post('/addReport/', data)
         .then(function (response) {
@@ -63,7 +63,7 @@ export const getReportsByID = (facilityId) => {
     })
     return axios.post('/getHospitalReport/',data)
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             return res.data
         })
         .catch(err => {

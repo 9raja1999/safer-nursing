@@ -17,12 +17,16 @@ import BurnIndex from '../components/Graphs/BurnIndex';
 import HospitalImage from '../assets/images/hospital-img.png'
 import Select from 'react-select';
 import dotsToggleImage from '../assets/images/dotsToggle.svg';
+import AIcon from '../assets/images/a-icon.png';
+import FIcon from '../assets/images/f-icon.png';
+import NIcon from '../assets/images/e-icon.png';
 import tagCross from '../assets/images/tagCross.svg';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 
 export default function Hospital() {
+  const history = useHistory();
   const [preventScroll, setPreventScroll] = useState(false);
   const [hospitalData, setHospitalData] = useState(null);
   const [burnIndex, setBurnIndex] = useState('');
@@ -40,6 +44,7 @@ export default function Hospital() {
 
   useEffect(() => {
     if (preventScroll) {
+      console.log('PRevent Scroll')
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'auto'
@@ -48,7 +53,7 @@ export default function Hospital() {
 
 
   const fetchIsScroll = (isOpen) => {
-    console.log(isOpen)
+    // console.log(isOpen)
     setPreventScroll(isOpen);
   }
 
@@ -77,7 +82,8 @@ export default function Hospital() {
   }, [hospitalData])
 
   useEffect(() => {
-    let facilityID = JSON.parse(localStorage.getItem('facilityId'));
+    let data = JSON.parse(localStorage.getItem('facilityId'));
+    let facilityID = data.id;
     getHospitalByID(facilityID)
       .then(res => {
         let response = res.data;
@@ -103,7 +109,8 @@ export default function Hospital() {
   }, [localStorage.getItem("facilityId")])
 
   const applyUnitFilters = () => {
-    let facilityID = JSON.parse(localStorage.getItem('facilityId'));
+    let data = JSON.parse(localStorage.getItem('facilityId'));
+    let facilityID = data.id;
     let afterFilteration = [];
     getReportsByID(facilityID)
       .then(res => {
@@ -112,13 +119,13 @@ export default function Hospital() {
           for (const status of unitFilter) {
             if (status.status == true) {
               if (element.Type === status.id) {
-                console.log(element)
+                // console.log(element)
                 afterFilteration.push(element)
               }
             }
           }
         }
-        console.log('FILTERED REPORTS : ', afterFilteration)
+        // console.log('FILTERED REPORTS : ', afterFilteration)
         setFilteredReports(afterFilteration)
         setShowFilteredReports(true);
       })
@@ -132,6 +139,7 @@ export default function Hospital() {
 
 
   if (hospitalData == null) {
+    console.log(hospitalData)
     return <Circles
         height="80"
         width="80"
@@ -196,7 +204,7 @@ export default function Hospital() {
                                 }}>{item.name}</p>
                                 <img src={tagCross} style={{ position: 'absolute', top: '50%', right: '5%', transform: 'translate(-5%,-50%)', cursor: 'pointer' }}
                                   onClick={() => {
-                                    console.log('wow')
+                                    // console.log('wow')
                                     setUnitFilter([...unitFilter].map((obj, i) => {
                                       if (idx == i) {
 
@@ -216,7 +224,7 @@ export default function Hospital() {
                           })
                         }
                       </div>
-                      <a className="green-bg" onClick={() => applyUnitFilters()}>Apply Filters</a>
+                      <a className="green-bg apply-filters" onClick={() => applyUnitFilters()}>Apply Filters</a>
                     </div>
                   </form>
                 </div>
@@ -238,19 +246,20 @@ export default function Hospital() {
                     </div>
                   </li>
                   <li>
-                    <div className="filter-detail-box yellow-box"><span><img src="images/a-icon.png"
+                    <div className="filter-detail-box yellow-box"><span><img src={AIcon}
                       className="img-fluid" alt="" /></span>
                       <p>NEUTRAL <strong></strong></p>
                     </div>
                   </li>
                   <li>
-                    <div className="filter-detail-box red-box"><span><img src="images/f-icon.png"
+                    <div className="filter-detail-box red-box"><span><img src={FIcon}
                       className="img-fluid" alt="" /></span>
                       <p>NEGATIVE <strong></strong></p>
                     </div>
                   </li>
                   <li>
-                    <div className="filter-detail-box yellow-box"><span><img src="images/e-icon.png"
+                    <div className="filter-detail-box yellow-box">
+                      <span><img src={NIcon}
                       className="img-fluid" alt="" /></span>
                       <p>NEUTRAL <strong></strong></p>
                     </div>

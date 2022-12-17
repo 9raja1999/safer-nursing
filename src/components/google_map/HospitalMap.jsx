@@ -12,6 +12,9 @@ import markerImage from '../../assets/images/location.svg';
 import neutralMarker from '../../assets/images/neutral.svg';
 import negativeMarker from '../../assets/images/negative.svg';
 import HospitalImage from '../../assets/images/bedford-img.png';
+import searchIcon from '../../assets/images/mapSearch.svg';
+import zoomInIcon from '../../assets/images/mapZoomIn.svg';
+import zoomOutIcon from '../../assets/images/mapZoomOut.svg';
 
 
 
@@ -23,7 +26,7 @@ const containerStyle = { width: '100%', height: '100%' };
 function HospitalMap(props) {
     const [hospitalData, setHospitalData] = useState({});
     const [submitReport, setSubmitReport] = useState(false);
-
+    const [zoom, setZoom] = useState(3);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -37,15 +40,20 @@ function HospitalMap(props) {
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={props.positions}
-                zoom={5}
+                zoom={zoom}
                 options={{
                     mapId: 'myUniqueID',
                     styles: DefaultTheme,
                     fullscreenControl: false,
-                    zoomControl: false
+                    zoomControl: false,
                 }}
-                
+
             >
+                <div className='google-map-zoom'>
+                    <img src={zoomInIcon} onClick={() => setZoom(zoom + 2)} />
+                    <img src={searchIcon} />
+                    <img src={zoomOutIcon} onClick={() => zoom == 3 ? setZoom(3) : setZoom(zoom - 2)} />
+                </div>
                 <Marker
                     position={props.positions}
                     icon={{

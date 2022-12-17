@@ -133,7 +133,7 @@ export default function Registration() {
             <div className="form-group">
               <input type={showConPass == true ? "text" : "password"} className="form-control" placeholder="Confirm Password" name='confirmPassword' onChange={(e) => handleUserInput(e)} />
               <span className="eye-icon" style={{ cursor: 'pointer' }}
-              onClick={()=>setShowConPass(!showPass)}
+              onClick={()=>setShowConPass(!showConPass)}
               ><img src={showConPass == true ? eyeSlash : eyeIcon} alt="" style={{ cursor: 'pointer' }}  width='24px' /></span>
 
             </div>

@@ -25,7 +25,7 @@ export default function Login() {
   }
 
   const handleLogin = (e) => {
-    console.log(email, password)
+    // console.log(email, password)
     e.preventDefault()
     login(email, password)
       .then(res => {

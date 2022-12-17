@@ -5,11 +5,19 @@ import React, {
 import {
     useHistory
 } from 'react-router-dom'
+import validationFormat from '../../assets/JSON/answerFormat.json'
 import { getAllQuestions, generateReportID, addReport, addAnswersToReport } from '../../store/actions/reportActions';
+import Demographics from './Demographics';
+import Staffing from './Staffing';
+import Assignment from './Assignment';
+import Facility from './Facility';
+import Experience from './Experience';
+
 import Select from 'react-select';
-import _ from 'lodash'
+import _, { forEach } from 'lodash'
 import { ToastContainer, toast } from 'react-toastify';
 import dotsToggleImage from '../../assets/images/dotsToggle.svg';
+
 
 
 
@@ -18,214 +26,176 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
     const history = useHistory();
     const [formIndex, setFormIndex] = useState(0);
     const [reportQuestions, setReportQuestions] = useState([]);
-    const [reportAnswers, setReportAnswers] = useState({});
-    const [reportError, setReportError] = useState({
-        error: false,
-        message: ''
-    })
+    const [reportAnswers, setReportAnswers] = useState({
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": "",
+        "8": "",
+        "9": "",
+        "10": "",
+        "11": "",
+        "12": "",
+        "13": "",
+        "14": "",
+        "15": "",
+        "16": "",
+        "17": "",
+        "18": "",
+        "19": "",
+        "20": "",
+        "21": "",
+        "22": "",
+        "23": "",
+        "24": "",
+        "25": "",
+        "26": "",
+        "27": "",
+        "28": "",
+        "29": "",
+        "30": "",
+        "31": "",
+        "32": "",
+        "33": "",
+        "34": "",
+        "35": "",
+        "36": "",
+        "37": "",
+        "38": "",
+        "39": "",
+        "40": "",
+        "41": "",
+        "42": "",
+        "43": "",
+        "44": "",
+        "45": "",
+        "46": ""
+    });
 
-    useEffect(() => {
-        getAllQuestions()
-            .then(res => {
-                if (res.success == 1) {
-                    setReportQuestions(res.data)
-                }
-            })
-            .catch(err => {
-                console.log('ERROR !!', err)
-            })
-    }, [])
 
-    const handleChange = _.debounce((event, type, isInput) => {
-        // Check is event is Multi value
-        let isMultiValue = Array.isArray(event);
-        if (isMultiValue == true) {
-            let multiAnswers = [];
-            event.forEach((item) => {
-                multiAnswers.push(item.value)
-            })
-            setReportAnswers({
-                ...reportAnswers,
-                [event[0].name]: multiAnswers
-            })
-        }
-        if (isMultiValue == false) {
-            setReportAnswers({
-                ...reportAnswers,
-                [event.name]: event.value
-            })
-        }
-    }, 500)
-
-    const handleInputChange = _.debounce((event, type) => {
-        event.preventDefault();
-        setReportAnswers({
-            ...reportAnswers,
-            [event.target.name]: event.target.value
-        })
-    }, 500);
-
-    const goNext = (e) => {
-        // e.preventDefault();
-        let count = formIndex;
-        count = count + 1;
-        if (count < 5) {
-            setFormIndex(formIndex + 1);
-        }
+    const nextStep = () => {
+        setFormIndex(formIndex + 1)
+    }
+    const prevStep = () => {
+        setFormIndex(formIndex - 1)
     }
 
-    const cancelReport = () => {
-        setFormIndex(0);
-        setReportAnswers({});
-        fetchIsCloseReport(false);
+    const closeReport = (isClose) => {
+        fetchIsCloseReport(isClose);
     }
 
-    const submitReport = () => {
-        console.log('Report Asnswers : ', reportAnswers)
+    const finishReport = () => {
         const uuid = localStorage.getItem("nurseAccess");
         const userID = JSON.parse(uuid);
+
         const reportId = generateReportID();
         const facilityId = hospitalDatatoSubmit.address.FacilityID;
         const user = uuid === null ? 'anonymous' : userID.id;
-        const isAllQuestionsAnswered = Object.keys(reportAnswers).length;
-        if (isAllQuestionsAnswered !== reportQuestions.length) {
-            setReportError({
-                ...reportError,
-                error: true,
-                message: 'All feilds are mandatory'
+
+        addReport(reportId, facilityId, user)
+            .then(res => {
+                if (res.success == 1) {
+                    addAnswersToReport(reportId, facilityId, reportAnswers)
+                        .then(res => {
+                            if (res.success == 1) {
+                                toast.success('Thanks for your valuable feedback', {
+                                    position: toast.POSITION.TOP_RIGHT
+                                })
+
+                                setReportAnswers({});
+                                setFormIndex(0);
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Error !!', err)
+                        })
+                }
+            })
+            .catch(err => {
+                console.log('Error !!', err)
             })
 
-            toast.error('All feilds are mandatory', {
-                position: toast.POSITION.TOP_RIGHT
-            });
 
-            setFormIndex(0);
-        } else {
-            addReport(reportId, facilityId, user)
-                .then(res => {
-                    console.log(res)
-                    if (res.success == 1) {
-                        addAnswersToReport(reportId, facilityId, reportAnswers)
-                            .then(res => {
-                                if (res.success == 1) {
-                                    toast.success('Thanks for your valuable feedback', {
-                                        position: toast.POSITION.TOP_RIGHT
-                                    })
+    }
 
-                                    setReportAnswers({});
-                                    setFormIndex(0);
-                                    setTimeout(() => {
-                                        window.location.reload()
-                                    }, 3000);
-                                }
-                            })
-                            .catch(err => {
-                                console.log('Error !!', err)
-                            })
-                    }
-                })
-                .catch(err => {
-                    console.log('Error !!', err)
-                })
+    const handleChange = (input, isMulti) => (e) => {
+        if (isMulti == 'yes') {
+            let multiAnswers = [];
+            e.forEach((item) => {
+                multiAnswers.push(item)
+            })
+
+            setReportAnswers({
+                ...reportAnswers,
+                [input]: multiAnswers
+            })
+        }
+
+        if (isMulti == 'no') {
+            setReportAnswers({
+                ...reportAnswers,
+                [input]: e
+            })
+        }
+
+        if (isMulti == 'text') {
+            setReportAnswers({
+                ...reportAnswers,
+                [input]: e.target.value
+            })
         }
     }
 
-    const getForm = (data, type) => {
-        return <form>
-            {
-                data.map((item, idx) => {
-                    let options = [];
-                    item.options.forEach(element => {
-                        let op = {
-                            value: element.Choice,
-                            label: element.Choice,
-                            name: item.QuestionID
-                        }
-                        options.push(op);
-                    })
-                    if (item.options.length !== 0) {
-                        return <div className="searchformfld" key={item.QuestionID}>
-                            <Select
-                                isMulti={false}
-                                name=""
-                                options={options}
-                                onChange={(event) => handleChange(event, type, false)}
-                                className="basic-multi-select"
-                                classNamePrefix="select"
-                                components={{
-                                    IndicatorSeparator: () => null
-                                }}
-                                styles={{
-                                    container: (provided, state) => ({
-                                        ...provided,
-                                        border: '2px solid #52B788',
-                                        borderRadius: '14px',
-                                    }),
-                                    control: (provided, state) => ({
-                                        ...provided,
-                                        border: 'none',
-                                        borderRadius: '15px',
-                                        ':active': {
-                                            border: 'none'
-                                        }
-                                    }),
-
-
-                                }}
-                            />
-                            <label htmlFor="candidateName">{item.question}</label>
-                        </div>
-                    }
-                    return <div className="searchformfld" key={item.QuestionID}>
-                        <input type="text" className="candidateName" id="candidateName" name={item.QuestionID} placeholder=" " onChange={(event) => handleInputChange(event, type)} />
-                        <label htmlFor="candidateName">{item.question}</label>
-                    </div>
-                })
-            }
-            <div className='report-drawer-footer'>
-                <div className='report-submit-buttons-holder'>
-                    <div className='cancel-button' onClick={() => cancelReport()}>
-                        <p>Cancel</p>
-                    </div>
-                    {
-                        formIndex == 4 ? (
-                            <div className='next-button' onClick={() => submitReport()}>
-                                <p>Finish</p>
-                            </div>
-                        ) : (
-                            <div className='next-button' onClick={goNext}>
-                                <p>Next Step</p>
-                            </div>
-                        )
-                    }
-                </div>
-                <p className='report-footer-tagline'>
-                    Submit Report as a user,
-                    <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>Register</span></p>
-            </div>
-        </form>
-    }
 
     const getReport = (idx) => {
         if (idx == 0) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "demographics")
-            return getForm(data, "demographics");
+            return <Demographics
+                handleChange={handleChange}
+                prevStep={prevStep}
+                nextStep={nextStep}
+                closeReport={closeReport}
+                values={reportAnswers}
+            />
         }
         else if (idx == 1) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "staffing")
-            return getForm(data, "staffing");
+            return <Staffing
+                handleChange={handleChange}
+                prevStep={prevStep}
+                nextStep={nextStep}
+                values={reportAnswers}
+            />
         }
         else if (idx == 2) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "assignment")
-            return getForm(data, "assignment");
+            return <Assignment
+                handleChange={handleChange}
+                prevStep={prevStep}
+                nextStep={nextStep}
+                values={reportAnswers}
+            />
         }
         else if (idx == 3) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "facility")
-            return getForm(data, "facility");
+            return <Facility
+                handleChange={handleChange}
+                prevStep={prevStep}
+                nextStep={nextStep}
+                values={reportAnswers}
+            />
         }
         else if (idx == 4) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "experience")
-            return getForm(data, "experience");
+            return <Experience
+                handleChange={handleChange}
+                prevStep={prevStep}
+                finishReport={finishReport}
+                values={reportAnswers}
+            />
         }
     }
     return (
@@ -257,31 +227,31 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
             <div className='form-status-bar'>
                 <div className='stage1'>
                     <div>
-                        <h1>Basic</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(0)}>Basic</h1>
                         <div className='status' style={formIndex == 0 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1>Staffing</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(1)}>Staffing</h1>
                         <div className='status' style={formIndex == 1 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1>Assignment</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(2)}>Assignment</h1>
                         <div className='status' style={formIndex == 2 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1>Facility</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(3)}>Facility</h1>
                         <div className='status' style={formIndex == 3 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1>Experience</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(4)}>Experience</h1>
                         <div className='status' style={formIndex == 4 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>

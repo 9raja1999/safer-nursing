@@ -73,9 +73,11 @@ export default function Home() {
       <div className='status-bar'>
         {
           [
-            { statusText: 'positive', color: '#52B788' },
-            { statusText: 'neutral', color: '#E0D16C' },
-            { statusText: 'negative', color: '#E46870' }
+            { statusText: 'Great', color: 'blue' },
+            { statusText: 'Good', color: '#52B788' },
+            { statusText: 'Ok', color: '#E0D16C' },
+            { statusText: 'Bad', color: 'orange' },
+            { statusText: 'Terrible', color: '#E46870' },
           ].map((item, index) => {
             return <div key={index} className='status-representation'>
               <div className='status-representation-color' style={{ background: `${item.color}` }}></div>

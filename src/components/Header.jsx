@@ -8,6 +8,7 @@ import {
 import { getAllHospitals } from '../store/actions/hospitalActions';
 import logo from '../assets/images/logo.svg';
 import mobileLogo from '../assets/images/logo-mobile.svg';
+import eyeIcon from '../assets/images/eyes-icon.svg';
 import searchIcon from '../assets/images/search-icon.svg';
 import loginIcon from '../assets/images/login-icon.svg';
 import menuIcon from '../assets/images/menu-icon.svg';
@@ -56,8 +57,8 @@ export default function Header(props) {
         setSearchResult(result);
     }
 
-    const goToHospital = (item) => {
-        localStorage.setItem("facilityId" , JSON.stringify(item.FacilityID));
+    const goToHospital = (item,isOpen) => {
+        localStorage.setItem("facilityId" , JSON.stringify({id : item.FacilityID , isOpen : isOpen}));
         setSearch('')
         history.push('/Hospital')
     }
@@ -94,9 +95,9 @@ export default function Header(props) {
                                                     {
                                                         searchResult.filter((item, idx) => idx < 4).map((item, idx) => {
                                                             return <li key={idx}>
-                                                                <div className='search-name'>{item.FacilityName}</div>
-                                                                <div className='goto-hospital' onClick={() => goToHospital(item)}>
-                                                                    <img src={loginIcon} alt="" />
+                                                                <div className='search-name' onClick={() => goToHospital(item,false)}>{item.FacilityName}</div>
+                                                                <div className='gotoHospital'>
+                                                                    <img src={eyeIcon}  alt="" onClick={() => goToHospital(item, true)}/>
                                                                 </div>
                                                             </li>
                                                         })
