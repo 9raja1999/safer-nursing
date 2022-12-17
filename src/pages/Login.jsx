@@ -54,6 +54,8 @@ export default function Login() {
       <div>
         <ToastContainer />
       </div>
+      <div className='top-left-section'></div>
+      <div className='right-bottom-section'></div>
       <div className="login-box">
         <div className="back-arrowٖ">
           <a onClick={() => goBack()}><img src={leftArrow} alt="" /></a>
@@ -86,7 +88,7 @@ export default function Login() {
               </span>
             </div>
             <div className="form-group">
-              <a className="forget" href="#">Forget your Password?</a>
+              <a className="forget">Forget your Password?</a>
             </div>
             <div className="form-group">
               <input

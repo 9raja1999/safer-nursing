@@ -307,11 +307,32 @@ header {
 
 .login-sec {
     background-color: #52B788;
+    height: 100vh;
     /* border:  : ; */
     padding: 75px 0;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.top-left-section {
+    width: 491px;
+    height: 628px;
+    position: absolute;
+    left: -237px;
+    top: -386px;
+    background: #D5EEE2;
+    opacity: 0.2;
+}
+
+.right-bottom-section {
+    width: 280px;
+    height: 260px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background: #D5EEE2;
+    opacity: 0.2;
 }
 
 .login-box {
@@ -421,6 +442,7 @@ header {
     top: 50%;
     transform: translate(0, -50%);
     right: 18px;
+    cursor: pointer;
 }
 
 .form-check {
@@ -438,6 +460,8 @@ header {
     /* background-image: url(../CSS/images/check-box.svg); */
     background-image: url('../images/check-box.svg');
 }
+
+
 
 
 /**** BANNER ******/
@@ -516,7 +540,8 @@ header {
     border: 1px solid red;
     background: red;
 }
-.apply-filters{
+
+.apply-filters {
     cursor: pointer;
     text-decoration: none;
 }
@@ -1746,7 +1771,8 @@ footer.green-bg {
     max-width: 440px;
     width: 100%;
 }
-.marker-infomodal .image-holder img{
+
+.marker-infomodal .image-holder img {
     width: 100%;
 }
 
@@ -2079,10 +2105,12 @@ select {
     display: none !important;
     border: 1px solid red;
 }
+
 .gm-style-iw button.gm-ui-hover-effect {
     opacity: 1 !important;
-  }
-  .gm-style-iw button.gm-ui-hover-effect:before {
+}
+
+.gm-style-iw button.gm-ui-hover-effect:before {
     display: block;
     content: "";
     background: url('../images/crose-icon.svg') center center no-repeat;
@@ -2091,14 +2119,14 @@ select {
     height: 24px;
     top: 10px;
     right: 8px;
-    
+
     position: relative;
     background-color: #52B788;
     border-radius: 100%;
-  } 
+}
 
 /* Google map Zoom In Out Button */
-.google-map-zoom{
+.google-map-zoom {
     z-index: 1;
     position: absolute;
     bottom: 50px;
@@ -2113,7 +2141,8 @@ select {
     justify-content: space-around;
     align-items: center;
 }
-.status-representation-cluster{
+
+.status-representation-cluster {
     z-index: 1;
     position: absolute;
     bottom: 50px;
@@ -2129,6 +2158,7 @@ select {
     align-items: center;
 
 }
-.google-map-zoom img{
+
+.google-map-zoom img {
     cursor: pointer
 }

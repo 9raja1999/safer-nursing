@@ -104,7 +104,9 @@ export default function Registration() {
       <div>
         <ToastContainer />
       </div>
-      <div className="login-box">
+      <div className='top-left-section'></div>
+      <div className='right-bottom-section'></div>
+      <div className="login-box registration-box">
         <div className="back-arrowٖ">
           <a onClick={() => goBack()}><img src={leftArrow} alt="" /></a>
         </div>

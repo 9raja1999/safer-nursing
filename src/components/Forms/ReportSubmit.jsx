@@ -24,6 +24,7 @@ import dotsToggleImage from '../../assets/images/dotsToggle.svg';
 
 function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
     const history = useHistory();
+    const scrollRef = React.createRef();
     const [formIndex, setFormIndex] = useState(0);
     const [reportQuestions, setReportQuestions] = useState([]);
     const [reportAnswers, setReportAnswers] = useState({
@@ -77,6 +78,11 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
 
 
     const nextStep = () => {
+        scrollRef.current.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
         setFormIndex(formIndex + 1)
     }
     const prevStep = () => {
@@ -256,7 +262,7 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
                     </div>
                 </div>
             </div>
-            <div className='form-holder'>
+            <div className='form-holder' ref={scrollRef}>
                 {
                     getReport(formIndex)
                 }

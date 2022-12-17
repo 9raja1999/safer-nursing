@@ -3,6 +3,7 @@ import {
   useHistory
 } from 'react-router-dom'
 import Header from '../components/Header';
+import UserHeader from '../components/UserHeader';
 import Map from '../components/google_map/Map';
 import ReportSubmit from '../components/Forms/ReportSubmit';
 import { getAllGeoLocations } from '../store/actions/hospitalActions';
@@ -17,14 +18,23 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const history = useHistory();
+  const [isUser, setIsUser] = useState(false);
   const [openReport, setOpenReport] = useState(false);
   const [allGeoLocations, setAllGeolocations] = useState([]);
   const [hospitalDatatoSubmit, setHospitalDataToSubmit] = useState(null);
- 
+
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+
+    if (localStorage.getItem("nurseAccess") === null) {
+      setIsUser(false)
+    } else {
+      setIsUser(true)
+    }
+
+
     getAllGeoLocations()
       .then(res => {
         console.log(res);
@@ -35,6 +45,11 @@ export default function Home() {
         console.log('ERROR !!', err)
       })
   }, [])
+
+  const isLoggedIn = (isUser) => {
+    setIsUser(isUser)
+  }
+
 
   const fetchIsReport = (isOpen, hospitalData) => {
     // If isOpen is true open report submit left Drawer
@@ -61,9 +76,18 @@ export default function Home() {
 
   return (
     <div className='wrapper'>
-      <Header
-        hospitalsData={allGeoLocations}
-      />
+      {
+        isUser == true ? (
+          <UserHeader
+            hospitalsData={allGeoLocations}
+            isLoggedIn={isLoggedIn}
+          />
+        ) : (
+          <Header
+            hospitalsData={allGeoLocations}
+          />
+        )
+      }
       <div className='map-holder'>
         <Map
           fetchIsReport={fetchIsReport}

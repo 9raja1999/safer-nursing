@@ -9,6 +9,7 @@ import { getAllQuestions, generateReportID, addReport, addAnswersToReport, getRe
 import { Circles } from 'react-loader-spinner';
 import HospitalMap from '../components/google_map/HospitalMap'
 import Header from '../components/Header'
+import UserHeader from '../components/UserHeader';
 import Map from '../components/google_map/Map'
 import ExploreInsidhts from '../components/ExploreInsidhts'
 import HospitalModal from '../components/Modals/HospitalModal'
@@ -27,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Hospital() {
   const history = useHistory();
+  const [isUser, setIsUser] = useState(false);
   const [preventScroll, setPreventScroll] = useState(false);
   const [hospitalData, setHospitalData] = useState(null);
   const [burnIndex, setBurnIndex] = useState('');
@@ -40,6 +42,14 @@ export default function Hospital() {
   ]);
   const [filteredReports, setFilteredReports] = useState([]);
   const [showFilteredReports, setShowFilteredReports] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("nurseAccess") === null) {
+      setIsUser(false)
+    } else {
+      setIsUser(true)
+    }
+  }, [])
 
 
   useEffect(() => {
@@ -56,8 +66,10 @@ export default function Hospital() {
     // console.log(isOpen)
     setPreventScroll(isOpen);
   }
+  const isLoggedIn = (isUser) => {
+    setIsUser(isUser)
+  }
 
-  
 
   useEffect(() => {
     // Getting Burn Out INdex of Hospital
@@ -87,9 +99,9 @@ export default function Hospital() {
     getHospitalByID(facilityID)
       .then(res => {
         let response = res.data;
-        if('geolocations' in response){
+        if ('geolocations' in response) {
           setHospitalData(res.data)
-        }else{
+        } else {
           setHospitalData(null)
         }
       })
@@ -141,23 +153,31 @@ export default function Hospital() {
   if (hospitalData == null) {
     console.log(hospitalData)
     return <Circles
-        height="80"
-        width="80"
-        color="#4fa94d"
-        ariaLabel="circles-loading"
-        wrapperStyle={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}
-        wrapperClass=""
-        visible={true}
-      />
+      height="80"
+      width="80"
+      color="#4fa94d"
+      ariaLabel="circles-loading"
+      wrapperStyle={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}
+      wrapperClass=""
+      visible={true}
+    />
   }
 
 
   return (
     <div>
-      <Header />
+      {
+        isUser == true ? (
+          <UserHeader
+            isLoggedIn={isLoggedIn}
+          />
+        ) : (
+          <Header
+          />
+        )
+      }
       <section className="banner-sec-2">
         <div className='map-holderHospital'>
-          {/* <Map /> */}
           <HospitalMap
             positions={{ lat: hospitalData.geolocations.Latitude, lng: hospitalData.geolocations.Longitude }}
             reportCount={hospitalData.geolocations.reportCount}
@@ -260,7 +280,7 @@ export default function Hospital() {
                   <li>
                     <div className="filter-detail-box yellow-box">
                       <span><img src={NIcon}
-                      className="img-fluid" alt="" /></span>
+                        className="img-fluid" alt="" /></span>
                       <p>NEUTRAL <strong></strong></p>
                     </div>
                   </li>

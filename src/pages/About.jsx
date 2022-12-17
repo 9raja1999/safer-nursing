@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import Header from '../components/Header';
+import UserHeader from '../components/UserHeader';
 import Request from '../components/Forms/Request';
 import Banner from '../components/Banner';
 import ExploreInsidhts from '../components/ExploreInsidhts';
@@ -8,10 +9,33 @@ import MobileSearchIcon from '../assets/images/search-icon.svg'
 import NurseImage from '../assets/images/nurse.png';
 
 export default function About() {
+  const [isUser, setIsUser] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("nurseAccess") === null) {
+      setIsUser(false)
+    } else {
+      setIsUser(true)
+    }
+  }, [])
+
+  const isLoggedIn = (isUser) => {
+    setIsUser(isUser)
+  }
+
   return (
     <>
       <div class="wrapper">
-        <Header />
+        {
+          isUser == true ? (
+            <UserHeader
+              isLoggedIn={isLoggedIn}
+            />
+          ) : (
+            <Header
+            />
+          )
+        }
         <div class="mobile-search">
           <form>
             <input type="text" class="form-control" placeholder="Search Hospitals" />
@@ -45,13 +69,13 @@ export default function About() {
         </section>
         <section class="about-safe-sec">
           <Banner
-            leftSectionImage = {NurseImage}
+            leftSectionImage={NurseImage}
           />
         </section>
         <section class="generate-insight-sec generate-about">
           <ExploreInsidhts
-            background = '#081C15'
-            color = 'white'
+            background='#081C15'
+            color='white'
           />
         </section>
         <footer class="green-bg">

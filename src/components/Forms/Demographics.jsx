@@ -38,20 +38,23 @@ const selectStyle = {
 function Demographics({ handleChange, prevStep, nextStep, values, errors, closeReport }) {
     const history = useHistory();
     const [reportError, setReportError] = useState([])
-    
+
     // useEffect(()=>{
     //     console.log('RP ERROR Demographics : ', reportError)
     // },[reportError])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
 
     const ValidateDemographic = () => {
         let validated = [];
-        Object.keys(values).forEach(function(key,idx) {
-            if(idx <= 9){
-                if(values[key] == ""){
-                    validated.push({ e : 'null'})
-                }else{
-                    validated.push({ e : 'not'})
+        Object.keys(values).forEach(function (key, idx) {
+            if (idx <= 9) {
+                if (values[key] == "") {
+                    validated.push({ e: 'null' })
+                } else {
+                    validated.push({ e: 'not' })
                     // Object.assign(validted, {key: "Not Empty"});
                 }
             }
@@ -59,16 +62,16 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
         setReportError(validated)
         return true
     }
-    
+
     const canGoNext = () => {
         if (reportError.some(obj => obj.e === 'null')) {
             return false
-        }else{
+        } else {
             return true
         }
-    }   
+    }
 
-    
+
     const Continue = e => {
         console.log('clicked')
         e.preventDefault();
@@ -76,10 +79,10 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
         if (isValidated) {
             let isNext = canGoNext();
 
-            if(isNext && reportError.length !== 0){
+            if (isNext && reportError.length !== 0) {
                 nextStep()
             }
-            
+
         } else {
             alert('all feilds are mandatory')
         }
@@ -103,7 +106,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     onChange={handleChange('1', 'text')}
                 />
                 <label htmlFor="candidateName">Age</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -119,7 +122,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Gender</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -135,7 +138,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Employee Type (BI-PART)</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -151,7 +154,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">SHIFT</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <CurrencyInput
@@ -164,7 +167,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     onChange={handleChange('5', 'text')}
                 />
                 <label htmlFor="candidateName">PAY</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -180,7 +183,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Shift differential</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -196,7 +199,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Benifits</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -207,7 +210,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     onChange={handleChange('8', 'text')}
                 />
                 <label htmlFor="candidateName">Time at hospital</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -218,7 +221,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     onChange={handleChange('9', 'text')}
                 />
                 <label htmlFor="candidateName">Current speciality experience</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -229,7 +232,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     onChange={handleChange('10', 'text')}
                 />
                 <label htmlFor="candidateName">total nursing experience</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className='report-drawer-footer'>
                 <div className='report-submit-buttons-holder'>

@@ -34,12 +34,16 @@ const selectStyle = {
 
 function Staffing({ handleChange, prevStep, nextStep, values }) {
     const history = useHistory();
-
+    
     const [reportError, setReportError] = useState([])
 
     // useEffect(() => {
     //     console.log('RP ERROR Staffing: ', reportError)
     // }, [reportError])
+
+    useEffect(() => {
+        console.log('Scrolling')
+    }, [])
 
 
     const ValidateDemographic = () => {
@@ -100,7 +104,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     onChange={handleChange('11', 'text')}
                 />
                 <label htmlFor="candidateName">What is the ideal nurse:patient ratio for your units acuity</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -111,7 +115,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     onChange={handleChange('12', 'text')}
                 />
                 <label htmlFor="candidateName">What is the ideal nurse:patient ratio usually assigned</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -127,7 +131,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Are there special ratios for hight acuity patient or devices</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -143,7 +147,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">are ratios generally safe and appropriate</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -159,7 +163,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">is acuity distributed among the staff fairly</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -175,7 +179,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">whats the average staff experience level</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -186,7 +190,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     onChange={handleChange('17', 'text')}
                 />
                 <label htmlFor="candidateName">Staffing Freetext Subjective</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -203,7 +207,7 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Staffing Subjective Score</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className='report-drawer-footer'>
                 <div className='report-submit-buttons-holder'>

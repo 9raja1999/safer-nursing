@@ -39,7 +39,7 @@ function Map(props) {
             south: 18,
             west: 170
         },
-        strictBounds: true,
+        strictBounds: false,
 
     })
 
@@ -77,7 +77,7 @@ function Map(props) {
                 south: 18,
                 west: 170
             },
-            strictBounds: true,
+            strictBounds: false,
         })
         getHospitalByID(location.facilityID)
             .then(res => {
