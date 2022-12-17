@@ -127,9 +127,6 @@ export default function UserHeader(props) {
                                                 <span>Logout</span>
                                             </span>
                                         </li>
-                                        <li>
-                                            <span className="register-btn" onClick={() => goToRegister()}>Register</span>
-                                        </li>
                                     </ul>
                                     <span className="menu-btn" onClick={ToggleSidebar}><img src={menuIcon} alt="" /></span>
                                 </div>

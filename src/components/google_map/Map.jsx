@@ -59,6 +59,7 @@ function Map(props) {
         setRestriction(null);
         getHospitalByID(location.facilityID)
             .then(res => {
+                console.log('Hospital Data : ', res.data)
                 setHospitalData({ ...hospitalData, data: res.data })
             })
             .catch(err => {
@@ -87,6 +88,13 @@ function Map(props) {
                 console.log(err)
             })
     }
+
+    const beautifySubmissionDate = (date) => {
+        let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var today = new Date(date);
+        return today.toLocaleDateString("en-US", dateOptions)
+    }
+
     const onSubmitReport = () => {
         Promise.resolve()
             .then(() => {
@@ -110,7 +118,7 @@ function Map(props) {
                 mapContainerStyle={containerStyle}
                 center={center}
                 zoom={zoom}
-                
+
                 options={{
                     mapId: 'myUniqueID',
                     styles: DefaultTheme,
@@ -123,8 +131,8 @@ function Map(props) {
                 streetView={{
                     controls: false
                 }}
-            >   
-                
+            >
+
                 <div className='google-map-zoom'>
                     <img src={zoomInIcon} onClick={() => setZoom(zoom + 2)} />
                     <img src={searchIcon} />
@@ -176,7 +184,7 @@ function Map(props) {
                                             ) : (
                                                 location.status == "Good" ? (
                                                     markerImage
-                                                ): (
+                                                ) : (
                                                     negativeMarker
                                                 )
                                             )
@@ -216,6 +224,10 @@ function Map(props) {
                                                         <span className="red-bg"></span><p>EXPERIENCE</p>
                                                     </li>
                                                 </ul>
+                                                {
+                                                    beautifySubmissionDate(hospitalData.data.geolocations.Submitted_Date)
+                                                }
+                                                <p></p>
                                                 <span
                                                     className="report-btn"
                                                     onClick={() => onSubmitReport()}

@@ -32,9 +32,9 @@ const selectStyle = {
     })
 }
 
-function Staffing({ handleChange, prevStep, nextStep, values }) {
+function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout  }) {
     const history = useHistory();
-    
+
     const [reportError, setReportError] = useState([])
 
     // useEffect(() => {
@@ -218,9 +218,21 @@ function Staffing({ handleChange, prevStep, nextStep, values }) {
                         <p>Next Step</p>
                     </button>
                 </div>
-                <p className='report-footer-tagline'>
-                    Submit Report as a user,
-                    <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>Register</span></p>
+                {
+                    isUser == true ? (
+                        <p className='report-footer-tagline'>
+                            You are already log in
+                            <span onClick={() => logout()}> Logout</span>
+                        </p>
+                    ) : (
+                        <p className='report-footer-tagline'>
+                            Submit Report as a user,
+                            <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>
+                                Register
+                            </span>
+                        </p>
+                    )
+                }
             </div>
         </form>
     )

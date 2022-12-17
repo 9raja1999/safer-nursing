@@ -118,6 +118,8 @@ export default function Home() {
         <ReportSubmit
           hospitalDatatoSubmit={hospitalDatatoSubmit}
           fetchIsCloseReport={fetchIsCloseReport}
+          isUser={isUser}
+          isLoggedIn={isLoggedIn}
         />
       </div >
     </div >

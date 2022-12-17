@@ -34,7 +34,7 @@ const selectStyle = {
 }
 
 
-function Facility({ handleChange, prevStep, nextStep, values }) {
+function Facility({ handleChange, prevStep, nextStep, values,isUser, logout  }) {
     const history = useHistory();
 
     const [reportError, setReportError] = useState([])
@@ -109,7 +109,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">How would you rate the management in charge</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -125,7 +125,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What factors influence your management rating</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -142,7 +142,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">How would you rate the nurse leader ship</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -158,7 +158,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What factors influence your leadership rating</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -174,7 +174,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What EHR do you use and how is it to work with</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -190,7 +190,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What is the condition and state of the most equipment in the hospital</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -201,7 +201,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     onChange={handleChange('36', 'text')}
                 />
                 <label htmlFor="candidateName">Facility Freetext Subjective</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -218,7 +218,7 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Facility Subjective Score</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className='report-drawer-footer'>
                 <div className='report-submit-buttons-holder'>
@@ -229,9 +229,21 @@ function Facility({ handleChange, prevStep, nextStep, values }) {
                         <p>Next Step</p>
                     </button>
                 </div>
-                <p className='report-footer-tagline'>
-                    Submit Report as a user,
-                    <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>Register</span></p>
+                {
+                    isUser == true ? (
+                        <p className='report-footer-tagline'>
+                            You are already log in
+                            <span onClick={() => logout()}> Logout</span>
+                        </p>
+                    ) : (
+                        <p className='report-footer-tagline'>
+                            Submit Report as a user,
+                            <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>
+                                Register
+                            </span>
+                        </p>
+                    )
+                }
             </div>
         </form>
     )

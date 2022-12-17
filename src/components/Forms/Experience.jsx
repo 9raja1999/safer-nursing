@@ -33,7 +33,7 @@ const selectStyle = {
     })
 }
 
-function Experience({ handleChange, prevStep, finishReport, values }) {
+function Experience({ handleChange, prevStep, finishReport, values, isUser, logout }) {
     const history = useHistory();
     const [reportError, setReportError] = useState([])
 
@@ -106,7 +106,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Are you able to adjust your schedule if needed</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -123,7 +123,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Are your time of request honoured</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -140,7 +140,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Does your workplace makes you feel burned out</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -157,7 +157,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Would you recommend your unit role to a friend</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -174,7 +174,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Would you recommend your unit Hospital to a friend</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -191,7 +191,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Are you actively looking for a different job</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -208,7 +208,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Are you actively looking to change careere</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -219,7 +219,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     onChange={handleChange('45', 'text')}
                 />
                 <label htmlFor="candidateName">Experience Freetext Subjective</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -236,7 +236,7 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Experience Subjective Score</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className='report-drawer-footer'>
                 <div className='report-submit-buttons-holder'>
@@ -247,9 +247,21 @@ function Experience({ handleChange, prevStep, finishReport, values }) {
                         <p>Finish</p>
                     </button>
                 </div>
-                <p className='report-footer-tagline'>
-                    Submit Report as a user,
-                    <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>Register</span></p>
+                {
+                    isUser == true ? (
+                        <p className='report-footer-tagline'>
+                            You are already log in
+                            <span onClick={() => logout()}> Logout</span>
+                        </p>
+                    ) : (
+                        <p className='report-footer-tagline'>
+                            Submit Report as a user,
+                            <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>
+                                Register
+                            </span>
+                        </p>
+                    )
+                }
             </div>
         </form>
     )

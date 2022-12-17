@@ -22,13 +22,13 @@ import dotsToggleImage from '../../assets/images/dotsToggle.svg';
 
 
 
-function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
+function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, isUser }) {
     const history = useHistory();
     const scrollRef = React.createRef();
     const [formIndex, setFormIndex] = useState(0);
     const [reportQuestions, setReportQuestions] = useState([]);
     const [reportAnswers, setReportAnswers] = useState({
-        "1": "",
+        "1": "0",
         "2": "",
         "3": "",
         "4": "",
@@ -77,6 +77,8 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
     });
 
 
+    
+
     const nextStep = () => {
         scrollRef.current.scrollTo({
             top: 0,
@@ -92,6 +94,7 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
     const closeReport = (isClose) => {
         fetchIsCloseReport(isClose);
     }
+
 
     const finishReport = () => {
         const uuid = localStorage.getItem("nurseAccess");
@@ -165,6 +168,8 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
                 nextStep={nextStep}
                 closeReport={closeReport}
                 values={reportAnswers}
+                isUser={isUser}
+                logout={isLoggedIn}
             />
         }
         else if (idx == 1) {
@@ -174,6 +179,8 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
                 prevStep={prevStep}
                 nextStep={nextStep}
                 values={reportAnswers}
+                isUser={isUser}
+                logout={isLoggedIn}
             />
         }
         else if (idx == 2) {
@@ -183,6 +190,8 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
                 prevStep={prevStep}
                 nextStep={nextStep}
                 values={reportAnswers}
+                isUser={isUser}
+                logout={isLoggedIn}
             />
         }
         else if (idx == 3) {
@@ -192,6 +201,8 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
                 prevStep={prevStep}
                 nextStep={nextStep}
                 values={reportAnswers}
+                isUser={isUser}
+                logout={isLoggedIn}
             />
         }
         else if (idx == 4) {
@@ -201,6 +212,8 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport }) {
                 prevStep={prevStep}
                 finishReport={finishReport}
                 values={reportAnswers}
+                isUser={isUser}
+                logout={isLoggedIn}
             />
         }
     }

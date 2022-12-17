@@ -35,13 +35,14 @@ const selectStyle = {
     })
 }
 
-function Demographics({ handleChange, prevStep, nextStep, values, errors, closeReport }) {
+function Demographics({ handleChange, prevStep, nextStep, values, errors, closeReport, isUser, logout }) {
     const history = useHistory();
     const [reportError, setReportError] = useState([])
 
-    // useEffect(()=>{
+    // useEffect(() => {
     //     console.log('RP ERROR Demographics : ', reportError)
-    // },[reportError])
+    // }, [reportError])
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -51,6 +52,12 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
         let validated = [];
         Object.keys(values).forEach(function (key, idx) {
             if (idx <= 9) {
+                if (key == "1") {
+                    console.log("Age : ", values[key])
+                    if (values[key] > 99) {
+                        validated.push({ e: 'age' })
+                    }
+                }
                 if (values[key] == "") {
                     validated.push({ e: 'null' })
                 } else {
@@ -94,19 +101,20 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
 
     }
 
-
     return (
         <form>
             <div className="searchformfld">
                 <input
-                    type="text" className="candidateName"
+                    type="number" className="candidateName"
+                    min="10"
+                    max="99"
                     id="candidateName"
                     placeholder=""
                     value={values["1"]}
                     onChange={handleChange('1', 'text')}
                 />
                 <label htmlFor="candidateName">Age</label>
-                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : reportError[0].e == 'age' ? '* please enter age between 0 - 99' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -243,9 +251,21 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                         <p>Next Step</p>
                     </button>
                 </div>
-                <p className='report-footer-tagline'>
-                    Submit Report as a user,
-                    <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>Register</span></p>
+                {
+                    isUser == true ? (
+                        <p className='report-footer-tagline'>
+                            You are already log in
+                            <span onClick={() => logout()}> Logout</span>
+                        </p>
+                    ) : (
+                        <p className='report-footer-tagline'>
+                            Submit Report as a user,
+                            <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>
+                                Register
+                            </span>
+                        </p>
+                    )
+                }
             </div>
         </form>
     )

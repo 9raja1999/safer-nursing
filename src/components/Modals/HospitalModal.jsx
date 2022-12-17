@@ -11,7 +11,7 @@ import ReportSubmit from '../Forms/ReportSubmit';
 import dotsToggleImage from '../../assets/images/dotsToggle.svg';
 import { useEffect } from 'react';
 
-export default function HospitalModal({ hospitalDatatoSubmit, name, address, reportQuestions, fetchIsScroll }) {
+export default function HospitalModal({ hospitalDatatoSubmit, name, address, reportQuestions, fetchIsScroll, isUser, isLoggedIn }) {
 
     const history = useHistory()
     const [openReport, setOpenReport] = useState(false);
@@ -37,7 +37,7 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
     const onOpenReport = () => {
         console.log(';WOW')
         openReport == true ? setOpenReport(false) : setOpenReport(true);
-        
+
         // Promise.resolve()
         //     .then(() => {
         //         setOpenReport(check => !check);
@@ -89,6 +89,8 @@ export default function HospitalModal({ hospitalDatatoSubmit, name, address, rep
                 <ReportSubmit
                     hospitalDatatoSubmit={hospitalDatatoSubmit}
                     fetchIsCloseReport={fetchIsCloseReport}
+                    isUser={isUser}
+                    isLoggedIn={isLoggedIn}
                 />
             </div>
         </>

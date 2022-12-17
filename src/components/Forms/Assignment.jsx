@@ -34,7 +34,7 @@ const selectStyle = {
 }
 
 
-function Assignment({ handleChange, prevStep, nextStep, values }) {
+function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }) {
     const history = useHistory();
 
     const [reportError, setReportError] = useState([])
@@ -107,7 +107,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What is your Unit Speciality</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -123,7 +123,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What type of unit it is</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -139,7 +139,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">How well do you work with providers on your unit</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -155,7 +155,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What factors influence your provider rating</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -171,7 +171,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">how well do you work with other nurses on your unit</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -187,7 +187,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What factors influence your nurse rating</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -203,7 +203,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">how well do you work with nurse aides on your unit</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -219,7 +219,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What factors influence your aides rating</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -235,7 +235,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">What resources are available to you</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
@@ -246,7 +246,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     onChange={handleChange('28', 'text')}
                 />
                 <label htmlFor="candidateName">Assignment Freetext Subjective</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <Select
@@ -263,7 +263,7 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                     styles={selectStyle}
                 />
                 <label htmlFor="candidateName">Assignment Subjective Score</label>
-                <p style={{color : 'red'}}>{reportError.length > 0 ? (reportError[10].e == 'null' ? '* required' : '') : ''}</p>
+                <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[10].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className='report-drawer-footer'>
                 <div className='report-submit-buttons-holder'>
@@ -274,9 +274,21 @@ function Assignment({ handleChange, prevStep, nextStep, values }) {
                         <p>Next Step</p>
                     </button>
                 </div>
-                <p className='report-footer-tagline'>
-                    Submit Report as a user,
-                    <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>Register</span></p>
+                {
+                    isUser == true ? (
+                        <p className='report-footer-tagline'>
+                            You are already log in
+                            <span onClick={() => logout()}> Logout</span>
+                        </p>
+                    ) : (
+                        <p className='report-footer-tagline'>
+                            Submit Report as a user,
+                            <span onClick={() => history.push('/Login')}> Login</span> or <span onClick={() => history.push('/Registration')}>
+                                Register
+                            </span>
+                        </p>
+                    )
+                }
             </div>
         </form>
     )

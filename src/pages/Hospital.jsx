@@ -190,6 +190,8 @@ export default function Hospital() {
           hospitalDatatoSubmit={hospitalData}
           reportQuestions={reportQuestions}
           fetchIsScroll={fetchIsScroll}
+          isUser={isUser}
+          isLoggedIn={isLoggedIn}
         />
       </section>
       <section className="hospital-detail-sec">
