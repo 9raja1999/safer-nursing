@@ -77,7 +77,6 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
     });
 
 
-    
 
     const nextStep = () => {
         scrollRef.current.scrollTo({
@@ -116,6 +115,7 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
 
                                 setReportAnswers({});
                                 setFormIndex(0);
+                                fetchIsCloseReport(false)
                             }
                         })
                         .catch(err => {
@@ -246,25 +246,25 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
             <div className='form-status-bar'>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(0)}>Basic</h1>
+                        <h1 style={{ cursor: 'pointer' }}>Basic</h1>
                         <div className='status' style={formIndex == 0 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(1)}>Staffing</h1>
+                        <h1 style={{ cursor: 'pointer' }}>Staffing</h1>
                         <div className='status' style={formIndex == 1 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(2)}>Assignment</h1>
+                        <h1 style={{ cursor: 'pointer' }}>Assignment</h1>
                         <div className='status' style={formIndex == 2 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(3)}>Facility</h1>
+                        <h1 style={{ cursor: 'pointer' }}>Facility</h1>
                         <div className='status' style={formIndex == 3 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>

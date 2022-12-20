@@ -8,7 +8,7 @@ import {
     LoadScript,
 } from '@react-google-maps/api';
 import { DefaultTheme, locations } from './MapData';
-import { getHospitalByID } from '../../store/actions/hospitalActions';
+import { getHospitalByID, getUnitScores } from '../../store/actions/hospitalActions';
 import markerImage from '../../assets/images/location.svg';
 import neutralMarker from '../../assets/images/neutral.svg';
 import negativeMarker from '../../assets/images/negative.svg';
@@ -31,6 +31,7 @@ function Map(props) {
     const [showIndexOf, setShowIndexOf] = useState(0);
     const [hospitalData, setHospitalData] = useState({});
     const [submitReport, setSubmitReport] = useState(false);
+    const [unitScores, setUnitScores] = useState({});
     const [zoom, setZoom] = useState(1);
     const [restriction, setRestriction] = useState({
         latLngBounds: {
@@ -52,14 +53,29 @@ function Map(props) {
 
     const [map, setMap] = useState(null);
 
+
+
+
     const openGeoModal = (location, idx) => {
+        // console.log('MARKER HOVER LOCATION :', location)
         isOpen == true ? setIsOpen(false) : setIsOpen(true);
         // setIsOpen(true);
         setShowIndexOf(idx);
         setRestriction(null);
+
+        getUnitScores(location.report_id, location.facilityID)
+            .then(response => {
+                if(response.message == 'data found'){
+                    setUnitScores(response.data)
+                }
+            })
+            .catch(err => {
+                console.log('ERR')
+            })
+
         getHospitalByID(location.facilityID)
             .then(res => {
-                console.log('Hospital Data : ', res.data)
+                // console.log('Hospital Data : ', res.data)
                 setHospitalData({ ...hospitalData, data: res.data })
             })
             .catch(err => {
@@ -80,6 +96,7 @@ function Map(props) {
             },
             strictBounds: false,
         })
+
         getHospitalByID(location.facilityID)
             .then(res => {
                 setHospitalData({ ...hospitalData, data: res.data })
@@ -95,7 +112,7 @@ function Map(props) {
         return today.toLocaleDateString("en-US", dateOptions)
     }
 
-    const onSubmitReport = () => {
+    const onSubmitReport = (location, index) => {
         Promise.resolve()
             .then(() => {
                 setSubmitReport(check => !check);
@@ -107,6 +124,10 @@ function Map(props) {
             })
             .then(() => {
                 props.fetchIsReport(true, hospitalData.data);
+                setTimeout(() => {
+                    // Closing the info modal when submit report button is clicked
+                    closeInfoModal(location, index);
+                }, 1000);
             })
     }
 
@@ -199,29 +220,82 @@ function Map(props) {
 
                             >
                                 {
-                                    ((isOpen == true) && (showIndexOf == index) && (Object.keys(hospitalData).length !== 0)) ? <InfoWindow
+                                    ((isOpen == true) && (showIndexOf == index) && (Object.keys(hospitalData).length !== 0)) && (Object.keys(unitScores).length !== 0) ? <InfoWindow
                                         onCloseClick={() => closeInfoModal(location, index)}
                                     >
                                         <div className="marker-infomodal">
                                             <div className="image-holder">
-                                                <img src={HospitalImage} alt="" className="img-fluid" />
+                                                <img src={HospitalImage} alt="" className="img-fluid"
+
+                                                />
                                             </div>
                                             <div className="text-box">
                                                 <h3>{hospitalData.data.address.FacilityName}</h3>
                                                 <p>{hospitalData.data.address.Address}</p>
                                                 <ul>
                                                     <li>
-                                                        <span className="red-bg" ></span>
-                                                        <p> STAFFING </p>
+                                                        <span style={{
+                                                            background : unitScores.staffing.toLowerCase() == 'great' ? (
+                                                                'blue'
+                                                            ) : unitScores.staffing.toLowerCase() == 'good' ? (
+                                                                '#52B788'
+                                                            ) : unitScores.staffing.toLowerCase() == 'ok' ? (
+                                                                '#E0D16C'
+                                                            ) : unitScores.staffing.toLowerCase() == 'bad' ? (
+                                                                'orange'
+                                                            ) : unitScores.staffing.toLowerCase() == 'terrible' ? (
+                                                                '#E46870'
+                                                            ) : 'pink'
+                                                        }}></span>
+                                                        <p> STAFFING</p>
                                                     </li>
                                                     <li>
-                                                        <span className="yellow-bg"></span> <p> ASSIGNMENT</p>
+                                                        <span style={{
+                                                            background : unitScores.assignment.toLowerCase() == 'great' ? (
+                                                                'blue'
+                                                            ) : unitScores.assignment.toLowerCase() == 'good' ? (
+                                                                '#52B788'
+                                                            ) : unitScores.assignment.toLowerCase() == 'ok' ? (
+                                                                '#E0D16C'
+                                                            ) : unitScores.assignment.toLowerCase() == 'bad' ? (
+                                                                'orange'
+                                                            ) : unitScores.assignment.toLowerCase() == 'terrible' ? (
+                                                                '#E46870'
+                                                            ) : 'pink'
+                                                        }}></span>
+                                                        <p> ASSIGNMENT</p>
                                                     </li>
                                                     <li>
-                                                        <span></span><p>FACILITY</p>
+                                                        <span style={{
+                                                            background : unitScores.facility.toLowerCase() == 'great' ? (
+                                                                'blue'
+                                                            ) : unitScores.facility.toLowerCase() == 'good' ? (
+                                                                '#52B788'
+                                                            ) : unitScores.facility.toLowerCase() == 'ok' ? (
+                                                                '#E0D16C'
+                                                            ) : unitScores.facility.toLowerCase() == 'bad' ? (
+                                                                'orange'
+                                                            ) : unitScores.facility.toLowerCase() == 'terrible' ? (
+                                                                '#E46870'
+                                                            ) : 'pink'
+                                                        }}></span>
+                                                        <p>FACILITY</p>
                                                     </li>
                                                     <li>
-                                                        <span className="red-bg"></span><p>EXPERIENCE</p>
+                                                        <span style={{
+                                                            background : unitScores.experience.toLowerCase() == 'great' ? (
+                                                                'blue'
+                                                            ) : unitScores.experience.toLowerCase() == 'good' ? (
+                                                                '#52B788'
+                                                            ) : unitScores.experience.toLowerCase() == 'ok' ? (
+                                                                '#E0D16C'
+                                                            ) : unitScores.experience.toLowerCase() == 'bad' ? (
+                                                                'orange'
+                                                            ) : unitScores.experience.toLowerCase() == 'terrible' ? (
+                                                                '#E46870'
+                                                            ) : 'pink'
+                                                        }}></span>
+                                                        <p>EXPERIENCE</p>
                                                     </li>
                                                 </ul>
                                                 {
@@ -230,7 +304,7 @@ function Map(props) {
                                                 <p></p>
                                                 <span
                                                     className="report-btn"
-                                                    onClick={() => onSubmitReport()}
+                                                    onClick={() => onSubmitReport(location, index)}
                                                 >
                                                     Submit Report
                                                 </span>
@@ -248,5 +322,5 @@ function Map(props) {
 }
 
 
-export default memo(Map);
+export default Map;
 

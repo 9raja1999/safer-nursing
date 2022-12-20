@@ -4,6 +4,7 @@ import Select from 'react-select';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
+import { PatternFormat } from 'react-number-format';
 
 
 const selectStyle = {
@@ -11,11 +12,15 @@ const selectStyle = {
         ...provided,
         border: '2px solid #52B788',
         borderRadius: '14px',
+        textTransform: 'Capitalize'
     }),
     control: (provided, state) => ({
         ...provided,
         border: 'none',
         borderRadius: '15px',
+        border: '0',
+        // This line disable the blue border
+        boxShadow: 'none',
         ':active': {
             border: 'none'
         }
@@ -23,6 +28,7 @@ const selectStyle = {
     multiValue: (provided, state) => ({
         ...provided,
         backgroundColor: '#EEFCF5',
+        textTransform: 'Capitalize',
     }),
     multiValueRemove: (provided, state) => ({
         ...provided,
@@ -48,9 +54,22 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
     }, [])
 
 
+    useEffect(() => {
+        if (reportError.length !== 0) {
+            let isNext = reportError.some(obj => obj.e === 'null');
+
+            if (isNext == true && reportError.length !== 0) {
+                // nextStep()
+                console.log('I am not going next', reportError)
+            } else {
+                nextStep()
+            }
+        }
+    }, [reportError])
+
     const ValidateDemographic = () => {
         let validated = [];
-        Object.keys(values).forEach(function (key, idx) {
+        Object.keys(values).map(function (key, idx) {
             if (idx <= 9) {
                 if (key == "1") {
                     console.log("Age : ", values[key])
@@ -60,7 +79,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                 }
                 if (values[key] == "") {
                     validated.push({ e: 'null' })
-                } else {
+                } else if (values[key] !== "") {
                     validated.push({ e: 'not' })
                     // Object.assign(validted, {key: "Not Empty"});
                 }
@@ -70,29 +89,10 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
         return true
     }
 
-    const canGoNext = () => {
-        if (reportError.some(obj => obj.e === 'null')) {
-            return false
-        } else {
-            return true
-        }
-    }
-
-
     const Continue = e => {
         console.log('clicked')
         e.preventDefault();
-        let isValidated = ValidateDemographic();
-        if (isValidated) {
-            let isNext = canGoNext();
-
-            if (isNext && reportError.length !== 0) {
-                nextStep()
-            }
-
-        } else {
-            alert('all feilds are mandatory')
-        }
+        ValidateDemographic();
     }
 
     const Previous = e => {
@@ -221,23 +221,24 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
-                <input
-                    type="text" className="candidateName"
-                    id="candidateName"
-                    placeholder="YY-MM"
+                <PatternFormat
+                    format='##YEARS/##MONTHS'
+                    placeholder='YY/MM'
+                    // mask={}
                     value={values["9"]}
-                    onChange={handleChange('9', 'text')}
+                    onChange={(handleChange('9', 'text'))}
                 />
+
                 <label htmlFor="candidateName">Current speciality experience</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
-                <input
-                    type="text" className="candidateName"
-                    id="candidateName"
-                    placeholder="YY-MM"
+                <PatternFormat
+                    format='##YEARS/##MONTHS'
+                    placeholder='YY/MM'
+                    // mask={}
                     value={values["10"]}
-                    onChange={handleChange('10', 'text')}
+                    onChange={(handleChange('10', 'text'))}
                 />
                 <label htmlFor="candidateName">total nursing experience</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>

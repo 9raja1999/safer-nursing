@@ -8,11 +8,15 @@ const selectStyle = {
         ...provided,
         border: '2px solid #52B788',
         borderRadius: '14px',
+        textTransform: 'Capitalize'
     }),
     control: (provided, state) => ({
         ...provided,
         border: 'none',
         borderRadius: '15px',
+        border: '0',
+        // This line disable the blue border
+        boxShadow: 'none',
         ':active': {
             border: 'none'
         }
@@ -20,6 +24,7 @@ const selectStyle = {
     multiValue: (provided, state) => ({
         ...provided,
         backgroundColor: '#EEFCF5',
+        textTransform: 'Capitalize',
     }),
     multiValueRemove: (provided, state) => ({
         ...provided,
@@ -32,7 +37,7 @@ const selectStyle = {
     })
 }
 
-function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout  }) {
+function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) {
     const history = useHistory();
 
     const [reportError, setReportError] = useState([])
@@ -44,6 +49,19 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout  })
     useEffect(() => {
         console.log('Scrolling')
     }, [])
+
+    useEffect(() => {
+        if (reportError.length !== 0) {
+            let isNext = reportError.some(obj => obj.e === 'null');
+
+            if (isNext == true && reportError.length !== 0) {
+                // nextStep()
+                console.log('I am not going next', reportError)
+            } else {
+                nextStep()
+            }
+        }
+    }, [reportError])
 
 
     const ValidateDemographic = () => {
@@ -62,29 +80,12 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout  })
         return true
     }
 
-    const canGoNext = () => {
-        if (reportError.some(obj => obj.e === 'null')) {
-            return false
-        } else {
-            return true
-        }
-    }
-
 
     const Continue = e => {
         console.log('clicked')
         e.preventDefault();
-        let isValidated = ValidateDemographic();
-        if (isValidated) {
-            let isNext = canGoNext();
+        ValidateDemographic();
 
-            if (isNext && reportError.length !== 0) {
-                nextStep()
-            }
-
-        } else {
-            alert('all feilds are mandatory')
-        }
     }
 
     const Previous = e => {

@@ -28,7 +28,7 @@ export const getHospitalByID = (facilityID) => {
     });
 
     return axios
-        .post('/getGeoLocationById/',data)
+        .post('/getGeoLocationById/', data)
         .then(function (response) {
             return response.data
         })
@@ -39,11 +39,29 @@ export const getHospitalByID = (facilityID) => {
 
 export const getBurnOutIndex = (facilityID) => {
     let data = JSON.stringify({
-        "facilityId" : facilityID
+        "facilityId": facilityID
+    });
+
+
+    console.log(data)
+    return axios
+        .post('/getBurnOutIndexHospital/', data)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            return error
+        })
+}
+
+export const getUnitScores = (report_id, facility_id) => {
+    var data = JSON.stringify({
+        "report_id": report_id,
+        "facility_id": facility_id
     });
 
     return axios
-        .get('/getBurnOutIndexHospital/',data)
+        .post('/getUnitScores/', data)
         .then(response => {
             return response.data
         })

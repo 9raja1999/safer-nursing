@@ -47,7 +47,7 @@ function HospitalMap(props) {
                     fullscreenControl: false,
                     zoomControl: false,
                 }}
-
+                
             >
                 <div className='google-map-zoom'>
                     <img src={zoomInIcon} onClick={() => setZoom(zoom + 2)} />
@@ -60,9 +60,7 @@ function HospitalMap(props) {
                         url: markerImage
                         // url: markerImage
                     }}
-
                     label={{ text: `${props.reportCount}`, color: 'black', fontSize: '13px', fontWeight: 'bold' }}
-
                     cursor='pointer'
                     draggable={false}
                 >
@@ -73,5 +71,5 @@ function HospitalMap(props) {
 }
 
 
-export default memo(HospitalMap);
+export default HospitalMap;
 

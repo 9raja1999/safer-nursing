@@ -9,11 +9,15 @@ const selectStyle = {
         ...provided,
         border: '2px solid #52B788',
         borderRadius: '14px',
+        textTransform: 'Capitalize'
     }),
     control: (provided, state) => ({
         ...provided,
         border: 'none',
         borderRadius: '15px',
+        border: '0',
+        // This line disable the blue border
+        boxShadow: 'none',
         ':active': {
             border: 'none'
         }
@@ -21,6 +25,7 @@ const selectStyle = {
     multiValue: (provided, state) => ({
         ...provided,
         backgroundColor: '#EEFCF5',
+        textTransform: 'Capitalize',
     }),
     multiValueRemove: (provided, state) => ({
         ...provided,
@@ -33,15 +38,23 @@ const selectStyle = {
     })
 }
 
-
 function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }) {
     const history = useHistory();
 
     const [reportError, setReportError] = useState([])
 
-    // useEffect(() => {
-    //     console.log('RP ERROR Assignment : ', reportError)
-    // }, [reportError])
+    useEffect(() => {
+        if (reportError.length !== 0) {
+            let isNext = reportError.some(obj => obj.e === 'null');
+
+            if (isNext == true && reportError.length !== 0) {
+                // nextStep()
+                console.log('I am not going next', reportError)
+            } else {
+                nextStep()
+            }
+        }
+    }, [reportError])
 
 
     const ValidateDemographic = () => {
@@ -60,29 +73,13 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
         return true
     }
 
-    const canGoNext = () => {
-        if (reportError.some(obj => obj.e === 'null')) {
-            return false
-        } else {
-            return true
-        }
-    }
+
 
 
     const Continue = e => {
         console.log('clicked')
         e.preventDefault();
-        let isValidated = ValidateDemographic();
-        if (isValidated) {
-            let isNext = canGoNext();
-
-            if (isNext && reportError.length !== 0) {
-                nextStep()
-            }
-
-        } else {
-            alert('all feilds are mandatory')
-        }
+        ValidateDemographic();
     }
 
     const Previous = e => {
@@ -98,7 +95,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["19"]}
                     onChange={handleChange('19', 'yes')}
-                    options={[{ value: 'Burn', label: 'Burn' }, { value: 'Cardiac', label: 'Cardiac' }, { value: 'Cardiothoraric', label: 'Cardiothoraric' }, { value: 'CardioVascular', label: 'CardioVascular' }]}
+                    options={[{ value: 'Burn', label: 'Burn' }, { value: 'Cardiac', label: 'Cardiac' }, { value: 'Cardiothoraric', label: 'Cardiothoraric' }, { value: 'CardioVascular', label: 'CardioVascular' }, { value: 'Education', label: 'Education' }, { value: 'Emergency', label: 'Emergency' }, { value: 'Dialysis', label: 'Dialysis' }, { value: 'Floot Pool', label: 'Floot Pool' }, { value: 'IV Team', label: 'IV Team' }, { value: 'Interventional Radiology', label: 'Interventional Radiology' }, { value: 'L&D', label: 'L&D' }, { value: 'Medical', label: 'Medical' }, { value: 'Neuro', label: 'Neuro' }, { value: 'Neurosurgery', label: 'Neurosurgery' }, { value: 'Observation', label: 'Observation' }, { value: 'Operating Room', label: 'Operating Room' }, { value: 'Pediatric', label: 'Pediatric' }, { value: 'Pulmonary', label: 'Pulmonary' }, { value: 'Post-Anesthesia', label: 'Post-Anesthesia' }, { value: 'Surgical', label: 'Surgical' }, { value: 'Telemetry', label: 'Telemetry' }, { value: 'Thoraric', label: 'Thoraric' }, { value: 'Transplant', label: 'Transplant' }, { value: 'Trauma', label: 'Trauma' }, { value: 'Wound', label: 'Wound' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
