@@ -37,7 +37,7 @@ export default function Home() {
 
     getAllGeoLocations()
       .then(res => {
-        // console.log(res);
+        console.log(res);
         setAllGeolocations(res.data);
         setIsLoading(false)
       })

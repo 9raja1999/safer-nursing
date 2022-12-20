@@ -108,8 +108,9 @@ function Map(props) {
 
     const beautifySubmissionDate = (date) => {
         let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        var today = new Date(date);
-        return today.toLocaleDateString("en-US", dateOptions)
+        var today = new Date(date.replace(/-/g, '\/').replace(/T.+/, ''));
+        
+        return today.toDateString()
     }
 
     const onSubmitReport = (location, index) => {
