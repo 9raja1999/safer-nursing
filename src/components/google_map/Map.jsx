@@ -7,11 +7,15 @@ import {
     InfoWindow,
     LoadScript,
 } from '@react-google-maps/api';
+import { useHistory } from 'react-router-dom';
 import { DefaultTheme, locations } from './MapData';
 import { getHospitalByID, getUnitScores } from '../../store/actions/hospitalActions';
 import markerImage from '../../assets/images/location.svg';
-import neutralMarker from '../../assets/images/neutral.svg';
-import negativeMarker from '../../assets/images/negative.svg';
+import greenMarker from '../../assets/images/green.svg';
+import blueMarker from '../../assets/images/blue.svg';
+import yellowMarker from '../../assets/images/yellow.svg';
+import orangeMarker from '../../assets/images/orange.svg';
+import redMarker from '../../assets/images/red.svg';
 import ulternateMarker from '../../assets/images/noulternate.svg';
 import HospitalImage from '../../assets/images/bedford-img.png';
 import searchIcon from '../../assets/images/mapSearch.svg';
@@ -26,6 +30,7 @@ const center = { lat: 39, lng: -95 }
 
 
 function Map(props) {
+    const history = useHistory();
     const [isOpen, setIsOpen] = useState(false);
     const filteredData = props.geoLocations.filter(({ reportCount }) => reportCount !== 0).map((item, idx) => (item));
     const [showIndexOf, setShowIndexOf] = useState(0);
@@ -54,7 +59,60 @@ function Map(props) {
     const [map, setMap] = useState(null);
 
 
+    const displayMarkerColor = (location) => {
+        let scores = location.scores
+        let goodCount = 0, greatCount = 0, okCount = 0, badCount = 0, terribleCount = 0;
+        let weights = {
+            Great: 5,
+            Good: 4,
+            OK: 3,
+            BAD: 2,
+            TERRIBLE: 1,
+        }
+        let total = 0;
 
+        for (var key of Object.keys(scores)) {
+            console.log(key + " -> " + scores[key].toLowerCase())
+            if (scores[key].toLowerCase() == 'great') {
+                goodCount = goodCount + 1
+            } else if (scores[key].toLowerCase() == 'good') {
+                greatCount = greatCount + 1
+            } else if (scores[key].toLowerCase() == 'ok') {
+                okCount = okCount + 1
+            } else if (scores[key].toLowerCase() == 'bad') {
+                badCount = badCount + 1
+            } else {
+                terribleCount = terribleCount + 1
+            }
+        }
+
+        let averages = {
+            Great: greatCount * weights.Great,
+            Good: goodCount * weights.Good,
+            Ok: okCount * weights.OK,
+            Bad: badCount * weights.BAD,
+            Terribe: terribleCount * weights.TERRIBLE
+        }
+
+        for (var key of Object.keys(averages)) {
+            console.log(averages[key])
+            total = total + averages[key]
+        }
+        let overallAverage = total / 5;
+        console.log('AVG Now', overallAverage)
+        if (overallAverage >= 4.5) {
+            return blueMarker
+        } else if (overallAverage >= 3.6 && overallAverage <= 4.4) {
+            return greenMarker
+        } else if (overallAverage >= 2.6 && overallAverage <= 3.5) {
+            return yellowMarker
+        } else if (overallAverage >= 1.6 && overallAverage <= 2.5) {
+            return orangeMarker
+        } else {
+            return redMarker
+        }
+
+    }
 
     const openGeoModal = (location, idx) => {
         // console.log('MARKER HOVER LOCATION :', location)
@@ -62,10 +120,9 @@ function Map(props) {
         // setIsOpen(true);
         setShowIndexOf(idx);
         setRestriction(null);
-
         getUnitScores(location.report_id, location.facilityID)
             .then(response => {
-                if(response.message == 'data found'){
+                if (response.message == 'data found') {
                     setUnitScores(response.data)
                 }
             })
@@ -132,6 +189,11 @@ function Map(props) {
             })
     }
 
+    const goToHospital = (item, isOpen) => {
+        console.log('HH', item)
+        localStorage.setItem("facilityId", JSON.stringify({ id: item.facilityID, isOpen: isOpen }));
+        history.push('/Hospital')
+    }
 
     return (
 
@@ -148,6 +210,8 @@ function Map(props) {
                     zoomControl: false,
                     streetView: false,
                     restriction: restriction,
+                    streetViewControl : false,
+                    mapTypeControl : false
                 }}
 
                 streetView={{
@@ -195,23 +259,7 @@ function Map(props) {
                                 position={location.positions}
                                 clusterer={clusterer}
                                 icon={{
-                                    url: location.status == "Great" ? (
-                                        markerImage
-                                    ) : (
-                                        location.status == 'OK' ? (
-                                            markerImage
-                                        ) : (
-                                            location.status == 'Bad' ? (
-                                                neutralMarker
-                                            ) : (
-                                                location.status == "Good" ? (
-                                                    markerImage
-                                                ) : (
-                                                    negativeMarker
-                                                )
-                                            )
-                                        )
-                                    )
+                                    url: displayMarkerColor(location)
                                 }}
                                 label={{ text: `${location.reportCount}`, color: 'black', fontSize: '13px', fontWeight: 'bold' }}
                                 cursor='pointer'
@@ -231,12 +279,15 @@ function Map(props) {
                                                 />
                                             </div>
                                             <div className="text-box">
-                                                <h3>{hospitalData.data.address.FacilityName}</h3>
+                                                <h3
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => goToHospital(location, false)}
+                                                >{hospitalData.data.address.FacilityName}</h3>
                                                 <p>{hospitalData.data.address.Address}</p>
                                                 <ul>
                                                     <li>
                                                         <span style={{
-                                                            background : unitScores.staffing.toLowerCase() == 'great' ? (
+                                                            background: unitScores.staffing.toLowerCase() == 'great' ? (
                                                                 'blue'
                                                             ) : unitScores.staffing.toLowerCase() == 'good' ? (
                                                                 '#52B788'
@@ -252,7 +303,7 @@ function Map(props) {
                                                     </li>
                                                     <li>
                                                         <span style={{
-                                                            background : unitScores.assignment.toLowerCase() == 'great' ? (
+                                                            background: unitScores.assignment.toLowerCase() == 'great' ? (
                                                                 'blue'
                                                             ) : unitScores.assignment.toLowerCase() == 'good' ? (
                                                                 '#52B788'
@@ -268,7 +319,7 @@ function Map(props) {
                                                     </li>
                                                     <li>
                                                         <span style={{
-                                                            background : unitScores.facility.toLowerCase() == 'great' ? (
+                                                            background: unitScores.facility.toLowerCase() == 'great' ? (
                                                                 'blue'
                                                             ) : unitScores.facility.toLowerCase() == 'good' ? (
                                                                 '#52B788'
@@ -284,7 +335,7 @@ function Map(props) {
                                                     </li>
                                                     <li>
                                                         <span style={{
-                                                            background : unitScores.experience.toLowerCase() == 'great' ? (
+                                                            background: unitScores.experience.toLowerCase() == 'great' ? (
                                                                 'blue'
                                                             ) : unitScores.experience.toLowerCase() == 'good' ? (
                                                                 '#52B788'
@@ -299,10 +350,11 @@ function Map(props) {
                                                         <p>EXPERIENCE</p>
                                                     </li>
                                                 </ul>
+                                                <p>
                                                 {
-                                                    beautifySubmissionDate(hospitalData.data.geolocations.Submitted_Date)
+                                                    beautifySubmissionDate(location.date)
                                                 }
-                                                <p></p>
+                                                </p>
                                                 <span
                                                     className="report-btn"
                                                     onClick={() => onSubmitReport(location, index)}

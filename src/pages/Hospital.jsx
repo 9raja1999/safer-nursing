@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom'
 import _ from 'lodash'
 import { ToastContainer, toast } from 'react-toastify';
-import { getHospitalByID, getBurnOutIndex, getUnitScores } from '../store/actions/hospitalActions'
+import { getHospitalByID, getBurnOutIndex, getUnitScores, getHospitalSummary } from '../store/actions/hospitalActions'
 import { getAllQuestions, generateReportID, addReport, addAnswersToReport, getReportsByID } from '../store/actions/reportActions';
 import { Circles } from 'react-loader-spinner';
 import HospitalMap from '../components/google_map/HospitalMap'
@@ -101,6 +101,10 @@ export default function Hospital() {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [unitTypeFilter, setUnitTypeFilter] = useState([]);
   const [unitScores, setUnitScores] = useState({});
+  const [staffing, setStaffing] = useState(0);
+  const [assignment, setAssignment] = useState(0);
+  const [facility, setFacility] = useState(0);
+  const [experience, setExperience] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("nurseAccess") === null) {
@@ -144,14 +148,13 @@ export default function Hospital() {
           console.log(err)
         })
 
-      getUnitScores(hospitalData.geolocations.report_id, hospitalData.geolocations.FacilityID)
-        .then(response => {
-          if (response.message == 'data found') {
-            setUnitScores(response.data)
-          }
+      getHospitalSummary(hospitalData.geolocations.FacilityID)
+        .then(res => {
+          console.log('', res)
+          setUnitScores(res.data);
         })
         .catch(err => {
-          console.log('ERR')
+          console.log(err)
         })
     }
 
@@ -166,6 +169,129 @@ export default function Hospital() {
         console.log('ERROR !!', err)
       })
   }, [hospitalData])
+
+  useEffect(() => {
+    const getStaffingScore = () => {
+      let data = [];
+      for (var key of Object.keys(unitScores.staffing)) {
+        console.log(key)
+        if (key == 'great') {
+          let weight = unitScores.staffing[key] * 5;
+          data.push(weight)
+        } else if (key == 'good') {
+          let weight = unitScores.staffing[key] * 4;
+          data.push(weight)
+        } else if (key == 'ok') {
+          let weight = unitScores.staffing[key] * 3;
+          data.push(weight)
+        } else if (key == 'bad') {
+          let weight = unitScores.staffing[key] * 2;
+          data.push(weight)
+        } else {
+          let weight = unitScores.staffing[key] * 1;
+          data.push(weight)
+        }
+      }
+
+      let sum = data.reduce((a, b) => a + b, 0);
+      let avg = (sum / hospitalData.geolocations.reportCount) || 0;
+
+      setStaffing(avg)
+    }
+    const getAssigScore = () => {
+      console.log('Assignment Updated', unitScores.assignment)
+      let data = [];
+      for (var key of Object.keys(unitScores.assignment)) {
+        console.log(key)
+        if (key == 'great') {
+          let weight = unitScores.assignment[key] * 5;
+          data.push(weight)
+        } else if (key == 'good') {
+          let weight = unitScores.assignment[key] * 4;
+          data.push(weight)
+        } else if (key == 'ok') {
+          let weight = unitScores.assignment[key] * 3;
+          data.push(weight)
+        } else if (key == 'bad') {
+          let weight = unitScores.assignment[key] * 2;
+          data.push(weight)
+        } else {
+          let weight = unitScores.assignment[key] * 1;
+          data.push(weight)
+        }
+      }
+
+      let sum = data.reduce((a, b) => a + b, 0);
+      let avg = (sum / hospitalData.geolocations.reportCount) || 0;
+
+      setAssignment(avg)
+    }
+
+    const getFacilityScore = () => {
+      console.log('Facility Updated', unitScores.facility)
+      let data = [];
+      for (var key of Object.keys(unitScores.facility)) {
+        console.log(key)
+        if (key == 'great') {
+          let weight = unitScores.facility[key] * 5;
+          data.push(weight)
+        } else if (key == 'good') {
+          let weight = unitScores.facility[key] * 4;
+          data.push(weight)
+        } else if (key == 'ok') {
+          let weight = unitScores.facility[key] * 3;
+          data.push(weight)
+        } else if (key == 'bad') {
+          let weight = unitScores.facility[key] * 2;
+          data.push(weight)
+        } else {
+          let weight = unitScores.facility[key] * 1;
+          data.push(weight)
+        }
+      }
+
+      let sum = data.reduce((a, b) => a + b, 0);
+      let avg = (sum / hospitalData.geolocations.reportCount) || 0;
+
+      setFacility(avg)
+    }
+
+    const getExpScore = () => {
+      console.log('Experience Updated', unitScores.experience)
+      let data = [];
+      for (var key of Object.keys(unitScores.experience)) {
+        console.log(key)
+        if (key == 'great') {
+          let weight = unitScores.experience[key] * 5;
+          data.push(weight)
+        } else if (key == 'good') {
+          let weight = unitScores.experience[key] * 4;
+          data.push(weight)
+        } else if (key == 'ok') {
+          let weight = unitScores.experience[key] * 3;
+          data.push(weight)
+        } else if (key == 'bad') {
+          let weight = unitScores.experience[key] * 2;
+          data.push(weight)
+        } else {
+          let weight = unitScores.experience[key] * 1;
+          data.push(weight)
+        }
+      }
+
+      let sum = data.reduce((a, b) => a + b, 0);
+      let avg = (sum / hospitalData.geolocations.reportCount) || 0;
+
+      setExperience(avg)
+    }
+
+    if (Object.keys(unitScores).length !== 0) {
+      getStaffingScore()
+      getAssigScore()
+      getFacilityScore()
+      getExpScore()
+    }
+  }, [unitScores])
 
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem('facilityId'));
@@ -298,9 +424,32 @@ export default function Hospital() {
           reportsPerFacility={reportsPerFacility}
           reportQuestions={reportQuestions}
           fetchIsScroll={fetchIsScroll}
+          reportCount={hospitalData.geolocations.reportCount}
+          staffing = {staffing}
+          assignment = {assignment}
+          facility = {facility}
+          experience = {experience}
           isUser={isUser}
           isLoggedIn={isLoggedIn}
         />
+        <div className='status-bar-right'>
+          {
+            [
+              { statusText: 'Great', color: 'blue' },
+              { statusText: 'Good', color: '#52B788' },
+              { statusText: 'Ok', color: '#E0D16C' },
+              { statusText: 'Bad', color: 'orange' },
+              { statusText: 'Terrible', color: '#E46870' },
+            ].map((item, index) => {
+              return <div key={index} className='status-representation'>
+                <div className='status-representation-color' style={{ background: `${item.color}` }}></div>
+                <div className='status-representation-text'>
+                  {item.statusText}
+                </div>
+              </div>
+            })
+          }
+        </div>
       </section>
       <section className="hospital-detail-sec">
         <div className="container">
@@ -314,6 +463,148 @@ export default function Hospital() {
                 </div>
               </div>
               <div className="hospital-filter">
+                <div className="filter-box">
+                  <form>
+                    <label>UNIT TYPE</label>
+                    <Select
+                      isMulti={true}
+                      value={unitTypeFilter}
+                      onChange={(e) => setUnitTypeFilter(e)}
+                      options={[{ value: 'ICU', label: 'ICU' }, { value: 'Intermediate', label: 'Intermediate' }, { value: 'Floor', label: 'Floor' }, { value: 'Float', label: 'Float' }, { value: 'ER', label: 'ER' }, { value: 'OR', label: 'OR' }, { value: 'Resource', label: 'Resource' }]}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      components={{
+                        IndicatorSeparator: () => null
+                      }}
+                      styles={selectStyle}
+                      placeholder='Type Here'
+                    />
+                    <a className="" style={{ cursor: 'pointer' }} onClick={() => applyFilters()}>Apply Filters</a>
+                  </form>
+                </div>
+                <div className="filter-box">
+                  <form>
+                    <label>ACUITY TYPE</label>
+                    <Select
+                      isMulti={true}
+                      value={categoryFilter}
+                      onChange={(e) => setCategoryFilter(e)}
+                      options={[{ value: 'Burn', label: 'Burn' }, { value: 'Cardiac', label: 'Cardiac' }, { value: 'Cardiothoraric', label: 'Cardiothoraric' }, { value: 'CardioVascular', label: 'CardioVascular' }, { value: 'Education', label: 'Education' }, { value: 'Emergency', label: 'Emergency' }, { value: 'Dialysis', label: 'Dialysis' }, { value: 'Floot Pool', label: 'Floot Pool' }, { value: 'IV Team', label: 'IV Team' }, { value: 'Interventional Radiology', label: 'Interventional Radiology' }, { value: 'L&D', label: 'L&D' }, { value: 'Medical', label: 'Medical' }, { value: 'Neuro', label: 'Neuro' }, { value: 'Neurosurgery', label: 'Neurosurgery' }, { value: 'Observation', label: 'Observation' }, { value: 'Operating Room', label: 'Operating Room' }, { value: 'Pediatric', label: 'Pediatric' }, { value: 'Pulmonary', label: 'Pulmonary' }, { value: 'Post-Anesthesia', label: 'Post-Anesthesia' }, { value: 'Surgical', label: 'Surgical' }, { value: 'Telemetry', label: 'Telemetry' }, { value: 'Thoraric', label: 'Thoraric' }, { value: 'Transplant', label: 'Transplant' }, { value: 'Trauma', label: 'Trauma' }, { value: 'Wound', label: 'Wound' }]}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      components={{
+                        IndicatorSeparator: () => null
+                      }}
+                      styles={selectStyle}
+                      placeholder='Type Here'
+                    />
+                    <a className="" style={{ cursor: 'pointer' }} onClick={() => applyCategoryFilters()}>Apply Filters</a>
+                  </form>
+                </div>
+              </div>
+              <div className="filter-detail">
+                {
+                  hospitalData.geolocations.reportCount == 0 ? (
+                    <ul>
+                      {
+                        [staffing, assignment, facility, experience].map((obj, idx) => {
+                          return <li>
+                            <div
+                              className="filter-detail-box"
+                              style={{ border: '1px solid #52B788' }}
+                            >
+                              <span style={{ color: '1px solid #52B788' }}>{
+                                idx == 0 ? 'S' : idx == 1 ? 'A' : idx == 2 ? 'F' : 'E'
+                              }</span>
+                              <p>
+                                Not Rated
+                                <strong style={{background : '1px solid #52B788'}}></strong></p>
+                            </div>
+                          </li>
+                        })
+                      }
+                    </ul>
+                  ) : (
+                    <ul>
+                      {
+                        [staffing, assignment, facility, experience].map((obj, idx) => {
+                          return <li>
+                            <div
+                              className="filter-detail-box"
+                              style={{
+                                border: (obj > 4.5 && obj < 5) ?
+                                  '1px solid blue' :
+                                  (obj > 3.6 && obj < 4.4) ?
+                                    '1px solid #52B788' :
+                                    (obj > 2.6 && obj < 3.5) ?
+                                      '1px solid #E0D16C' :
+                                      (obj > 1.6 && obj < 2.5) ?
+                                        '1px solid orange' : '1px solid #E46870'
+                              }}
+                            >
+                              <span style={{
+                                color: (obj > 4.5 && obj < 5) ?
+                                  'blue' :
+                                  (obj > 3.6 && obj < 4.4) ?
+                                    '#52B788' :
+                                    (obj > 2.6 && obj < 3.5) ?
+                                      '#E0D16C' :
+                                      (obj > 1.6 && obj < 2.5) ?
+                                        'orange' : '#E46870'
+                              }}>{
+                                  idx == 0 ? 'S' : idx == 1 ? 'A' : idx == 2 ? 'F' : 'E'
+                                }</span>
+                              <p>
+                                {
+                                  (obj > 4.5 && obj < 5) ?
+                                    'Great' :
+                                    (obj > 3.6 && obj < 4.4) ?
+                                      'Good' :
+                                      (obj > 2.6 && obj < 3.5) ?
+                                        'Ok' :
+                                        (obj > 1.6 && obj < 2.5) ?
+                                          'Bad' : 'Terrible'
+                                }
+                                <strong style={{
+                                  background: (obj > 4.5 && obj < 5) ?
+                                    'blue' :
+                                    (obj > 3.6 && obj < 4.4) ?
+                                      '#52B788' :
+                                      (obj > 2.6 && obj < 3.5) ?
+                                        '#E0D16C' :
+                                        (obj > 1.6 && obj < 2.5) ?
+                                          'orange' : '#E46870'
+                                }}></strong></p>
+                            </div>
+                          </li>
+                        })
+                      }
+                    </ul>
+                  )
+                }
+              </div>
+            </div >
+          </div >
+        </div >
+      </section >
+      <section className="report-detail-sec">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="report-detail-top">
+                <div className="report-detail-title">
+                  <h3>Report <span>Details</span> </h3>
+                  <p>Free text from the survey reports by the nurses</p>
+                </div>
+                {
+                  filteredReports.length > 0 ? (
+                    <a className="view-btn">View All Reports</a>
+                  ) : ''
+                }
+              </div>
+            </div>
+            <div className='col-12'>
+              <div className="hospital-filter mt-3">
                 <div className="filter-box">
                   <form>
                     <label>CATEGORY TYPE</label>
@@ -358,279 +649,6 @@ export default function Hospital() {
                     </div>
                   </form>
                 </div>
-                <div className="filter-box">
-                  <form>
-                    <label>UNIT TYPE</label>
-                    <Select
-                      isMulti={true}
-                      value={unitTypeFilter}
-                      onChange={(e) => setUnitTypeFilter(e)}
-                      options={[{ value: 'ICU', label: 'ICU' }, { value: 'Intermediate', label: 'Intermediate' }, { value: 'Floor', label: 'Floor' }, { value: 'Float', label: 'Float' }, { value: 'ER', label: 'ER' }, { value: 'OR', label: 'OR' }, { value: 'Resource', label: 'Resource' }]}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      components={{
-                        IndicatorSeparator: () => null
-                      }}
-                      styles={selectStyle}
-                      placeholder='Type Here'
-                    />
-                    <a className="" style={{ cursor: 'pointer' }} onClick={() => applyFilters()}>Apply Filters</a>
-                  </form>
-                </div>
-                <div className="filter-box">
-                  <form>
-                    <label>ACUITY TYPE</label>
-                    <Select
-                      isMulti={true}
-                      value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e)}
-                      options={[{ value: 'Burn', label: 'Burn' }, { value: 'Cardiac', label: 'Cardiac' }, { value: 'Cardiothoraric', label: 'Cardiothoraric' }, { value: 'CardioVascular', label: 'CardioVascular' }, { value: 'Education', label: 'Education' }, { value: 'Emergency', label: 'Emergency' }, { value: 'Dialysis', label: 'Dialysis' }, { value: 'Floot Pool', label: 'Floot Pool' }, { value: 'IV Team', label: 'IV Team' }, { value: 'Interventional Radiology', label: 'Interventional Radiology' }, { value: 'L&D', label: 'L&D' }, { value: 'Medical', label: 'Medical' }, { value: 'Neuro', label: 'Neuro' }, { value: 'Neurosurgery', label: 'Neurosurgery' }, { value: 'Observation', label: 'Observation' }, { value: 'Operating Room', label: 'Operating Room' }, { value: 'Pediatric', label: 'Pediatric' }, { value: 'Pulmonary', label: 'Pulmonary' }, { value: 'Post-Anesthesia', label: 'Post-Anesthesia' }, { value: 'Surgical', label: 'Surgical' }, { value: 'Telemetry', label: 'Telemetry' }, { value: 'Thoraric', label: 'Thoraric' }, { value: 'Transplant', label: 'Transplant' }, { value: 'Trauma', label: 'Trauma' }, { value: 'Wound', label: 'Wound' }]}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      components={{
-                        IndicatorSeparator: () => null
-                      }}
-                      styles={selectStyle}
-                      placeholder='Type Here'
-                    />
-                    <a className="" style={{ cursor: 'pointer' }} onClick={() => applyCategoryFilters()}>Apply Filters</a>
-                  </form>
-                </div>
-              </div>
-              <div className="filter-detail">
-                {
-                  (Object.keys(unitScores).length !== 0) ? (
-                    <ul>
-                      <li>
-                        <div className="filter-detail-box"
-                          style={{
-                            border: unitScores.staffing.toLowerCase() == 'great' ? (
-                              '2px solid blue'
-                            ) : unitScores.staffing.toLowerCase() == 'good' ? (
-                              '2px solid #52B788'
-                            ) : unitScores.staffing.toLowerCase() == 'ok' ? (
-                              '2px solid #E0D16C'
-                            ) : unitScores.staffing.toLowerCase() == 'bad' ? (
-                              '2px solid orange'
-                            ) : unitScores.staffing.toLowerCase() == 'terrible' ? (
-                              '2px solid #E46870'
-                            ) : '2px solid pink'
-                          }}
-                        > <span style={{
-                          color: unitScores.staffing.toLowerCase() == 'great' ? (
-                            'blue'
-                          ) : unitScores.staffing.toLowerCase() == 'good' ? (
-                            '#52B788'
-                          ) : unitScores.staffing.toLowerCase() == 'ok' ? (
-                            '#E0D16C'
-                          ) : unitScores.staffing.toLowerCase() == 'bad' ? (
-                            'orange'
-                          ) : unitScores.staffing.toLowerCase() == 'terrible' ? (
-                            '#E46870'
-                          ) : 'pink'
-                        }}>S</span>
-                          <p>{unitScores.staffing}
-                            <strong style={{
-                              background: unitScores.staffing.toLowerCase() == 'great' ? (
-                                'blue'
-                              ) : unitScores.staffing.toLowerCase() == 'good' ? (
-                                '#52B788'
-                              ) : unitScores.staffing.toLowerCase() == 'ok' ? (
-                                '#E0D16C'
-                              ) : unitScores.staffing.toLowerCase() == 'bad' ? (
-                                'orange'
-                              ) : unitScores.staffing.toLowerCase() == 'terrible' ? (
-                                '#E46870'
-                              ) : 'pink'
-                            }}></strong>
-                          </p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="filter-detail-box"
-                          style={{
-                            border: unitScores.assignment.toLowerCase() == 'great' ? (
-                              '2px solid blue'
-                            ) : unitScores.assignment.toLowerCase() == 'good' ? (
-                              '2px solid #52B788'
-                            ) : unitScores.assignment.toLowerCase() == 'ok' ? (
-                              '2px solid #E0D16C'
-                            ) : unitScores.assignment.toLowerCase() == 'bad' ? (
-                              '2px solid orange'
-                            ) : unitScores.assignment.toLowerCase() == 'terrible' ? (
-                              '2px solid #E46870'
-                            ) : '2px solid pink'
-                          }}
-                        ><span style={{
-                          color: unitScores.assignment.toLowerCase() == 'great' ? (
-                            'blue'
-                          ) : unitScores.assignment.toLowerCase() == 'good' ? (
-                            '#52B788'
-                          ) : unitScores.assignment.toLowerCase() == 'ok' ? (
-                            '#E0D16C'
-                          ) : unitScores.assignment.toLowerCase() == 'bad' ? (
-                            'orange'
-                          ) : unitScores.assignment.toLowerCase() == 'terrible' ? (
-                            '#E46870'
-                          ) : 'pink'
-                        }}>A</span>
-                          <p>{unitScores.assignment}
-                            <strong style={{
-                              background: unitScores.assignment.toLowerCase() == 'great' ? (
-                                'blue'
-                              ) : unitScores.assignment.toLowerCase() == 'good' ? (
-                                '#52B788'
-                              ) : unitScores.assignment.toLowerCase() == 'ok' ? (
-                                '#E0D16C'
-                              ) : unitScores.assignment.toLowerCase() == 'bad' ? (
-                                'orange'
-                              ) : unitScores.assignment.toLowerCase() == 'terrible' ? (
-                                '#E46870'
-                              ) : 'pink'
-                            }}></strong>
-                          </p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="filter-detail-box"
-                          style={{
-                            border: unitScores.facility.toLowerCase() == 'great' ? (
-                              '2px solid blue'
-                            ) : unitScores.facility.toLowerCase() == 'good' ? (
-                              '2px solid #52B788'
-                            ) : unitScores.facility.toLowerCase() == 'ok' ? (
-                              '2px solid #E0D16C'
-                            ) : unitScores.facility.toLowerCase() == 'bad' ? (
-                              '2px solid orange'
-                            ) : unitScores.facility.toLowerCase() == 'terrible' ? (
-                              '2px solid #E46870'
-                            ) : '2px solid pink'
-                          }}
-                        ><span style={{
-                          color: unitScores.facility.toLowerCase() == 'great' ? (
-                            'blue'
-                          ) : unitScores.facility.toLowerCase() == 'good' ? (
-                            '#52B788'
-                          ) : unitScores.facility.toLowerCase() == 'ok' ? (
-                            '#E0D16C'
-                          ) : unitScores.facility.toLowerCase() == 'bad' ? (
-                            'orange'
-                          ) : unitScores.facility.toLowerCase() == 'terrible' ? (
-                            '#E46870'
-                          ) : 'pink'
-                        }}>F</span>
-                          <p>{unitScores.facility}
-                            <strong style={{
-                              background: unitScores.facility.toLowerCase() == 'great' ? (
-                                'blue'
-                              ) : unitScores.facility.toLowerCase() == 'good' ? (
-                                '#52B788'
-                              ) : unitScores.facility.toLowerCase() == 'ok' ? (
-                                '#E0D16C'
-                              ) : unitScores.facility.toLowerCase() == 'bad' ? (
-                                'orange'
-                              ) : unitScores.facility.toLowerCase() == 'terrible' ? (
-                                '#E46870'
-                              ) : 'pink'
-                            }}></strong>
-                          </p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="filter-detail-box"
-                          style={{
-                            border: unitScores.experience.toLowerCase() == 'great' ? (
-                              '2px solid blue'
-                            ) : unitScores.experience.toLowerCase() == 'good' ? (
-                              '2px solid #52B788'
-                            ) : unitScores.experience.toLowerCase() == 'ok' ? (
-                              '2px solid #E0D16C'
-                            ) : unitScores.experience.toLowerCase() == 'bad' ? (
-                              '2px solid orange'
-                            ) : unitScores.experience.toLowerCase() == 'terrible' ? (
-                              '2px solid #E46870'
-                            ) : '2px solid pink'
-                          }}
-                        >
-                          <span style={{
-                            color: unitScores.experience.toLowerCase() == 'great' ? (
-                              'blue'
-                            ) : unitScores.experience.toLowerCase() == 'good' ? (
-                              '#52B788'
-                            ) : unitScores.experience.toLowerCase() == 'ok' ? (
-                              '#E0D16C'
-                            ) : unitScores.experience.toLowerCase() == 'bad' ? (
-                              'orange'
-                            ) : unitScores.experience.toLowerCase() == 'terrible' ? (
-                              '#E46870'
-                            ) : 'pink'
-                          }}>E</span>
-                          <p>{unitScores.experience}
-                            <strong style={{
-                              background: unitScores.experience.toLowerCase() == 'great' ? (
-                                'blue'
-                              ) : unitScores.experience.toLowerCase() == 'good' ? (
-                                '#52B788'
-                              ) : unitScores.experience.toLowerCase() == 'ok' ? (
-                                '#E0D16C'
-                              ) : unitScores.experience.toLowerCase() == 'bad' ? (
-                                'orange'
-                              ) : unitScores.experience.toLowerCase() == 'terrible' ? (
-                                '#E46870'
-                              ) : 'pink'
-                            }}></strong>
-                          </p>
-                        </div>
-                      </li>
-                    </ul>
-                  ) : (
-                    <ul>
-                      <li>
-                        <div className="filter-detail-box green-box"> <span>S</span>
-                          <p>POSITIVE <strong></strong></p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="filter-detail-box yellow-box"><span><img src={AIcon}
-                          className="img-fluid" alt="" /></span>
-                          <p>NEUTRAL <strong></strong></p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="filter-detail-box red-box"><span><img src={FIcon}
-                          className="img-fluid" alt="" /></span>
-                          <p>NEGATIVE <strong></strong></p>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="filter-detail-box yellow-box">
-                          <span><img src={NIcon}
-                            className="img-fluid" alt="" /></span>
-                          <p>NEUTRAL <strong></strong></p>
-                        </div>
-                      </li>
-                    </ul>
-                  )
-                }
-              </div>
-            </div >
-          </div >
-        </div >
-      </section >
-      <section className="report-detail-sec">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="report-detail-top">
-                <div className="report-detail-title">
-                  <h3>Report <span>Details</span> </h3>
-                  <p>Free text from the survey reports by the nurses</p>
-                </div>
-                {
-                  filteredReports.length > 0 ? (
-                    <a className="view-btn">View All Reports</a>
-                  ) : ''
-                }
               </div>
             </div>
             <div className="report-detail-inner">

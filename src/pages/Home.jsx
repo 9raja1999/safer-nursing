@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import UserHeader from '../components/UserHeader';
 import Map from '../components/google_map/Map';
 import ReportSubmit from '../components/Forms/ReportSubmit';
-import { getAllGeoLocations } from '../store/actions/hospitalActions';
+import { getAllGeoLocations, getUnitScores } from '../store/actions/hospitalActions';
 import { getAllQuestions, generateReportID, addReport, addAnswersToReport } from '../store/actions/reportActions';
 import { Circles } from 'react-loader-spinner';
 import report from '../assets/JSON/report.json';
@@ -20,6 +20,7 @@ export default function Home() {
   const history = useHistory();
   const [isUser, setIsUser] = useState(false);
   const [openReport, setOpenReport] = useState(false);
+  const [data, setData] = useState([]);
   const [allGeoLocations, setAllGeolocations] = useState([]);
   const [hospitalDatatoSubmit, setHospitalDataToSubmit] = useState(null);
 
@@ -37,14 +38,39 @@ export default function Home() {
 
     getAllGeoLocations()
       .then(res => {
-        console.log(res);
-        setAllGeolocations(res.data);
-        setIsLoading(false)
+        let geolocs = res.data;
+        setData(res.data);
       })
       .catch(err => {
         console.log('ERROR !!', err)
       })
   }, [])
+
+
+  useEffect(() => {
+    if (data.length > 0) {
+      for (let index = 0; index < data.length; index++) {
+        let geo = data[index];
+
+        getUnitScores(data[index].report_id, data[index].facilityID)
+          .then(res => {
+            console.log(res.data)
+            if(res.message == "data found"){
+              geo = { ...geo, scores: res.data }
+            }else{
+              geo = { ...geo, scores: {} }
+            }
+            setAllGeolocations(oldArray => [...oldArray , geo] );
+            setIsLoading(false)
+          })
+          .catch(err => {
+            console.log('ERROR !!', err)
+          })
+      }
+    }
+    // setAllGeolocations(res.data);
+  }, [data])
+
 
   const isLoggedIn = (isUser) => {
     setIsUser(isUser)

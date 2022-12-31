@@ -102,32 +102,38 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
         const reportId = generateReportID();
         const facilityId = hospitalDatatoSubmit.address.FacilityID;
         const user = uuid === null ? 'anonymous' : userID.id;
-
-        addReport(reportId, facilityId, user)
-            .then(res => {
-                if (res.success == 1) {
-                    addAnswersToReport(reportId, facilityId, reportAnswers)
-                        .then(res => {
-                            if (res.success == 1) {
-                                toast.success('Thanks for your valuable feedback', {
-                                    position: toast.POSITION.TOP_RIGHT
-                                })
-
-                                setReportAnswers({});
-                                setFormIndex(0);
-                                fetchIsCloseReport(false)
-                            }
-                        })
-                        .catch(err => {
-                            console.log('Error !!', err)
-                        })
-                }
+        if (user == 'anonymous') {
+            toast.error('Login first to continue', {
+                position: toast.POSITION.TOP_RIGHT
             })
-            .catch(err => {
-                console.log('Error !!', err)
-            })
+            setTimeout(() => {
+                history.push('/Login')
+            }, 3000);
+        } else {
+            addReport(reportId, facilityId, user)
+                .then(res => {
+                    if (res.success == 1) {
+                        addAnswersToReport(reportId, facilityId, reportAnswers)
+                            .then(res => {
+                                if (res.success == 1) {
+                                    toast.success('Thanks for your valuable feedback', {
+                                        position: toast.POSITION.TOP_RIGHT
+                                    })
 
-
+                                    setReportAnswers({});
+                                    setFormIndex(0);
+                                    fetchIsCloseReport(false)
+                                }
+                            })
+                            .catch(err => {
+                                console.log('Error !!', err)
+                            })
+                    }
+                })
+                .catch(err => {
+                    console.log('Error !!', err)
+                })
+        }
     }
 
     const handleChange = (input, isMulti) => (e) => {

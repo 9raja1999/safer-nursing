@@ -69,3 +69,18 @@ export const getUnitScores = (report_id, facility_id) => {
             return error
         })
 }
+
+export const getHospitalSummary = (facility_id) => {
+    var data = JSON.stringify({
+        "facility_id": facility_id
+    })
+
+    return axios
+        .post('/getHospitalSummary', data)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            return error
+        })
+}
