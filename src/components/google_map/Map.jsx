@@ -166,7 +166,7 @@ function Map(props) {
     const beautifySubmissionDate = (date) => {
         let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         var today = new Date(date.replace(/-/g, '\/').replace(/T.+/, ''));
-        
+
         return today.toDateString()
     }
 
@@ -210,8 +210,8 @@ function Map(props) {
                     zoomControl: false,
                     streetView: false,
                     restriction: restriction,
-                    streetViewControl : false,
-                    mapTypeControl : false
+                    streetViewControl: false,
+                    mapTypeControl: false
                 }}
 
                 streetView={{
@@ -297,7 +297,7 @@ function Map(props) {
                                                                 'orange'
                                                             ) : unitScores.staffing.toLowerCase() == 'terrible' ? (
                                                                 '#E46870'
-                                                            ) : 'pink'
+                                                            ) : 'black'
                                                         }}></span>
                                                         <p> STAFFING</p>
                                                     </li>
@@ -313,7 +313,7 @@ function Map(props) {
                                                                 'orange'
                                                             ) : unitScores.assignment.toLowerCase() == 'terrible' ? (
                                                                 '#E46870'
-                                                            ) : 'pink'
+                                                            ) : 'black'
                                                         }}></span>
                                                         <p> ASSIGNMENT</p>
                                                     </li>
@@ -329,7 +329,7 @@ function Map(props) {
                                                                 'orange'
                                                             ) : unitScores.facility.toLowerCase() == 'terrible' ? (
                                                                 '#E46870'
-                                                            ) : 'pink'
+                                                            ) : 'black'
                                                         }}></span>
                                                         <p>FACILITY</p>
                                                     </li>
@@ -345,22 +345,28 @@ function Map(props) {
                                                                 'orange'
                                                             ) : unitScores.experience.toLowerCase() == 'terrible' ? (
                                                                 '#E46870'
-                                                            ) : 'pink'
+                                                            ) : 'black'
                                                         }}></span>
                                                         <p>EXPERIENCE</p>
                                                     </li>
                                                 </ul>
                                                 <p>
-                                                {
-                                                    beautifySubmissionDate(location.date)
-                                                }
+                                                    {
+                                                        beautifySubmissionDate(location.date)
+                                                    }
                                                 </p>
-                                                <span
-                                                    className="report-btn"
-                                                    onClick={() => onSubmitReport(location, index)}
-                                                >
-                                                    Submit Report
-                                                </span>
+                                                {
+                                                    
+                                                    props.isUser && <span
+                                                            className="report-btn"
+                                                            onClick={() => {
+                                                                onSubmitReport(location, index)
+                                                            }}
+                                                        >
+                                                            Submit Report
+                                                        </span>
+                                                    
+                                                }
                                             </div>
                                         </div>
                                     </InfoWindow> : ''

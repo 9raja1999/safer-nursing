@@ -85,3 +85,18 @@ export const addRequest = (nurseId,firstName,lastName,title,phone,email,referenc
             return error
         })
 }
+
+export const getBasicUserInfo = (userId) => {
+    
+    let data = JSON.stringify({
+        "userId" : userId
+    })
+
+    return axios.post('/getbasicFormInfo/', data)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            return error
+        })
+}

@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import validationFormat from '../../assets/JSON/answerFormat.json'
 import { getAllQuestions, generateReportID, addReport, addAnswersToReport } from '../../store/actions/reportActions';
+import { getBasicUserInfo } from '../../store/actions/userActions'
 import Demographics from './Demographics';
 import Staffing from './Staffing';
 import Assignment from './Assignment';
@@ -27,6 +28,7 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
     const scrollRef = React.createRef();
     const [formIndex, setFormIndex] = useState(0);
     const [reportQuestions, setReportQuestions] = useState([]);
+    const [edit, setEdit] = useState(true);
     const [reportAnswers, setReportAnswers] = useState({
         "1": "0",
         "2": "",
@@ -76,6 +78,36 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
         "46": ""
     });
 
+    useEffect(() => {
+        if (isUser) {
+            let getUser = localStorage.getItem("nurseAccess");
+            let userID = JSON.parse(getUser)
+            getBasicUserInfo(userID.id)
+                .then(res => {
+                    console.log('User Info Getted', res)
+                    if (res.message == 'data found') {
+                        console.log(res.data)
+                        setReportAnswers({
+                            ...reportAnswers,
+                            [1]: res.data.age,
+                            [2]: res.data.gender,
+                            [3]: res.data.employeeType,
+                            [4]: res.data.shift,
+                            [5]: res.data.pay,
+                            [6]: res.data.differential,
+                            [7]: res.data.benifits,
+                            [8]: res.data.time,
+                            [9]: res.data.currentExperience,
+                            [10]: res.data.totalExperience,
+                        })
+                        setEdit(false)
+                    }
+                })
+                .catch(err => {
+                    console.log('ERROR')
+                })
+        }
+    }, [])
 
 
     const nextStep = () => {
@@ -94,6 +126,11 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
         fetchIsCloseReport(isClose);
     }
 
+    const backNavigate = (goTo) => {
+
+        console.log('Go To', goTo)
+
+    }
 
     const finishReport = () => {
         const uuid = localStorage.getItem("nurseAccess");
@@ -123,6 +160,7 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
                                     setReportAnswers({});
                                     setFormIndex(0);
                                     fetchIsCloseReport(false)
+                                    window.location.reload(false)
                                 }
                             })
                             .catch(err => {
@@ -169,6 +207,7 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
         if (idx == 0) {
             let data = reportQuestions.filter(({ CategoryName }) => CategoryName === "demographics")
             return <Demographics
+                edit={edit}
                 handleChange={handleChange}
                 prevStep={prevStep}
                 nextStep={nextStep}
@@ -252,31 +291,67 @@ function ReportSubmit({ hospitalDatatoSubmit, fetchIsCloseReport, isLoggedIn, is
             <div className='form-status-bar'>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }}>Basic</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => {
+                            if (formIndex >= 1) {
+                                scrollRef.current.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                    behavior: "smooth"
+                                })
+                                setFormIndex(0)
+                            }
+                        }}>Basic</h1>
                         <div className='status' style={formIndex == 0 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }}>Staffing</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => {
+                            if (formIndex >= 2) {
+                                scrollRef.current.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                    behavior: "smooth"
+                                })
+                                setFormIndex(1)
+                            }
+                        }}>Staffing</h1>
                         <div className='status' style={formIndex == 1 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }}>Assignment</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => {
+                            if (formIndex >= 3) {
+                                scrollRef.current.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                    behavior: "smooth"
+                                })
+                                setFormIndex(2)
+                            }
+                        }}>Assignment</h1>
                         <div className='status' style={formIndex == 2 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }}>Facility</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => {
+                            if (formIndex >= 4) {
+                                scrollRef.current.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                    behavior: "smooth"
+                                })
+                                setFormIndex(3)
+                            }
+                        }}>Facility</h1>
                         <div className='status' style={formIndex == 3 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>
                 <div className='stage1'>
                     <div>
-                        <h1 style={{ cursor: 'pointer' }} onClick={() => setFormIndex(4)}>Experience</h1>
+                        <h1 style={{ cursor: 'pointer' }} onClick={() => backNavigate('experience')}>Experience</h1>
                         <div className='status' style={formIndex == 4 ? { background: '#52B788' } : { background: '#081C15', opacity: '0.2' }}></div>
                     </div>
                 </div>

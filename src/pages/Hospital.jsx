@@ -425,10 +425,10 @@ export default function Hospital() {
           reportQuestions={reportQuestions}
           fetchIsScroll={fetchIsScroll}
           reportCount={hospitalData.geolocations.reportCount}
-          staffing = {staffing}
-          assignment = {assignment}
-          facility = {facility}
-          experience = {experience}
+          staffing={staffing}
+          assignment={assignment}
+          facility={facility}
+          experience={experience}
           isUser={isUser}
           isLoggedIn={isLoggedIn}
         />
@@ -511,14 +511,14 @@ export default function Hospital() {
                           return <li>
                             <div
                               className="filter-detail-box"
-                              style={{ border: '1px solid #52B788' }}
+                              style={{ border: '1px solid #081C15', opacity: '0.5' }}
                             >
-                              <span style={{ color: '1px solid #52B788' }}>{
+                              <span style={{ color: '#081C15', opacity: '0.5' }}>{
                                 idx == 0 ? 'S' : idx == 1 ? 'A' : idx == 2 ? 'F' : 'E'
                               }</span>
                               <p>
                                 Not Rated
-                                <strong style={{background : '1px solid #52B788'}}></strong></p>
+                                <strong style={{ background: '#081C15', opacity: '0.5' }}></strong></p>
                             </div>
                           </li>
                         })
@@ -532,47 +532,47 @@ export default function Hospital() {
                             <div
                               className="filter-detail-box"
                               style={{
-                                border: (obj > 4.5 && obj < 5) ?
+                                border: (obj >= 4.5 && obj <= 5) ?
                                   '1px solid blue' :
-                                  (obj > 3.6 && obj < 4.4) ?
+                                  (obj >= 3.6 && obj <= 4.4) ?
                                     '1px solid #52B788' :
-                                    (obj > 2.6 && obj < 3.5) ?
+                                    (obj >= 2.6 && obj <= 3.5) ?
                                       '1px solid #E0D16C' :
-                                      (obj > 1.6 && obj < 2.5) ?
+                                      (obj >= 1.6 && obj <= 2.5) ?
                                         '1px solid orange' : '1px solid #E46870'
                               }}
                             >
                               <span style={{
-                                color: (obj > 4.5 && obj < 5) ?
+                                color: (obj >= 4.5 && obj <= 5) ?
                                   'blue' :
-                                  (obj > 3.6 && obj < 4.4) ?
+                                  (obj >= 3.6 && obj <= 4.4) ?
                                     '#52B788' :
-                                    (obj > 2.6 && obj < 3.5) ?
+                                    (obj >= 2.6 && obj <= 3.5) ?
                                       '#E0D16C' :
-                                      (obj > 1.6 && obj < 2.5) ?
+                                      (obj >= 1.6 && obj <= 2.5) ?
                                         'orange' : '#E46870'
                               }}>{
                                   idx == 0 ? 'S' : idx == 1 ? 'A' : idx == 2 ? 'F' : 'E'
                                 }</span>
                               <p>
                                 {
-                                  (obj > 4.5 && obj < 5) ?
+                                  (obj >= 4.5 && obj <= 5) ?
                                     'Great' :
-                                    (obj > 3.6 && obj < 4.4) ?
+                                    (obj >= 3.6 && obj <= 4.4) ?
                                       'Good' :
-                                      (obj > 2.6 && obj < 3.5) ?
+                                      (obj >= 2.6 && obj <= 3.5) ?
                                         'Ok' :
-                                        (obj > 1.6 && obj < 2.5) ?
+                                        (obj >= 1.6 && obj <= 2.5) ?
                                           'Bad' : 'Terrible'
                                 }
                                 <strong style={{
-                                  background: (obj > 4.5 && obj < 5) ?
+                                  background: (obj >= 4.5 && obj <= 5) ?
                                     'blue' :
-                                    (obj > 3.6 && obj < 4.4) ?
+                                    (obj >= 3.6 && obj <= 4.4) ?
                                       '#52B788' :
-                                      (obj > 2.6 && obj < 3.5) ?
+                                      (obj >= 2.6 && obj <= 3.5) ?
                                         '#E0D16C' :
-                                        (obj > 1.6 && obj < 2.5) ?
+                                        (obj >= 1.6 && obj <= 2.5) ?
                                           'orange' : '#E46870'
                                 }}></strong></p>
                             </div>
@@ -665,9 +665,9 @@ export default function Hospital() {
                             <div className="report-detail-box">
                               <div className="media">
                                 <div className="media-left">
-
-                                  <h4>{obj.report_id}</h4>
-                                  <p>#{obj.user.slice(0, 12) + ' . . .'}</p>
+                                  <h4>Report ID</h4>
+                                  <p style={{ color: 'gray' }}>#{obj.report_id}</p>
+                                  {/* <p style={{ color: 'white' }}>#{obj.user.slice(0, 12) + ' . . .'}</p> */}
                                 </div>
                                 <div className="media-left text-end">
                                   <h4>{today.toLocaleDateString("en-US", dateOptions)}</h4>
@@ -675,27 +675,62 @@ export default function Hospital() {
                                 </div>
                               </div>
                               <div className="text-box">
-                                <h3>
-                                  {
-                                    obj.Type == 17 ? (
-                                      "Staffing"
+                                {console.log('REPORTS: ', filteredReports)}
+                                {
+                                  obj.Type == 17 ? (
+                                    <h3 style={{
+                                      color: (staffing >= 4.5 && staffing <= 5) ?
+                                        'blue' :
+                                        (staffing >= 3.6 && staffing <= 4.4) ?
+                                          '#52B788' :
+                                          (staffing >= 2.6 && staffing <= 3.5) ?
+                                            '#E0D16C' :
+                                            (staffing >= 1.6 && staffing <= 2.5) ?
+                                              'orange' : '#E46870'
+                                    }}>Staffing</h3>
+                                  ) : (
+                                    obj.Type == 28 ? (
+                                      <h3 style={{
+                                        color: (assignment >= 4.5 && assignment <= 5) ?
+                                          'blue' :
+                                          (assignment >= 3.6 && assignment <= 4.4) ?
+                                            '#52B788' :
+                                            (assignment >= 2.6 && assignment <= 3.5) ?
+                                              '#E0D16C' :
+                                              (assignment >= 1.6 && assignment <= 2.5) ?
+                                                'orange' : '#E46870'
+                                      }}>Assignment</h3>
                                     ) : (
-                                      obj.Type == 28 ? (
-                                        "Assignment"
+                                      obj.Type == 36 ? (
+                                        <h3 style={{
+                                          color: (facility >= 4.5 && facility <= 5) ?
+                                            'blue' :
+                                            (facility >= 3.6 && facility <= 4.4) ?
+                                              '#52B788' :
+                                              (facility >= 2.6 && facility <= 3.5) ?
+                                                '#E0D16C' :
+                                                (facility >= 1.6 && facility <= 2.5) ?
+                                                  'orange' : '#E46870'
+                                        }}>Facility</h3>
                                       ) : (
-                                        obj.Type == 36 ? (
-                                          "Facility"
-                                        ) : (
-                                          obj.Type == 45 ? (
-                                            "Experience"
-                                          ) : obj.Type == 19 ? (
-                                            "Acuity"
-                                          ) : "Unit"
-                                        )
+                                        obj.Type == 46 ? (
+                                          <h3 style={{
+                                            color: (experience >= 4.5 && experience <= 5) ?
+                                              'blue' :
+                                              (experience >= 3.6 && experience <= 4.4) ?
+                                                '#52B788' :
+                                                (experience >= 2.6 && experience <= 3.5) ?
+                                                  '#E0D16C' :
+                                                  (experience >= 1.6 && experience <= 2.5) ?
+                                                    'orange' : '#E46870'
+                                          }}>Experience</h3>
+                                        ) : obj.Type == 19 ? (
+                                          <h3 style={{ color: 'black' }}>Acuity Type</h3>
+                                        ) : <h3 style={{ color: 'black' }}>Unit Type</h3>
                                       )
                                     )
-                                  }
-                                </h3>
+                                  )
+                                }
                                 <p>{
                                   obj.Summary
                                 }</p>
@@ -724,9 +759,9 @@ export default function Hospital() {
                           <div className="report-detail-box">
                             <div className="media">
                               <div className="media-left">
-
-                                <h4>{obj.report_id}</h4>
-                                <p>#{obj.user.slice(0, 12) + ' . . .'}</p>
+                                <h4>Report ID</h4>
+                                <p style={{ color: 'gray' }}>#{obj.report_id}</p>
+                                {/* <p style={{ color: 'white' }}>#{obj.user.slice(0, 12) + ' . . .'}</p> */}
                               </div>
                               <div className="media-left text-end">
                                 <h4>{today.toLocaleDateString("en-US", dateOptions)}</h4>
@@ -734,27 +769,61 @@ export default function Hospital() {
                               </div>
                             </div>
                             <div className="text-box">
-                              <h3>
-                                {
-                                  obj.Type == 17 ? (
-                                    "Staffing"
+                              {
+                                obj.Type == 17 ? (
+                                  <h3 style={{
+                                    color: (staffing >= 4.5 && staffing <= 5) ?
+                                      'blue' :
+                                      (staffing >= 3.6 && staffing <= 4.4) ?
+                                        '#52B788' :
+                                        (staffing >= 2.6 && staffing <= 3.5) ?
+                                          '#E0D16C' :
+                                          (staffing >= 1.6 && staffing <= 2.5) ?
+                                            'orange' : '#E46870'
+                                  }}>Staffing</h3>
+                                ) : (
+                                  obj.Type == 28 ? (
+                                    <h3 style={{
+                                      color: (assignment >= 4.5 && assignment <= 5) ?
+                                        'blue' :
+                                        (assignment >= 3.6 && assignment <= 4.4) ?
+                                          '#52B788' :
+                                          (assignment >= 2.6 && assignment <= 3.5) ?
+                                            '#E0D16C' :
+                                            (assignment >= 1.6 && assignment <= 2.5) ?
+                                              'orange' : '#E46870'
+                                    }}>Assignment</h3>
                                   ) : (
-                                    obj.Type == 28 ? (
-                                      "Assignment"
+                                    obj.Type == 36 ? (
+                                      <h3 style={{
+                                        color: (facility >= 4.5 && facility <= 5) ?
+                                          'blue' :
+                                          (facility >= 3.6 && facility <= 4.4) ?
+                                            '#52B788' :
+                                            (facility >= 2.6 && facility <= 3.5) ?
+                                              '#E0D16C' :
+                                              (facility >= 1.6 && facility <= 2.5) ?
+                                                'orange' : '#E46870'
+                                      }}>Facility</h3>
                                     ) : (
-                                      obj.Type == 36 ? (
-                                        "Facility"
-                                      ) : (
-                                        obj.Type == 45 ? (
-                                          "Experience"
-                                        ) : obj.Type == 19 ? (
-                                          "Acuity Type"
-                                        ) : "Unit Type"
-                                      )
+                                      obj.Type == 45 ? (
+                                        <h3 style={{
+                                          color: (experience >= 4.5 && experience <= 5) ?
+                                            'blue' :
+                                            (experience >= 3.6 && experience <= 4.4) ?
+                                              '#52B788' :
+                                              (experience >= 2.6 && experience <= 3.5) ?
+                                                '#E0D16C' :
+                                                (experience >= 1.6 && experience <= 2.5) ?
+                                                  'orange' : '#E46870'
+                                        }}>Experience</h3>
+                                      ) : obj.Type == 19 ? (
+                                        <h3 style={{ color: 'black' }}>Acuity Type</h3>
+                                      ) : <h3 style={{ color: 'black' }}>Unit Type</h3>
                                     )
                                   )
-                                }
-                              </h3>
+                                )
+                              }
                               <p>{
                                 obj.Summary
                               }</p>

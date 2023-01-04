@@ -2,9 +2,8 @@ import React, { useEffect } from 'react'
 import { VictoryPie, VictoryBar } from 'victory'
 
 function BurnIndex({ burnOutIndex }) {
-    useEffect(()=>{
-        // console.lo
-    },[])
+    let burnIndex = burnOutIndex == 0 ? burnOutIndex : burnOutIndex.substring(0, burnOutIndex.length-1);
+    // console.log('BB',burnOutIndex.substring(0, burnOutIndex.length-1))
     return (
         <div className="report-explanation-left" style={{ position: 'relative' }}>
             <h3>Nurse <span>Burnout</span> Index</h3>
@@ -19,8 +18,8 @@ function BurnIndex({ burnOutIndex }) {
                     labelComponent={<span />}
                     innerRadius={70}
                     width={200} height={200}
-                    data={[{ 'key': "", 'y': burnOutIndex }, { 'key': "", 'y': (100 + burnOutIndex) }]}
-                    colorScale={["#52B788", "#C7E8D8"]}
+                    data={[{ 'key': "", 'y': parseInt(burnIndex) }, { 'key': "", 'y': (100 - parseInt(burnIndex)) }]}
+                    colorScale={["#52B788", "#EEEEEE"]}
                 />
             </div>
             <div style={{ position: 'absolute', top: '60%', left: '50%', transform: 'translate(-50%,-60%)' }}>

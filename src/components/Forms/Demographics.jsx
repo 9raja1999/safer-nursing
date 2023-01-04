@@ -12,13 +12,16 @@ const selectStyle = {
         ...provided,
         border: '2px solid #52B788',
         borderRadius: '14px',
-        textTransform: 'Capitalize'
+        textTransform: 'Capitalize',
     }),
+
     control: (provided, state) => ({
         ...provided,
         border: 'none',
-        borderRadius: '15px',
+        borderRadius: '14px',
         border: '0',
+        background : state.isDisabled ? 'white' : 'white',
+
         // This line disable the blue border
         boxShadow: 'none',
         ':active': {
@@ -27,12 +30,12 @@ const selectStyle = {
     }),
     multiValue: (provided, state) => ({
         ...provided,
-        backgroundColor: '#EEFCF5',
+        backgroundColor: state.isDisabled ? '#CED2D0' : '#EEFCF5',
         textTransform: 'Capitalize',
     }),
     multiValueRemove: (provided, state) => ({
         ...provided,
-        backgroundColor: '#52B788',
+        backgroundColor: state.isDisabled ? 'gray' : '#52B788',
         color: 'white',
         ':hover': {
             backgroundColor: '#EEFCF5',
@@ -41,7 +44,7 @@ const selectStyle = {
     })
 }
 
-function Demographics({ handleChange, prevStep, nextStep, values, errors, closeReport, isUser, logout }) {
+function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, closeReport, isUser, logout }) {
     const history = useHistory();
     const [reportError, setReportError] = useState([])
 
@@ -112,11 +115,13 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     placeholder=""
                     value={values["1"]}
                     onChange={handleChange('1', 'text')}
+                    readOnly={edit == false ? true : false}
+                    style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black' }}
                 />
                 <label htmlFor="candidateName">Age</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : reportError[0].e == 'age' ? '* please enter age between 0 - 99' : '') : ''}</p>
             </div>
-            <div className="searchformfld">
+            <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
                 <Select
                     isMulti={false}
                     value={values["2"]}
@@ -128,11 +133,12 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                         IndicatorSeparator: () => null
                     }}
                     styles={selectStyle}
+                    isDisabled={edit == false ? true : false}
                 />
                 <label htmlFor="candidateName">Gender</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
-            <div className="searchformfld">
+            <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
                 <Select
                     isMulti={false}
                     value={values["3"]}
@@ -144,11 +150,12 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                         IndicatorSeparator: () => null
                     }}
                     styles={selectStyle}
+                    isDisabled={edit == false ? true : false}
                 />
                 <label htmlFor="candidateName">Employee Type (BI-PART)</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
-            <div className="searchformfld">
+            <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
                 <Select
                     isMulti={false}
                     value={values["4"]}
@@ -160,24 +167,40 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                         IndicatorSeparator: () => null
                     }}
                     styles={selectStyle}
+                    isDisabled={edit == false ? true : false}
                 />
                 <label htmlFor="candidateName">SHIFT</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
-                <CurrencyInput
-                    id="validation-example-2-field"
-                    placeholder="$1,234,567"
-                    allowDecimals={false}
-                    className={`candidateName`}
-                    prefix={'$'}
-                    step={10}
-                    onChange={handleChange('5', 'text')}
-                />
+                {
+                    edit == false ? (
+                        <input
+                            type="text" className="candidateName"
+                            id="candidateName"
+                            placeholder=""
+                            value={values["5"]}
+                            onChange={handleChange('1', 'text')}
+                            readOnly={true}
+                            style={{ cursor: 'not-allowed', color : 'gray'}}
+                        />
+                    ) : (
+                        <CurrencyInput
+                            id="validation-example-2-field"
+                            placeholder="$1,234,567"
+                            allowDecimals={false}
+                            className={`candidateName`}
+                            prefix={'$'}
+                            step={10}
+                            // value={ parseFloat(values[5])}
+                            onChange={handleChange('5', 'text')}
+                        />
+                    )
+                }
                 <label htmlFor="candidateName">PAY</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
-            <div className="searchformfld">
+            <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
                 <Select
                     isMulti={true}
                     value={values["6"]}
@@ -189,11 +212,12 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                         IndicatorSeparator: () => null
                     }}
                     styles={selectStyle}
+                    isDisabled={edit == false ? true : false}
                 />
                 <label htmlFor="candidateName">Shift differential</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
-            <div className="searchformfld">
+            <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
                 <Select
                     isMulti={true}
                     value={values["7"]}
@@ -205,6 +229,7 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                         IndicatorSeparator: () => null
                     }}
                     styles={selectStyle}
+                    isDisabled={edit == false ? true : false}
                 />
                 <label htmlFor="candidateName">Benifits</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
@@ -216,6 +241,9 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     placeholder=""
                     value={values["8"]}
                     onChange={handleChange('8', 'text')}
+
+                    readOnly={edit == false ? true : false}
+                    style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black'  }}
                 />
                 <label htmlFor="candidateName">Time at hospital</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
@@ -227,6 +255,9 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     // mask={}
                     value={values["9"]}
                     onChange={(handleChange('9', 'text'))}
+
+                    readOnly={edit == false ? true : false}
+                    style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black'  }}
                 />
 
                 <label htmlFor="candidateName">Current speciality experience</label>
@@ -239,6 +270,9 @@ function Demographics({ handleChange, prevStep, nextStep, values, errors, closeR
                     // mask={}
                     value={values["10"]}
                     onChange={(handleChange('10', 'text'))}
+
+                    readOnly={edit == false ? true : false}
+                    style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black'  }}
                 />
                 <label htmlFor="candidateName">total nursing experience</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>

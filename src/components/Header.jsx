@@ -97,7 +97,7 @@ export default function Header(props) {
                                                             return <li key={idx}>
                                                                 <div className='search-name' onClick={() => goToHospital(item,false)}>{item.FacilityName}</div>
                                                                 <div className='gotoHospital'>
-                                                                    <img src={eyeIcon}  alt="" onClick={() => goToHospital(item, true)}/>
+                                                                    <img src={eyeIcon}  alt="" onClick={() => goToHospital(item, false)}/>
                                                                 </div>
                                                             </li>
                                                         })

@@ -55,12 +55,12 @@ export default function Home() {
         getUnitScores(data[index].report_id, data[index].facilityID)
           .then(res => {
             console.log(res.data)
-            if(res.message == "data found"){
+            if (res.message == "data found") {
               geo = { ...geo, scores: res.data }
-            }else{
+            } else {
               geo = { ...geo, scores: {} }
             }
-            setAllGeolocations(oldArray => [...oldArray , geo] );
+            setAllGeolocations(oldArray => [...oldArray, geo]);
             setIsLoading(false)
           })
           .catch(err => {
@@ -68,6 +68,7 @@ export default function Home() {
           })
       }
     }
+    setIsLoading(false)
     // setAllGeolocations(res.data);
   }, [data])
 
@@ -118,6 +119,7 @@ export default function Home() {
         <Map
           fetchIsReport={fetchIsReport}
           geoLocations={allGeoLocations}
+          isUser={isUser}
         />
       </div>
       <div className='status-bar'>
