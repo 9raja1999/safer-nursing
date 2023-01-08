@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom'
 import Header from '../components/Header';
 import UserHeader from '../components/UserHeader';
+import BetaLabel from '../components/BetaLabel';
 import Map from '../components/google_map/Map';
 import ReportSubmit from '../components/Forms/ReportSubmit';
 import { getAllGeoLocations, getUnitScores } from '../store/actions/hospitalActions';
@@ -103,6 +104,7 @@ export default function Home() {
 
   return (
     <div className='wrapper'>
+      
       {
         isUser == true ? (
           <UserHeader
@@ -115,6 +117,7 @@ export default function Home() {
           />
         )
       }
+      {/* <BetaLabel /> */}
       <div className='map-holder'>
         <Map
           fetchIsReport={fetchIsReport}

@@ -6,6 +6,7 @@ import {
     useHistory
 } from 'react-router-dom'
 import { getAllHospitals } from '../store/actions/hospitalActions';
+import BetaLabel from './BetaLabel';
 import logo from '../assets/images/logo.svg';
 import mobileLogo from '../assets/images/logo-mobile.svg';
 import eyeIcon from '../assets/images/eyes-icon.svg';
@@ -74,7 +75,8 @@ export default function Header(props) {
     return (
         <>
             <header>
-                <div className="container-fluid">
+                
+                <div className="container-fluid mt-3">
                     <div className="row">
                         <div className="col-12">
                             <div className="navigation">

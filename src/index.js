@@ -6,12 +6,14 @@ import {
   BrowserRouter,
   HashRouter
 } from 'react-router-dom'
+import BetaLabel from './components/BetaLabel';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <HashRouter basename='/safer-nursing'>
     <React.StrictMode>
+      <BetaLabel />
       <App />
     </React.StrictMode>
   </HashRouter>
