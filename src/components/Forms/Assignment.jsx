@@ -95,7 +95,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["19"]}
                     onChange={handleChange('19', 'yes')}
-                    options={[{ value: 'Burn', label: 'Burn' }, { value: 'Cardiac', label: 'Cardiac' }, { value: 'Cardiothoraric', label: 'Cardiothoraric' }, { value: 'CardioVascular', label: 'CardioVascular' }, { value: 'Education', label: 'Education' }, { value: 'Emergency', label: 'Emergency' }, { value: 'Dialysis', label: 'Dialysis' }, { value: 'Floot Pool', label: 'Floot Pool' }, { value: 'IV Team', label: 'IV Team' }, { value: 'Interventional Radiology', label: 'Interventional Radiology' }, { value: 'L&D', label: 'L&D' }, { value: 'Medical', label: 'Medical' }, { value: 'Neuro', label: 'Neuro' }, { value: 'Neurosurgery', label: 'Neurosurgery' }, { value: 'Observation', label: 'Observation' }, { value: 'Operating Room', label: 'Operating Room' }, { value: 'Pediatric', label: 'Pediatric' }, { value: 'Pulmonary', label: 'Pulmonary' }, { value: 'Post-Anesthesia', label: 'Post-Anesthesia' }, { value: 'Surgical', label: 'Surgical' }, { value: 'Telemetry', label: 'Telemetry' }, { value: 'Thoraric', label: 'Thoraric' }, { value: 'Transplant', label: 'Transplant' }, { value: 'Trauma', label: 'Trauma' }, { value: 'Wound', label: 'Wound' }]}
+                    options={[{ value: 'bariatric', label: 'Bariatric' }, { value: 'behavioral', label: 'Behavioral' }, { value: 'bone marrow', label: 'Bone Marrow' }, { value: 'burn', label: 'Burn' }, { value: 'cardiac', label: 'Cardiac' }, { value: 'cardiology', label: 'Cardiology' }, { value: 'cardiopulmonary', label: 'Cardiopulmonary' }, { value: 'cardiothoraric', label: 'Cardiothoracic' }, { value: 'cardiovascular', label: 'Cardiovascular' }, { value: 'case management', label: 'Case Management' }, { value: 'cath lab', label: 'Cath Lab' }, { value: 'coronary', label: 'Coronary' }, { value: 'critical care transport', label: 'Critical Care Transport' }, { value: 'dialysis', label: 'Dialysis' }, { value: 'education', label: 'Education' }, { value: 'er/ed', label: 'ER/ED' }, { value: 'flight nurse', label: 'Flight Nurse' }, { value: 'float pool', label: 'Float Pool' }, { value: 'gastrointestinal', label: 'Gastrointestinal' }, { value: 'geriatric', label: 'Geriatric' }, { value: 'gynecology', label: 'Gynecology' }, { value: 'hematology', label: 'Hematology' }, { value: 'hospice', label: 'Hospice' }, { value: 'infectious disease', label: 'Infectious Disease' }, { value: 'infusion', label: 'Infusion' }, { value: 'interventional radiology', label: 'Interventional Radiology' }, { value: 'isolation', label: 'Isolation' }, { value: 'iv team', label: 'IV Team' },  { value: 'l&d', label: 'L&D' }, { value: 'ltac', label: 'LTAC' }, { value: 'maternity', label: 'Maternity' }, { value: 'medical', label: 'Medical' }, { value: 'neonatal', label: 'Neonatal' }, { value: 'neuro', label: 'Neuro' }, { value: 'neuroscience', label: 'Neuroscience' }, { value: 'neurosurgery', label: 'Neurosurgery' }, { value: 'neurovascular', label: 'Neurovascular' }, { value: 'newborn', label: 'Newborn' }, { value: 'nursery', label: 'Nursery' }, { value: 'Observation', label: 'Observation' }, { value: 'obstetrics', label: 'Obstetrics' }, { value: 'oncology', label: 'Oncology' }, { value: 'open heart recovery', label: 'Open Heart Recovery' }, { value: 'operating room', label: 'Operating Room' }, { value: 'ortho', label: 'Ortho' }, { value: 'pacu', label: 'PACU' }, { value: 'palliative', label: 'Palliative' }, { value: 'pediatric', label: 'Pediatric' }, { value: 'pre-op', label: 'Pre-Op' }, { value: 'psychiatric', label: 'Psychiatric' }, { value: 'pulmonary', label: 'Pulmonary' }, { value: 'rapid response', label: 'Rapid Response' }, { value: 'rehab', label: 'Rehab' }, { value: 'research', label: 'Research' }, { value: 'stroke', label: 'Stroke' }, { value: 'stem cell', label: 'Stem Cell' }, { value: 'surgical', label: 'Surgical' }, { value: 'telemetry', label: 'Telemetry' }, { value: 'thoracic', label: 'Thoracic' }, { value: 'transplant', label: 'Transplant' }, { value: 'trauma', label: 'Trauma' }, { value: 'vascular access', label: 'Vascular Access' }, { value: 'wound care', label: 'Wound Care' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -103,7 +103,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">What is your Unit Speciality</label>
+                <label htmlFor="candidateName">What is your unit type?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -111,7 +111,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["20"]}
                     onChange={handleChange('20', 'yes')}
-                    options={[{ value: 'ICU', label: 'ICU' }, { value: 'Intermediate', label: 'Intermediate' }, { value: 'Floor', label: 'Floor' }, { value: 'Float', label: 'Float' }, { value: 'ER', label: 'ER' }, { value: 'OR', label: 'OR' }, { value: 'Resource', label: 'Resource' }]}
+                    options={[{ value: 'icu', label: 'ICU' }, { value: 'intermediate/stepdown/progressive', label: 'Intermediate/Stepdown/Progressive' }, { value: 'Floor', label: 'Floor' }, { value: 'n/a', label: 'N/A' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -119,7 +119,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">What type of unit it is</label>
+                <label htmlFor="candidateName">What is your unit acuity?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -127,7 +127,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={false}
                     value={values["21"]}
                     onChange={handleChange('21', 'no')}
-                    options={[{ value: 'Great', label: 'Great' }, { value: 'Good', label: 'Good' }, { value: 'OK', label: 'OK' }, { value: 'Bad', label: 'Bad' }, { value: 'Terrible', label: 'Terrible' }]}
+                    options={[{ value: 'great', label: 'Great' }, { value: 'good', label: 'Good' }, { value: 'ok', label: 'OK' }, { value: 'bad', label: 'Bad' }, { value: 'terrible', label: 'Terrible' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -135,7 +135,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">How well do you work with providers on your unit</label>
+                <label htmlFor="candidateName">How is working with providers on your unit?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -143,7 +143,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["22"]}
                     onChange={handleChange('22', 'yes')}
-                    options={[{ value: 'Communication', label: 'Communication' }, { value: 'Respect', label: 'Respect' }, { value: 'Teamwork', label: 'Teamwork' }, { value: 'Professionalism', label: 'Professionalism' }, { value: 'Competence', label: 'Competence' }, { value: 'Compasiion', label: 'Compasiion' }]}
+                    options={[{ value: 'communication', label: 'Communication' }, { value: 'respect', label: 'Respect' }, { value: 'teamwork', label: 'Teamwork' }, { value: 'professionalism', label: 'Professionalism' }, { value: 'competence', label: 'Competence' }, { value: 'compassion', label: 'Compassion' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -151,7 +151,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">What factors influence your provider rating</label>
+                <label htmlFor="candidateName">What factors influence your provider rating?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -159,7 +159,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={false}
                     value={values["23"]}
                     onChange={handleChange('23', 'no')}
-                    options={[{ value: 'Great', label: 'Great' }, { value: 'Good', label: 'Good' }, { value: 'OK', label: 'OK' }, { value: 'Bad', label: 'Bad' }, { value: 'Terrible', label: 'Terrible' }]}
+                    options={[{ value: 'great', label: 'Great' }, { value: 'good', label: 'Good' }, { value: 'ok', label: 'OK' }, { value: 'bad', label: 'Bad' }, { value: 'terrible', label: 'Terrible' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -167,7 +167,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">how well do you work with other nurses on your unit</label>
+                <label htmlFor="candidateName">How is working with other nurses on your unit?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -175,7 +175,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["24"]}
                     onChange={handleChange('24', 'yes')}
-                    options={[{ value: 'Communication', label: 'Communication' }, { value: 'Respect', label: 'Respect' }, { value: 'Teamwork', label: 'Teamwork' }, { value: 'Professionalism', label: 'Professionalism' }, { value: 'Competence', label: 'Competence' }, { value: 'Compasiion', label: 'Compasiion' }]}
+                    options={[{ value: 'communication', label: 'Communication' }, { value: 'respect', label: 'Respect' }, { value: 'teamwork', label: 'Teamwork' }, { value: 'professionalism', label: 'Professionalism' }, { value: 'competence', label: 'Competence' }, { value: 'compassion', label: 'Compassion' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -183,7 +183,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">What factors influence your nurse rating</label>
+                <label htmlFor="candidateName">What factors influence your nursing rating?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -191,7 +191,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={false}
                     value={values["25"]}
                     onChange={handleChange('25', 'no')}
-                    options={[{ value: 'Great', label: 'Great' }, { value: 'Good', label: 'Good' }, { value: 'OK', label: 'OK' }, { value: 'Bad', label: 'Bad' }, { value: 'Terrible', label: 'Terrible' }]}
+                    options={[{ value: 'great', label: 'Great' }, { value: 'good', label: 'Good' }, { value: 'ok', label: 'OK' }, { value: 'bad', label: 'Bad' }, { value: 'terrible', label: 'Terrible' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -199,7 +199,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">how well do you work with nurse aides on your unit</label>
+                <label htmlFor="candidateName">How is working with nurse aides on your unit?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -207,7 +207,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["26"]}
                     onChange={handleChange('26', 'yes')}
-                    options={[{ value: 'Communication', label: 'Communication' }, { value: 'Respect', label: 'Respect' }, { value: 'Teamwork', label: 'Teamwork' }, { value: 'Professionalism', label: 'Professionalism' }, { value: 'Competence', label: 'Competence' }, { value: 'Compasiion', label: 'Compasiion' }]}
+                    options={[{ value: 'communication', label: 'Communication' }, { value: 'respect', label: 'Respect' }, { value: 'teamwork', label: 'Teamwork' }, { value: 'professionalism', label: 'Professionalism' }, { value: 'competence', label: 'Competence' }, { value: 'compassion', label: 'Compassion' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -215,7 +215,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">What factors influence your aides rating</label>
+                <label htmlFor="candidateName">What factors influence your aide rating?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -223,7 +223,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={true}
                     value={values["27"]}
                     onChange={handleChange('27', 'yes')}
-                    options={[{ value: 'Behavoiral Team', label: 'Behavoiral Team' }, { value: 'Chaplain', label: 'Chaplain' }, { value: 'IV Team', label: 'IV Team' }, { value: 'Phlebotomy', label: 'Phlebotomy' }, { value: 'Rapid Response', label: 'Rapid Response' }, { value: 'Transport', label: 'Transport' }]}
+                    options={[{ value: 'behavioral team', label: 'Behavioral Team' }, { value: 'chaplain', label: 'Chaplain' }, { value: 'critical care transport', label: 'Critical Care Transport' }, { value: 'iv team', label: 'IV Team' }, { value: 'phlebotomy', label: 'Phlebotomy' }, { value: 'rapid response', label: 'Rapid Response' }, { value: 'transport', label: 'Transport' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -231,14 +231,14 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">What resources are available to you</label>
+                <label htmlFor="candidateName">What resources are readily available if you need them?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
                     type="text" className="candidateName"
                     id="candidateName"
-                    placeholder=" "
+                    placeholder="Write a brief description of any positives or negatives regarding your unit or immediate work area... "
                     value={values["28"]}
                     onChange={handleChange('28', 'text')}
                 />
@@ -250,7 +250,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                     isMulti={false}
                     value={values["29"]}
                     onChange={handleChange('29', 'no')}
-                    options={[{ value: 'Great', label: 'Great' }, { value: 'Good', label: 'Good' }, { value: 'OK', label: 'OK' }, { value: 'Bad', label: 'Bad' }, { value: 'Terrible', label: 'Terrible' }]}
+                    options={[{ value: 'great', label: 'Great' }, { value: 'good', label: 'Good' }, { value: 'ok', label: 'OK' }, { value: 'bad', label: 'Bad' }, { value: 'terrible', label: 'Terrible' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -274,7 +274,7 @@ function Assignment({ handleChange, prevStep, nextStep, values, isUser, logout }
                 {
                     isUser == true ? (
                         <p className='report-footer-tagline'>
-                            You are already log in
+                            You are already logged in
                             <span onClick={() => logout()}> Logout</span>
                         </p>
                     ) : (
