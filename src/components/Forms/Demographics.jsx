@@ -118,7 +118,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     readOnly={edit == false ? true : false}
                     style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black' }}
                 />
-                <label htmlFor="candidateName">Age</label>
+                <label htmlFor="candidateName">What is your age?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : reportError[0].e == 'age' ? '* please enter age between 0 - 99' : '') : ''}</p>
             </div>
             <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
@@ -126,7 +126,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     isMulti={false}
                     value={values["2"]}
                     onChange={handleChange('2', 'no')}
-                    options={[{ value: 'male', label: 'male' }, { value: 'female', label: 'female' }, { value: 'trans', label: 'trans' }, { value: 'NB', label: 'NB' }]}
+                    options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'trans', label: 'Trans' }, { value: 'nb', label: 'Non-Binary' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -135,7 +135,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     styles={selectStyle}
                     isDisabled={edit == false ? true : false}
                 />
-                <label htmlFor="candidateName">Gender</label>
+                <label htmlFor="candidateName">What is your gender?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
@@ -143,7 +143,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     isMulti={false}
                     value={values["3"]}
                     onChange={handleChange('3', 'no')}
-                    options={[{ value: 'full-time, part-time', label: 'full-time, part-time' }, { value: 'Staff, PRN, Traveller', label: 'Staff, PRN, Traveller' }]}
+                    options={[{ value: 'full-time', label: 'Full-time' }, { value: 'part-time', label: 'Part-time' }, { value: 'Staff', label: 'Staff' }, { value: 'prn', label: 'PRN' }, { value: 'travel', label: 'Travel' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -152,7 +152,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     styles={selectStyle}
                     isDisabled={edit == false ? true : false}
                 />
-                <label htmlFor="candidateName">Employee Type (BI-PART)</label>
+                <label htmlFor="candidateName">What type of employee are you?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
@@ -160,7 +160,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     isMulti={false}
                     value={values["4"]}
                     onChange={handleChange('4', 'no')}
-                    options={[{ value: 'Days', label: 'Days' }, { value: 'Nights', label: 'Nights' }, { value: 'Rotating', label: 'Rotating' }]}
+                    options={[{ value: 'days', label: 'Days' }, { value: 'nights', label: 'Nights' }, { value: 'rotating', label: 'Rotating' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -169,7 +169,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     styles={selectStyle}
                     isDisabled={edit == false ? true : false}
                 />
-                <label htmlFor="candidateName">SHIFT</label>
+                <label htmlFor="candidateName">What shift do you usually work?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -187,7 +187,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     ) : (
                         <CurrencyInput
                             id="validation-example-2-field"
-                            placeholder="$1,234,567"
+                            placeholder="$ per hour"
                             allowDecimals={false}
                             className={`candidateName`}
                             prefix={'$'}
@@ -197,7 +197,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                         />
                     )
                 }
-                <label htmlFor="candidateName">PAY</label>
+                <label htmlFor="candidateName">What is your hourly wage?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
@@ -205,7 +205,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     isMulti={true}
                     value={values["6"]}
                     onChange={handleChange('6', 'yes')}
-                    options={[{ value: 'Weekends', label: 'Weekends' }, { value: 'Nights', label: 'Nights' }, { value: 'None', label: 'None' }]}
+                    options={[{ value: 'not offered', label: 'Not Offered' }, { value: 'weekends', label: 'Weekends' }, { value: 'nights', label: 'Nights' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -214,7 +214,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     styles={selectStyle}
                     isDisabled={edit == false ? true : false}
                 />
-                <label htmlFor="candidateName">Shift differential</label>
+                <label htmlFor="candidateName">Does hospital offer benefits?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld" style={{ cursor: edit == false ? 'not-allowed' : 'pointer' }}>
@@ -222,7 +222,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     isMulti={true}
                     value={values["7"]}
                     onChange={handleChange('7', 'yes')}
-                    options={[{ value: 'PTO', label: 'PTO' }, { value: 'Retirement', label: 'Retirement' }, { value: 'Insurance', label: 'Insurance' }, { value: 'Continuing Education', label: 'Continuing Education' }, { value: 'Tution Reimbursement', label: 'Tution Reimbursement' }]}
+                    options={[{ value: 'n/a', label: 'N/A' }, { value: 'continuing education', label: 'Continuing Education' }, { value: 'insurance', label: 'Insurance' }, { value: 'pto', label: 'PTO' }, { value: 'retirement', label: 'Retirement' }, { value: 'tuition reimbursement', label: 'Tuition Reimbursement' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -231,7 +231,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     styles={selectStyle}
                     isDisabled={edit == false ? true : false}
                 />
-                <label htmlFor="candidateName">Benifits</label>
+                <label htmlFor="candidateName">What benefits are offered?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[6].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -245,7 +245,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     readOnly={edit == false ? true : false}
                     style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black'  }}
                 />
-                <label htmlFor="candidateName">Time at hospital</label>
+                <label htmlFor="candidateName">How long have you worked for this hospital?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[7].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -260,7 +260,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black'  }}
                 />
 
-                <label htmlFor="candidateName">Current speciality experience</label>
+                <label htmlFor="candidateName">How long have you been in your specialty?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[8].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -274,7 +274,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                     readOnly={edit == false ? true : false}
                     style={{ cursor: edit == false ? 'not-allowed' : 'pointer', color : edit == false ? 'gray' : 'black'  }}
                 />
-                <label htmlFor="candidateName">total nursing experience</label>
+                <label htmlFor="candidateName">How long have you been a nurse?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[9].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className='report-drawer-footer'>
@@ -289,7 +289,7 @@ function Demographics({ edit, handleChange, prevStep, nextStep, values, errors, 
                 {
                     isUser == true ? (
                         <p className='report-footer-tagline'>
-                            You are already log in
+                            You are already logged in
                             <span onClick={() => logout()}> Logout</span>
                         </p>
                     ) : (

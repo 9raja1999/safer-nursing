@@ -100,22 +100,22 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                 <input
                     type="text" className="candidateName"
                     id="candidateName"
-                    placeholder="1:1"
+                    placeholder="1:?"
                     value={values["11"]}
                     onChange={handleChange('11', 'text')}
                 />
-                <label htmlFor="candidateName">What is the ideal nurse:patient ratio for your units acuity</label>
+                <label htmlFor="candidateName">What is the ideal patient ratio for your unit's acuity?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[0].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
                     type="text" className="candidateName"
                     id="candidateName"
-                    placeholder="1:1"
+                    placeholder="1:?"
                     value={values["12"]}
                     onChange={handleChange('12', 'text')}
                 />
-                <label htmlFor="candidateName">What is the ideal nurse:patient ratio usually assigned</label>
+                <label htmlFor="candidateName">What is the actual ratio that's usually assigned?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[1].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -123,7 +123,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     isMulti={false}
                     value={values["13"]}
                     onChange={handleChange('13', 'no')}
-                    options={[{ value: 'always', label: 'always' }, { value: 'usually', label: 'usually' }, { value: 'sometimes', label: 'sometimes' }, { value: 'never', label: 'never' }]}
+                    options={[{ value: 'always', label: 'Always' }, { value: 'usually', label: 'Usually' }, { value: 'sometimes', label: 'Sometimes' }, { value: 'never', label: 'Never' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -131,7 +131,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">Are there special ratios for hight acuity patient or devices</label>
+                <label htmlFor="candidateName">Do high acuity patients/devices get special assignments?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[2].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -139,7 +139,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     isMulti={false}
                     value={values["14"]}
                     onChange={handleChange('14', 'no')}
-                    options={[{ value: 'always', label: 'always' }, { value: 'usually', label: 'usually' }, { value: 'sometimes', label: 'sometimes' }, { value: 'never', label: 'never' }]}
+                    options={[{ value: 'always', label: 'Always' }, { value: 'usually', label: 'Usually' }, { value: 'sometimes', label: 'Sometimes' }, { value: 'never', label: 'Never' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -147,7 +147,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">are ratios generally safe and appropriate</label>
+                <label htmlFor="candidateName">Are ratios generally safe and appropriate?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[3].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -155,7 +155,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     isMulti={false}
                     value={values["15"]}
                     onChange={handleChange('15', 'no')}
-                    options={[{ value: 'always', label: 'always' }, { value: 'usually', label: 'usually' }, { value: 'sometimes', label: 'sometimes' }, { value: 'never', label: 'never' }]}
+                    options={[{ value: 'always', label: 'Always' }, { value: 'usually', label: 'Usually' }, { value: 'sometimes', label: 'Sometimes' }, { value: 'never', label: 'Never' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -163,7 +163,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">is acuity distributed among the staff fairly</label>
+                <label htmlFor="candidateName">Is acuity distributed fairly among staff?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[4].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
@@ -171,7 +171,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     isMulti={false}
                     value={values["16"]}
                     onChange={handleChange('16', 'no')}
-                    options={[{ value: 'very experiences', label: 'very experiences' }, { value: 'mostly experienced', label: 'mostly experienced' }, { value: 'some experienced', label: 'some experienced' }, { value: 'inexperienced', label: 'inexperienced' }]}
+                    options={[{ value: 'very experienced', label: 'Very experienced' }, { value: 'mostly experienced', label: 'Mostly experienced' }, { value: 'some experience', label: 'Some experience' }, { value: 'inexperienced', label: 'Inexperienced' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -179,14 +179,14 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     }}
                     styles={selectStyle}
                 />
-                <label htmlFor="candidateName">whats the average staff experience level</label>
+                <label htmlFor="candidateName">What is the average staff experience level?</label>
                 <p style={{ color: 'red' }}>{reportError.length > 0 ? (reportError[5].e == 'null' ? '* required' : '') : ''}</p>
             </div>
             <div className="searchformfld">
                 <input
                     type="text" className="candidateName"
                     id="candidateName"
-                    placeholder=" "
+                    placeholder="Write a brief description of any positives or negatives regarding staffing or acuity... "
                     value={values["17"]}
                     onChange={handleChange('17', 'text')}
                 />
@@ -198,7 +198,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                     isMulti={false}
                     value={values["18"]}
                     onChange={handleChange('18', 'no')}
-                    options={[{ value: 'Great', label: 'Great' }, { value: 'Good', label: 'Good' }, { value: 'OK', label: 'OK' }, { value: 'Bad', label: 'Bad' }, { value: 'Terrible', label: 'Terrible' }]}
+                    options={[{ value: 'great', label: 'Great' }, { value: 'good', label: 'Good' }, { value: 'ok', label: 'OK' }, { value: 'bad', label: 'Bad' }, { value: 'terrible', label: 'Terrible' }]}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     components={{
@@ -222,7 +222,7 @@ function Staffing({ handleChange, prevStep, nextStep, values, isUser, logout }) 
                 {
                     isUser == true ? (
                         <p className='report-footer-tagline'>
-                            You are already log in
+                            You are already logged in
                             <span onClick={() => logout()}> Logout</span>
                         </p>
                     ) : (
